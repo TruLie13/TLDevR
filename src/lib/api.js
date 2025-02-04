@@ -3,10 +3,27 @@
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 console.log("apiUrl", apiUrl);
 
+function shouldFetch() {
+  const lastFetched = localStorage.getItem("lastFetched");
+  const now = Date.now();
+
+  // If it's the first time or the last fetch was more than 6 hours ago
+  return !lastFetched || now - lastFetched > 6 * 60 * 60 * 1000; // 6 hours in ms
+}
+
 export async function fetchFeaturedArticles() {
+  if (!shouldFetch()) {
+    return { message: "Using cached data" };
+  }
   const res = await fetch(`${apiUrl}/articleList/featured`);
   if (!res.ok) throw new Error("Failed to fetch featured articles");
-  return res.json();
+
+  const data = await res.json();
+
+  localStorage.setItem("lastFetched", Date.now().toString());
+  localStorage.setItem("featuredArticlesCache", JSON.stringify(data));
+
+  return data;
 }
 
 export async function fetchNewestArticles() {
