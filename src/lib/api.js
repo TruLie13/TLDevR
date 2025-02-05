@@ -13,17 +13,16 @@ function shouldFetch() {
 
 export async function fetchFeaturedArticles() {
   if (!shouldFetch()) {
-    return { message: "Using cached data" };
+    return JSON.parse(localStorage.getItem("featuredArticlesCache")) || [];
   }
   const res = await fetch(`${apiUrl}/articleList/featured`);
   if (!res.ok) throw new Error("Failed to fetch featured articles");
 
   const data = await res.json();
-
   localStorage.setItem("lastFetched", Date.now().toString());
   localStorage.setItem("featuredArticlesCache", JSON.stringify(data));
 
-  return data;
+  return Array.isArray(data) ? data : []; // Ensure an array is returned
 }
 
 export async function fetchNewestArticles() {
@@ -31,3 +30,9 @@ export async function fetchNewestArticles() {
   if (!res.ok) throw new Error("Failed to fetch featured articles");
   return res.json();
 }
+
+export const fetchArticle = async (slug) => {
+  const res = await fetch(`${apiUrl}/articles/${slug}`);
+  if (!res.ok) throw new Error("Failed to fetch article");
+  return res.json();
+};
