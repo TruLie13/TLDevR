@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
-import { fetchNewestArticles } from "../lib/api";
+import { fetchNewestArticles, fetchArticle } from "../lib/api"; // Import the fetchArticle function
 
 export default function NewestArticles() {
   const router = useRouter(); // Initialize the router
@@ -18,6 +18,10 @@ export default function NewestArticles() {
   if (isLoading) return <div>Loading newest articles...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
+  const handleArticleClick = (slug, category) => {
+    router.push(`/blog/${category}/${slug}`);
+  };
+
   return (
     <section>
       <h1>Newest Articles</h1>
@@ -25,12 +29,10 @@ export default function NewestArticles() {
         {newestArticles?.map((article, index) => (
           <li
             key={article.id || index}
-            onClick={() =>
-              router.push(`/blog/${article.category}/${article.slug}`)
-            }
+            onClick={() => handleArticleClick(article.slug, article.category)}
             style={{
               cursor: "pointer",
-              // color: "blue",
+              color: "blue",
               textDecoration: "underline",
             }}
           >

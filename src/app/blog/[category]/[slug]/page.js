@@ -1,28 +1,20 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import { fetchArticle } from "@/lib/api";
-import { useEffect, useState } from "react";
+import { useParams } from "next/navigation"; // Get params from Next.js
+import { fetchArticle } from "@/lib/api"; // Import the fetchArticle function
 
 export default function Article() {
-  const params = useParams(); // Get params from Next.js
-  const [slug, setSlug] = useState(null);
-
-  useEffect(() => {
-    if (params?.slug) {
-      setSlug(params.slug);
-    }
-  }, [params]);
+  const { slug } = useParams(); // Get slug from URL parameters
 
   const {
     data: article,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["article", slug],
-    queryFn: () => fetchArticle(slug),
-    enabled: !!slug, // Only run query when slug is available
+    queryKey: ["article", slug], // Use slug as part of the queryKey to cache per article
+    queryFn: () => fetchArticle(slug), // Fetch article using the slug
+    enabled: !!slug, // Only enable the query if slug is available
   });
 
   if (!slug) return <div>Loading...</div>;
