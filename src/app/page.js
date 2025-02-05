@@ -1,13 +1,13 @@
-"use client";
-
-import FeaturedArticles from "../components/FeaturedArticles.js";
-import NewestArticles from "../components/NewestArticles.js";
+import ArticleList from "@/components/ArticleList.Component.js";
 
 export default function HomePage() {
   return (
-    <main>
-      <FeaturedArticles />
-      <NewestArticles />
-    </main>
+    <>
+      <ArticleList listName="Newest Articles" queryKey={["newestArticles"]} />
+      <ArticleList
+        listName="Featured Articles"
+        queryKey={["featuredArticles"]}
+      />
+    </>
   );
 }
