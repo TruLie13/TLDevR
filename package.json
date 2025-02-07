@@ -6,16 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:css": "tailwindcss-cli build -i ./src/styles.css -o ./dist/output.css"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.0.4",
     "@tanstack/react-query": "^5.66.0",
     "next": "^13.x.x",
+    "postcss": "^8.5.1",
     "react": "^18.x.x",
     "react-dom": "^18.x.x"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.20",
     "eslint": "^8.0.0",
-    "eslint-config-next": "^13.x.x"
+    "eslint-config-next": "^13.x.x",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^4.0.4",
+    "tailwindcss-cli": "^0.1.2"
   }
 }

@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google"; // Import Inter font from Google Fonts
 import "./globals.css";
+import "../../dist/output.css";
 import QueryProvider from "./QueryProvider";
 
 // Importing Inter font with the variable class for easy styling

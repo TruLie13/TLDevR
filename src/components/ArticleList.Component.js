@@ -41,7 +41,7 @@ export default function ArticleList({ listName, queryKey }) {
 
   return (
     <section>
-      <h1>{listName}</h1>
+      <h1 className="text-2xl font-bold ">{listName}</h1>
       <ul>
         {articles?.map((article, index) => (
           <li
