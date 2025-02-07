@@ -1,4 +1,4 @@
-/* :root {
+:root {
   --background: #ffffff;
   --foreground: #171717;
   --safe-area-inset-top: env(safe-area-inset-top);
@@ -9,7 +9,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: rgb(8, 4, 31);
     --foreground: #ededed;
   }
 }
@@ -54,4 +54,4 @@ a {
   html {
     color-scheme: dark;
   }
-} */
+}
