@@ -36,7 +36,7 @@ export default function ArticleList({ listName, queryKey }) {
     router.push(`/blog/${category}/${slug}`);
   };
 
-  if (isLoading) return <div>Loading {listName.toLowerCase()}...</div>;
+  if (isLoading) return <div>Loading {listName?.toLowerCase()}...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
