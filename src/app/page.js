@@ -5,6 +5,7 @@ export default function HomePage() {
   return (
     <SafeArea>
       <ArticleList listName="Newest Articles" queryKey={["newestArticles"]} />
+      <br></br>
       <ArticleList
         listName="Featured Articles"
         queryKey={["featuredArticles"]}

@@ -3,16 +3,17 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { fetchNewestArticles, fetchFeaturedArticles } from "@/lib/api";
+import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 
 export default function ArticleList({ listName, queryKey }) {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  // Determine which function to use based on queryKey
-  const fetchFunction =
-    queryKey[0] === "newestArticles"
-      ? fetchNewestArticles
-      : fetchFeaturedArticles;
+  const isListNewestArticle = queryKey[0] === "newestArticles";
+
+  const fetchFunction = isListNewestArticle
+    ? fetchNewestArticles
+    : fetchFeaturedArticles;
 
   const {
     data: articles,
@@ -41,22 +42,66 @@ export default function ArticleList({ listName, queryKey }) {
 
   return (
     <section>
-      <h1 className="text-2xl font-bold ">{listName}</h1>
-      <ul>
+      <Typography variant="h4" fontWeight="bold" mb={2}>
+        {listName}
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          overflowX: "auto",
+          paddingBottom: 2,
+          borderColor: "rgb(8, 4, 31)",
+          "&::-webkit-scrollbar": { display: "none" }, // Hide scrollbar
+        }}
+      >
         {articles?.map((article, index) => (
-          <li
+          <Card
             key={article.id || index}
-            onClick={() => handleArticleClick(article.category, article.slug)}
-            style={{
+            sx={{
+              width: isListNewestArticle ? "10rem" : "15rem",
+              minHeight: isListNewestArticle ? "10rem" : "25rem",
+              flexShrink: 0,
               cursor: "pointer",
-              // color: "blue",
-              textDecoration: "underline",
+              borderRadius: "1.5rem",
+              position: "relative",
+              overflow: "hidden",
+              border: "none",
+              backgroundColor: "rgb(8, 4, 31)",
             }}
+            onClick={() => handleArticleClick(article.category, article.slug)}
           >
-            {article.title}
-          </li>
+            {article.image && (
+              <CardMedia
+                component="img"
+                image={article.image}
+                alt={article.title}
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />
+            )}
+            <Box
+              sx={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                // background: "rgba(0, 0, 0, 0.6)",
+                color: "white", //title font color
+                padding: "0.5rem",
+                textAlign: "center",
+              }}
+            >
+              <Typography className="text-white font-bold text-lg">
+                {article.title}
+              </Typography>
+            </Box>
+          </Card>
         ))}
-      </ul>
+      </Box>
     </section>
   );
 }
