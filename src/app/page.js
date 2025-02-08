@@ -2,9 +2,9 @@ export const dynamic = "force-static";
 export const revalidate = 21600; // 6 hours
 
 import ArticleList from "@/components/ArticleList.Component.js";
-import SafeArea from "@/components/SafeArea.js";
-import HomePageCover from "@/components/HomePageCover.js";
 import Footer from "@/components/Footer.js";
+import HomePageCover from "@/components/HomePageCover.js";
+import SafeArea from "@/components/SafeArea.js";
 
 async function HomePage() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;

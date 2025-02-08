@@ -1,9 +1,9 @@
 // components/ArticleCard.js
 "use client";
 
-import { Card, Typography, Box } from "@mui/material";
-import { useState } from "react";
+import { Box, Card, Typography } from "@mui/material";
 import Image from "next/image.js";
+import { useState } from "react";
 
 export default function ArticleCard({
   article,
@@ -30,7 +30,7 @@ export default function ArticleCard({
       <div
         style={{
           opacity: imageLoaded ? 1 : 0,
-          transition: "opacity 0s ease-in-out",
+          // transition: "opacity .1s ease-in-out",
           position: "relative",
           width: "100%",
           height: "100%",
