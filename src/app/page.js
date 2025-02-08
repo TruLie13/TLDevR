@@ -1,6 +1,7 @@
 import ArticleList from "@/components/ArticleList.Component.js";
 import SafeArea from "@/components/SafeArea.js";
 import HomePageCover from "@/components/HomePageCover.js";
+import Footer from "@/components/Footer.js";
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
           queryKey={["featuredArticles"]}
         />
       </div>
+      <Footer />
     </SafeArea>
   );
 }
