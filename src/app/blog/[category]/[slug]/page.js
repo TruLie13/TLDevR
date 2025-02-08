@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation"; // Get params from Next.js
 import { fetchArticle } from "@/lib/api"; // Import the fetchArticle function
+import Footer from "@/components/Footer.js";
 
 export default function Article() {
   const { slug } = useParams(); // Get slug from URL parameters
@@ -26,6 +27,7 @@ export default function Article() {
       <h1>{article.title}</h1>
       <p>By {article.author}</p>
       <p>{article.content}</p>
+      <Footer />
     </div>
   );
 }

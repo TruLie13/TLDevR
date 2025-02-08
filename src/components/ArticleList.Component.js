@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { fetchNewestArticles, fetchFeaturedArticles } from "@/lib/api";
 import { Card, CardMedia, Typography, Box, Skeleton } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ArticleList({ listName, queryKey }) {
   const router = useRouter();
@@ -47,6 +47,17 @@ export default function ArticleList({ listName, queryKey }) {
     router.push(`/blog/${category}/${slug}`);
   };
 
+  // Ensure skeleton shows until the image is fully loaded
+  useEffect(() => {
+    if (articles) {
+      const initialLoadedState = {};
+      articles.forEach((article) => {
+        initialLoadedState[article.id] = loadedImages[article.id] || false;
+      });
+      setLoadedImages(initialLoadedState);
+    }
+  }, [articles]);
+
   return (
     <section>
       <Typography variant="h4" fontWeight="bold" mb={2}>
@@ -75,6 +86,7 @@ export default function ArticleList({ listName, queryKey }) {
                     flexShrink: 0,
                     borderRadius: "1.5rem",
                     overflow: "hidden",
+                    backgroundColor: "rgb(8, 4, 31)",
                   }}
                 >
                   <Skeleton
@@ -104,17 +116,19 @@ export default function ArticleList({ listName, queryKey }) {
                     borderRadius: "1.5rem",
                     position: "relative",
                     overflow: "hidden",
+                    border: "none",
                     backgroundColor: "rgb(8, 4, 31)",
                   }}
                   onClick={() =>
                     handleArticleClick(article.category, article.slug)
                   }
                 >
+                  {/* actual pre img load skelton */}
                   <Skeleton
                     variant="rectangular"
                     width="100%"
                     height="100%"
-                    animation={false}
+                    animation="wave"
                     sx={{
                       position: "absolute",
                       top: 0,
@@ -138,9 +152,11 @@ export default function ArticleList({ listName, queryKey }) {
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
+                        backgroundColor: "rgb(21, 18, 43)",
                       }}
                     />
                   )}
+                  {/* Text Box */}
                   <Box
                     sx={{
                       position: "absolute",
@@ -150,6 +166,7 @@ export default function ArticleList({ listName, queryKey }) {
                       color: "white",
                       padding: "0.5rem",
                       textAlign: "center",
+                      backgroundColor: "rgba(19, 13, 48, 0.2)",
                     }}
                   >
                     <Typography className="text-white font-bold text-lg">
