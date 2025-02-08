@@ -75,9 +75,23 @@ export default function ArticleList({ listName, queryKey }) {
                     flexShrink: 0,
                     borderRadius: "1.5rem",
                     overflow: "hidden",
-                    backgroundColor: "rgb(8, 4, 31)",
                   }}
-                ></Card>
+                >
+                  <Skeleton
+                    variant="rectangular"
+                    width="100%"
+                    height="100%"
+                    animation={false}
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      transition: "opacity 0.5s ease-in-out",
+                      border: "none",
+                      backgroundColor: "rgb(8, 4, 31)",
+                    }}
+                  />
+                </Card>
               ))
             : articles.map((article, index) => (
                 <Card
@@ -109,6 +123,7 @@ export default function ArticleList({ listName, queryKey }) {
                       opacity: loadedImages[article.id] ? 0 : 1,
                       transition: "opacity 0.5s ease-in-out",
                       borderRadius: "1.5rem",
+                      border: "none",
                       backgroundColor: "rgb(21, 18, 43)",
                     }}
                   />
