@@ -5,12 +5,21 @@ import { useParams } from "next/navigation";
 import { fetchArticle } from "@/lib/api";
 import { useEffect, useState } from "react";
 import Image from "next/image.js";
-import { Card, CardContent, Typography, Box, IconButton } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  IconButton,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import { Favorite, Share } from "@mui/icons-material";
 
 export default function Article() {
   const params = useParams();
   const [slug, setSlug] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false); // State to manage snackbar visibility
 
   useEffect(() => {
     if (params?.slug) {
@@ -27,6 +36,16 @@ export default function Article() {
     queryFn: () => fetchArticle(slug),
     enabled: !!slug,
   });
+
+  const handleShareClick = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setOpenSnackbar(true); // Show the Snackbar after copying the link
+    });
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false); // Close the Snackbar
+  };
 
   if (!slug) return <div>Loading...</div>;
   if (isLoading) return <div>Loading article...</div>;
@@ -92,9 +111,11 @@ export default function Article() {
               borderRadius: "50%",
               "&:hover": { backgroundColor: "rgba(0,0,0,0.9)" },
             }}
+            onClick={handleShareClick} // Trigger copy link action
           >
             <Share />
           </IconButton>
+
           <IconButton
             sx={{
               backgroundColor: "rgba(0,0,0,0.7)",
@@ -127,6 +148,26 @@ export default function Article() {
           {article.content}
         </Typography>
       </CardContent>
+
+      {/* Snackbar for Toast message */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000} // 3 seconds duration
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{
+            width: "100%",
+            backgroundColor: "rgb(21, 18, 43)",
+            border: "rgb(34, 31, 52) solid 1px",
+            color: "white",
+          }}
+        >
+          Share link copied to your clipboard.
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
