@@ -1,7 +1,7 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { Typography, Box } from "@mui/material";
 import ArticleCard from "./ArticleCard";
 
 export default function ArticleList({ listName, articles }) {
