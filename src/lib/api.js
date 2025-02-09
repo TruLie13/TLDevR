@@ -31,8 +31,20 @@ export async function fetchNewestArticles() {
   return res.json();
 }
 
-export const fetchArticle = async (slug) => {
-  const res = await fetch(`${apiUrl}/articles/${slug}`);
-  if (!res.ok) throw new Error("Failed to fetch article");
-  return res.json();
-};
+// Fetch all article slugs (for SSG paths)
+export async function fetchAllSlugs() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/articleList/slugs`
+  );
+  const data = await res.json();
+  return data; // Example: ['slug1', 'slug2', 'slug3']
+}
+
+// Fetch article by slug
+export async function fetchArticle(slug) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/articles/${slug}`
+  );
+  const data = await res.json();
+  return data; // Example: { title: 'Article Title', author: 'Author Name', content: 'Article content' }
+}
