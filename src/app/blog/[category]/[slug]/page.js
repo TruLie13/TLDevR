@@ -15,6 +15,7 @@ import {
   Alert,
 } from "@mui/material";
 import { Favorite, Share } from "@mui/icons-material";
+import Breadcrumbs from "@/components/BreadCrumbs.js";
 
 export default function Article() {
   const params = useParams();
@@ -62,6 +63,7 @@ export default function Article() {
         padding: "1rem",
       }}
     >
+      <Breadcrumbs category={article.category} />
       {/* Image Card */}
       <Box sx={{ position: "relative", width: "100%" }}>
         <Card
