@@ -31,7 +31,7 @@ async function HomePage() {
           articles={Array.isArray(featuredArticles) ? featuredArticles : []}
         />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </SafeArea>
   );
 }

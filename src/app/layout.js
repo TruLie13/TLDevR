@@ -1,10 +1,10 @@
-import { Inter } from "next/font/google"; // Import Inter font from Google Fonts
+import { Inter } from "next/font/google";
 import "./globals.css";
 import "../../dist/output.css";
 import QueryProvider from "./QueryProvider";
 import Navbar from "@/components/Navbar.js";
+import Footer from "@/components/Footer.js";
 
-// Importing Inter font with the variable class for easy styling
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -17,10 +17,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.variable}>
+    <html lang="en" className={inter.variable}>
+      <body className="min-h-screen flex flex-col">
         <Navbar />
-        <QueryProvider>{children}</QueryProvider>
+        <main className="flex-grow">
+          <QueryProvider>{children}</QueryProvider>
+        </main>
+        <Footer />
       </body>
     </html>
   );

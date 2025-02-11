@@ -22,8 +22,8 @@ export default function Footer() {
 
       {/* Subtle Geometric Background */}
       <Box className="absolute top-0 left-0 w-full h-full z-0">
-        {/* <div className="absolute w-24 h-24 rounded-full bg-opacity-30 bg-white left-1/4 -bottom-6"></div>
-        <div className="absolute w-16 h-16 rounded-full bg-opacity-20 bg-white left-3/4 -bottom-6"></div> */}
+        <div className="absolute w-20 h-20 rounded-full bg-opacity-30 bg-white left-1/4 bottom-0"></div>
+        <div className="absolute w-16 h-16 rounded-full bg-opacity-20 bg-white left-3/4 bottom-0"></div>
       </Box>
     </div>
   );
