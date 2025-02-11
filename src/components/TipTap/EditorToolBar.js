@@ -1,54 +1,89 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { Button, Grid, Tooltip } from "@mui/material";
+import {
+  FormatBold,
+  FormatItalic,
+  FormatUnderlined,
+  StrikethroughS,
+  Code,
+  Link as LinkIcon,
+} from "@mui/icons-material";
 
 const EditorToolbar = ({ editor, handleCodeBlock }) => {
+  const buttonConfigs = [
+    {
+      action: () => editor.chain().focus().toggleBold().run(),
+      disabled: !editor.can().chain().focus().toggleBold().run(),
+      active: editor.isActive("bold"),
+      label: "Bold",
+      icon: <FormatBold />,
+    },
+    {
+      action: () => editor.chain().focus().toggleItalic().run(),
+      disabled: !editor.can().chain().focus().toggleItalic().run(),
+      active: editor.isActive("italic"),
+      label: "Italic",
+      icon: <FormatItalic />,
+    },
+    {
+      action: () => editor.chain().focus().toggleUnderline().run(),
+      disabled: !editor.can().chain().focus().toggleUnderline().run(),
+      active: editor.isActive("underline"),
+      label: "Underline",
+      icon: <FormatUnderlined />,
+    },
+    {
+      action: () => editor.chain().focus().toggleStrike().run(),
+      disabled: !editor.can().chain().focus().toggleStrike().run(),
+      active: editor.isActive("strike"),
+      label: "Strike",
+      icon: <StrikethroughS />,
+    },
+    {
+      action: handleCodeBlock,
+      disabled: false,
+      active: editor.isActive("codeBlock"),
+      label: "Code",
+      icon: <Code />,
+    },
+    {
+      action: () => {
+        const url = prompt("Enter URL:");
+        if (url) {
+          editor.chain().focus().setLink({ href: url }).run();
+        }
+      },
+      disabled: false,
+      active: false, // No "active" state for Link
+      label: "Link",
+      icon: <LinkIcon />,
+    },
+  ];
+
   return (
-    <div style={{ marginBottom: "1rem" }}>
-      <Button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        disabled={!editor.can().chain().focus().toggleBold().run()}
-        variant={editor.isActive("bold") ? "contained" : "outlined"}
-      >
-        Bold
-      </Button>
-      <Button
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        disabled={!editor.can().chain().focus().toggleItalic().run()}
-        variant={editor.isActive("italic") ? "contained" : "outlined"}
-      >
-        Italic
-      </Button>
-      <Button
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
-        disabled={!editor.can().chain().focus().toggleUnderline().run()}
-        variant={editor.isActive("underline") ? "contained" : "outlined"}
-      >
-        Underline
-      </Button>
-      <Button
-        onClick={() => editor.chain().focus().toggleStrike().run()}
-        disabled={!editor.can().chain().focus().toggleStrike().run()}
-        variant={editor.isActive("strike") ? "contained" : "outlined"}
-      >
-        Strike
-      </Button>
-      <Button
-        onClick={handleCodeBlock}
-        variant={editor.isActive("codeBlock") ? "contained" : "outlined"}
-      >
-        Code
-      </Button>
-      <Button
-        onClick={() => {
-          const url = prompt("Enter URL:");
-          if (url) {
-            editor.chain().focus().setLink({ href: url }).run();
-          }
-        }}
-        variant="outlined"
-      >
-        Link
-      </Button>
+    <div
+      style={{
+        marginBottom: "1rem",
+        borderRadius: "8px",
+      }}
+    >
+      <Grid container spacing={1} justifyContent="flex-start">
+        {buttonConfigs.map((button, index) => (
+          <Grid item key={index}>
+            <Tooltip title={button.label}>
+              <Button
+                onClick={button.action}
+                disabled={button.disabled}
+                variant={button.active ? "contained" : "outlined"}
+                sx={{ marginRight: 1 }}
+                startIcon={button.icon}
+              >
+                {button.label}
+              </Button>
+            </Tooltip>
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };

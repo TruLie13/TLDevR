@@ -3,8 +3,8 @@ import Tiptap from "@/components/TipTap/TipTap.js";
 
 export default function CreateArticle() {
   return (
-    <div className="p-2 pl-5">
-      <h1>Create Article Page</h1>
+    <div className="p-2 ml-5 mr-5">
+      {/* <h1>Create Article Page</h1> */}
       <Tiptap />
     </div>
   );

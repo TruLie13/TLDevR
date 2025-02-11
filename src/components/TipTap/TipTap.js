@@ -3,6 +3,7 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import React from "react";
+import { Card, Typography } from "@mui/material";
 import EditorToolbar from "./EditorToolBar.js";
 import Bold from "@tiptap/extension-bold";
 import CodeBlock from "@tiptap/extension-code-block";
@@ -66,13 +67,24 @@ const Tiptap = () => {
   };
 
   return (
-    <div>
+    <Card
+      className="p-5"
+      sx={{
+        backgroundColor: "rgb(21, 18, 43)",
+        width: "100%",
+        color: "white",
+        borderRadius: "1.5rem",
+      }}
+    >
+      <Typography variant="h6" className="mb-5">
+        Article Content
+      </Typography>
       {/* Toolbar */}
       <EditorToolbar editor={editor} handleCodeBlock={handleCodeBlock} />
 
       {/* Text Editor */}
       <EditorContent editor={editor} />
-    </div>
+    </Card>
   );
 };
 
