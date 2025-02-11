@@ -44,6 +44,7 @@ const Tiptap = () => {
       CustomCodeBlock,
     ],
     content: "Hello World! 🌎️",
+    immediatelyRender: false,
   });
 
   if (!editor) {

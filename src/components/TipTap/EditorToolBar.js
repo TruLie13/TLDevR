@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Grid, Tooltip } from "@mui/material";
+import { Button, Tooltip, Box } from "@mui/material";
 import {
   FormatBold,
   FormatItalic,
@@ -61,30 +61,31 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
   ];
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         marginBottom: "1rem",
         borderRadius: "8px",
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 1,
       }}
     >
-      <Grid container spacing={1} justifyContent="flex-start">
-        {buttonConfigs.map((button, index) => (
-          <Grid item key={index}>
-            <Tooltip title={button.label}>
-              <Button
-                onClick={button.action}
-                disabled={button.disabled}
-                variant={button.active ? "contained" : "outlined"}
-                sx={{ marginRight: 1 }}
-                startIcon={button.icon}
-              >
-                {button.label}
-              </Button>
-            </Tooltip>
-          </Grid>
-        ))}
-      </Grid>
-    </div>
+      {buttonConfigs.map((button, index) => (
+        <Box key={index}>
+          <Tooltip title={button.label}>
+            <Button
+              onClick={button.action}
+              disabled={button.disabled}
+              variant={button.active ? "contained" : "outlined"}
+              sx={{ marginRight: 1 }}
+              startIcon={button.icon}
+            >
+              {button.label}
+            </Button>
+          </Tooltip>
+        </Box>
+      ))}
+    </Box>
   );
 };
 
