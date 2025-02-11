@@ -53,7 +53,7 @@ export default function Article() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
+    <div className="pt-14">
       <Breadcrumbs category={article.category} />
       <Box
         sx={{

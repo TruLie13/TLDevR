@@ -2,6 +2,7 @@ import { Inter } from "next/font/google"; // Import Inter font from Google Fonts
 import "./globals.css";
 import "../../dist/output.css";
 import QueryProvider from "./QueryProvider";
+import Navbar from "@/components/Navbar.js";
 
 // Importing Inter font with the variable class for easy styling
 const inter = Inter({
@@ -18,8 +19,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.variable}>
-        {" "}
-        {/* Apply the Inter font */}
+        <Navbar />
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
