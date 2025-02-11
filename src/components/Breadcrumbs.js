@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Card, IconButton, Typography } from "@mui/material";
+import { Card, CardContent, Box, IconButton, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 
 const Breadcrumbs = () => {
@@ -22,6 +22,8 @@ const Breadcrumbs = () => {
         margin: "1rem 1rem",
         marginBottom: "1rem",
         paddingBottom: ".2rem",
+        backgroundColor: "transparent",
+        border: "none",
       }}
     >
       &gt;
@@ -32,35 +34,46 @@ const Breadcrumbs = () => {
   };
 
   return (
-    <Card
-      className=""
+    <Box
       sx={{
-        left: "1rem",
-        backgroundColor: "rgba(19, 13, 48, 0)",
-        padding: "0.5rem 1rem",
-        paddingBottom: "0",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
-        zIndex: 10,
+        maxWidth: "800px",
+        margin: "0 auto",
+        padding: "0 1rem",
+        width: "100%",
       }}
     >
-      <IconButton
+      <Card
+        elevation={0}
         sx={{
-          color: "white",
-          padding: "0",
-          // marginRight: "10px",
+          width: "100%",
+          backgroundColor: "rgba(71, 49, 184, 0)",
+          // padding: "0.5rem 1rem",
+          paddingBottom: "0",
+          display: "flex",
+          alignItems: "center",
+          zIndex: 10,
         }}
-        onClick={handleHomeClick}
       >
-        <HomeIcon />
-      </IconButton>
-      <Divider />
-      <Typography variant="body1" sx={{ color: "white" }}>
-        <span style={{ cursor: "pointer" }} onClick={handleCategoryClick}>
-          {category.toUpperCase()}
-        </span>
-      </Typography>
-    </Card>
+        <IconButton
+          sx={{
+            color: "white",
+            padding: "0",
+          }}
+          onClick={handleHomeClick}
+        >
+          <HomeIcon />
+        </IconButton>
+        <Divider />
+        <Typography variant="body1" sx={{ color: "white" }}>
+          <span style={{ cursor: "pointer" }} onClick={handleCategoryClick}>
+            {category.toUpperCase()}
+          </span>
+        </Typography>
+      </Card>
+    </Box>
   );
 };
 
