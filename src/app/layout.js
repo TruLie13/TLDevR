@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-grow">
+        <main className="flex-grow pt-16">
           <QueryProvider>{children}</QueryProvider>
         </main>
         <Footer />

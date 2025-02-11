@@ -15,7 +15,7 @@ import {
   Alert,
 } from "@mui/material";
 import { Favorite, Share } from "@mui/icons-material";
-import Breadcrumbs from "@/components/BreadCrumbs.js";
+import Breadcrumbs from "@/components/Breadcrumbs.js";
 
 export default function Article() {
   const params = useParams();
@@ -53,7 +53,7 @@ export default function Article() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="pt-14">
+    <div className="">
       <Breadcrumbs category={article.category} />
       <Box
         sx={{
