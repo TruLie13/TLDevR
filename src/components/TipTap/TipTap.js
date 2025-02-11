@@ -103,23 +103,14 @@ const Tiptap = () => {
     const selection = editor.state.selection;
 
     if (!selection.empty) {
-      // If text is selected, wrap it in a code block
+      // If text is selected, toggle the code block on the selection
       editor.chain().focus().toggleCodeBlock().run();
     } else {
-      // If no text is selected, insert a new code block at the current position
+      // If no text is selected, insert a new, empty code block at the cursor position
       editor
         .chain()
         .focus()
-        .insertContent({
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              text: "\n",
-            },
-          ],
-        })
-        .setCodeBlock()
+        .insertContent({ type: "codeBlock", content: [] }) // Insert an empty code block
         .run();
     }
   };
