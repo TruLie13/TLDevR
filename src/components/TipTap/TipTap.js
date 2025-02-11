@@ -1,16 +1,16 @@
 "use client";
 
-import React from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Link from "@tiptap/extension-link";
+import React from "react";
+import EditorToolbar from "./EditorToolBar.js";
 import Bold from "@tiptap/extension-bold";
-import Italic from "@tiptap/extension-italic";
 import CodeBlock from "@tiptap/extension-code-block";
-import Underline from "@tiptap/extension-underline";
+import Italic from "@tiptap/extension-italic";
+import Link from "@tiptap/extension-link";
 import Strike from "@tiptap/extension-strike";
-import { Button } from "@mui/material";
-import { Extension } from "@tiptap/core";
+import Underline from "@tiptap/extension-underline";
+import "./styles.css";
 
 // Custom extension to style the code block
 const CustomCodeBlock = CodeBlock.extend({
@@ -29,57 +29,7 @@ const CustomCodeBlock = CodeBlock.extend({
   },
 });
 
-// Custom styles to be added to your CSS
-const editorStyles = `
-.ProseMirror {
-  min-height: 200px;
-  padding: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.custom-code-block {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 4px;
-  font-family: 'Courier New', Courier, monospace;
-  padding: 12px;
-  margin: 8px 0;
-  position: relative;
-  color: white;
-  min-height: 24px;
-}
-
-.custom-code-block::before {
-  content: 'Code';
-  position: absolute;
-  top: -10px;
-  left: 8px;
-  background-color: #1a1a1a;
-  padding: 0 4px;
-  font-size: 12px;
-  color: #888;
-  font-family: system-ui;
-  border: 1px solid #333;
-  border-radius: 2px;
-}
-
-.ProseMirror pre {
-  margin: 8px 0;
-}
-`;
-
 const Tiptap = () => {
-  // Add styles to the document
-  React.useEffect(() => {
-    const styleSheet = document.createElement("style");
-    styleSheet.textContent = editorStyles;
-    document.head.appendChild(styleSheet);
-    return () => {
-      document.head.removeChild(styleSheet);
-    };
-  }, []);
-
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -118,53 +68,7 @@ const Tiptap = () => {
   return (
     <div>
       {/* Toolbar */}
-      <div style={{ marginBottom: "1rem" }}>
-        <Button
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          disabled={!editor.can().chain().focus().toggleBold().run()}
-          variant={editor.isActive("bold") ? "contained" : "outlined"}
-        >
-          Bold
-        </Button>
-        <Button
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          disabled={!editor.can().chain().focus().toggleItalic().run()}
-          variant={editor.isActive("italic") ? "contained" : "outlined"}
-        >
-          Italic
-        </Button>
-        <Button
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          disabled={!editor.can().chain().focus().toggleUnderline().run()}
-          variant={editor.isActive("underline") ? "contained" : "outlined"}
-        >
-          Underline
-        </Button>
-        <Button
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-          disabled={!editor.can().chain().focus().toggleStrike().run()}
-          variant={editor.isActive("strike") ? "contained" : "outlined"}
-        >
-          Strike
-        </Button>
-        <Button
-          onClick={handleCodeBlock}
-          variant={editor.isActive("codeBlock") ? "contained" : "outlined"}
-        >
-          Code
-        </Button>
-        <Button
-          onClick={() => {
-            const url = prompt("Enter URL:");
-            if (url) {
-              editor.chain().focus().setLink({ href: url }).run();
-            }
-          }}
-          variant="outlined"
-        >
-          Link
-        </Button>
-      </div>
+      <EditorToolbar editor={editor} handleCodeBlock={handleCodeBlock} />
 
       {/* Text Editor */}
       <EditorContent editor={editor} />
