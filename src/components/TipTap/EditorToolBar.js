@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Tooltip, Box } from "@mui/material";
 import {
   FormatBold,
@@ -53,17 +53,6 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
   const isInCodeBlock = () => {
     return editor.isActive("codeBlock");
   };
-
-  useEffect(() => {
-    const handleOpenLinkDialog = () => {
-      setLinkDialogOpen(true);
-    };
-
-    document.addEventListener("openLinkDialog", handleOpenLinkDialog);
-    return () => {
-      document.removeEventListener("openLinkDialog", handleOpenLinkDialog);
-    };
-  }, []);
 
   const buttonConfigs = [
     {
@@ -146,7 +135,7 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
             <span
               style={{
                 opacity: 0.7,
-                fontSize: "1.3em",
+                fontSize: "0.9em",
                 marginLeft: "8px",
                 borderLeft: "1px solid rgba(255,255,255,0.3)",
                 paddingLeft: "8px",
