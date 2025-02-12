@@ -1,4 +1,3 @@
-// src/app/layout.js (Server Component)
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "../../dist/output.css";
