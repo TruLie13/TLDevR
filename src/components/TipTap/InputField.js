@@ -7,7 +7,6 @@ import {
   MenuItem,
 } from "@mui/material";
 
-// Reusable InputField component
 const InputField = ({
   label,
   value,
@@ -24,14 +23,14 @@ const InputField = ({
         variant="outlined"
         fullWidth
         value={value}
-        onChange={onChange}
+        onChange={(e) => onChange(e.target.value)} // Fixed: Extract value from event
         disabled={disabled}
         sx={{
           mb: 2,
           input: { color: "white" },
           label: { color: "white" },
           fieldset: { borderColor: "#1976d2" },
-          "&:hover fieldset": { borderColor: "#1976d2 !important" }, // Prevents color change on hover
+          "&:hover fieldset": { borderColor: "#1976d2 !important" },
         }}
         {...rest}
       />
@@ -44,11 +43,11 @@ const InputField = ({
         <InputLabel sx={{ color: "white" }}>{label}</InputLabel>
         <Select
           value={value}
-          onChange={(e) => onChange(e.target.value)} // Directly passing the selected value
+          onChange={(e) => onChange(e.target.value)}
           label={label}
           sx={{
-            color: "white", // Ensure the selected text is white
-            ".MuiSelect-select": { color: "white" }, // Selected text
+            color: "white",
+            ".MuiSelect-select": { color: "white" },
             "&.MuiOutlinedInput-root": {
               fieldset: { borderColor: "#1976d2" },
             },
@@ -62,8 +61,8 @@ const InputField = ({
           MenuProps={{
             PaperProps: {
               sx: {
-                backgroundColor: "rgb(21, 18, 43)", // Matches card background
-                color: "white", // Text inside dropdown menu
+                backgroundColor: "rgb(21, 18, 43)",
+                color: "white",
               },
             },
           }}

@@ -9,6 +9,7 @@ export default function CreateArticle() {
   // State for each form field
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
+  const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState([]);
   const [metaDescription, setMetaDescription] = useState("");
@@ -40,6 +41,13 @@ export default function CreateArticle() {
   const fields = [
     { label: "Title", value: title, onChange: setTitle, type: "text" },
     { label: "Slug", value: slug, onChange: setSlug, type: "text" },
+    {
+      label: "Author",
+      value: author,
+      onChange: setAuthor,
+      type: "dropdown",
+      options: [{ label: "Zayan", value: "Zayan" }],
+    },
     {
       label: "Category",
       value: category,
