@@ -21,13 +21,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen flex flex-col">
-        <ClientThemeWrapper>
-          <Navbar />
-          <main className="flex-grow pt-16">
-            <QueryProvider>{children}</QueryProvider>
-          </main>
-          <Footer />
-        </ClientThemeWrapper>
+        {/* <ClientThemeWrapper> */}
+        <Navbar />
+        <main className="flex-grow pt-16">
+          <QueryProvider>{children}</QueryProvider>
+        </main>
+        <Footer />
+        {/* </ClientThemeWrapper> */}
       </body>
     </html>
   );
