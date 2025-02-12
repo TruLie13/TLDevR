@@ -11,6 +11,7 @@ import Italic from "@tiptap/extension-italic";
 import Link from "@tiptap/extension-link";
 import Strike from "@tiptap/extension-strike";
 import Underline from "@tiptap/extension-underline";
+import { Extension } from "@tiptap/core";
 import "./styles.css";
 
 // Custom extension to style the code block
@@ -30,6 +31,31 @@ const CustomCodeBlock = CodeBlock.extend({
   },
 });
 
+// Custom keyboard shortcut handler
+const CustomKeyboardShortcuts = Extension.create({
+  name: "customKeyboardShortcuts",
+
+  addKeyboardShortcuts() {
+    return {
+      "Mod-Alt-c": ({ editor }) => {
+        const selection = editor.state.selection;
+
+        if (!selection.empty) {
+          // If text is selected, toggle code block only on the selection
+          return editor.chain().focus().toggleCodeBlock().run();
+        } else {
+          // If no text is selected, insert an empty code block at cursor position
+          return editor
+            .chain()
+            .focus()
+            .insertContent({ type: "codeBlock", content: [] })
+            .run();
+        }
+      },
+    };
+  },
+});
+
 const Tiptap = () => {
   const editor = useEditor({
     extensions: [
@@ -42,6 +68,7 @@ const Tiptap = () => {
       Underline,
       Strike,
       CustomCodeBlock,
+      CustomKeyboardShortcuts, // Add our custom keyboard shortcuts
     ],
     content: "Hello World! 🌎️",
     immediatelyRender: false,
@@ -62,7 +89,7 @@ const Tiptap = () => {
       editor
         .chain()
         .focus()
-        .insertContent({ type: "codeBlock", content: [] }) // Insert an empty code block
+        .insertContent({ type: "codeBlock", content: [] })
         .run();
     }
   };
@@ -80,10 +107,7 @@ const Tiptap = () => {
       <Typography variant="h6" className="mb-5">
         Article Content
       </Typography>
-      {/* Toolbar */}
       <EditorToolbar editor={editor} handleCodeBlock={handleCodeBlock} />
-
-      {/* Text Editor */}
       <EditorContent editor={editor} />
     </Card>
   );
