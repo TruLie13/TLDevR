@@ -1,4 +1,3 @@
-// src/app/ClientThemeWrapper.js
 "use client";
 
 import { ThemeProvider } from "@mui/material/styles";
@@ -7,29 +6,34 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { darkTheme, neoTheme } from "@/theme.js";
 
 // Create context for theme switching
-export const ThemeContext = createContext({
-  currentTheme: "dark",
-  toggleTheme: () => {},
-});
+export const ThemeContext = createContext(null);
 
 // Custom hook for using theme
 export const useTheme = () => useContext(ThemeContext);
 
 export default function ClientThemeWrapper({ children }) {
-  const [currentTheme, setCurrentTheme] = useState("dark");
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("theme-preference") || "dark";
+    }
+    return "dark"; // Default fallback
+  });
 
   useEffect(() => {
-    // Load saved theme preference from localStorage
-    const savedTheme = localStorage.getItem("theme-preference");
-    if (savedTheme) {
-      setCurrentTheme(savedTheme);
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("theme-preference");
+      if (savedTheme) {
+        setCurrentTheme(savedTheme);
+      }
     }
   }, []);
 
   const toggleTheme = () => {
     const newTheme = currentTheme === "dark" ? "neo" : "dark";
     setCurrentTheme(newTheme);
-    localStorage.setItem("theme-preference", newTheme);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme-preference", newTheme);
+    }
   };
 
   return (

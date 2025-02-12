@@ -2,9 +2,12 @@
 
 import { AppBar, Toolbar, Typography, Container } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useTheme } from "@/app/ThemeWrapper.js";
 
 export default function Navbar() {
   const router = useRouter();
+
+  const { currentTheme, toggleTheme } = useTheme();
 
   const handleHomeClick = () => {
     router.push("/");
@@ -24,6 +27,12 @@ export default function Navbar() {
           >
             TLDevR
           </Typography>
+          <button
+            onClick={toggleTheme}
+            className="px-4 py-2 bg-blue-500 rounded"
+          >
+            Toggle Theme (Current: {currentTheme})
+          </button>
         </Toolbar>
       </Container>
     </AppBar>
