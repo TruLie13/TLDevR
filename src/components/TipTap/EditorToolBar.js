@@ -15,7 +15,6 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
 
   const handleLinkSubmit = (url) => {
     if (editor.isActive("link")) {
-      // Update existing link
       editor
         .chain()
         .focus()
@@ -23,9 +22,7 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
         .setLink({ href: url })
         .run();
     } else {
-      // Create new link
       if (editor.state.selection.empty) {
-        // If no text is selected, insert the URL as the link text
         editor
           .chain()
           .focus()
@@ -36,23 +33,18 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
           })
           .run();
       } else {
-        // If text is selected, convert it to a link
         editor.chain().focus().setLink({ href: url }).run();
       }
     }
   };
 
   const handleLinkClick = () => {
-    // If a link is selected, open the dialog for editing
     if (editor.isActive("link")) {
       setLinkDialogOpen(true);
     } else {
-      // If there's no link, check if text is selected
       if (editor.state.selection.empty) {
-        // If no text is selected, just open the dialog
         setLinkDialogOpen(true);
       } else {
-        // If text is selected, open the dialog to add a link
         setLinkDialogOpen(true);
       }
     }
@@ -64,6 +56,7 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
       disabled: !editor.can().chain().focus().toggleBold().run(),
       active: editor.isActive("bold"),
       label: "Bold",
+      shortcut: "⌘B",
       icon: <FormatBold />,
     },
     {
@@ -71,6 +64,7 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
       disabled: !editor.can().chain().focus().toggleItalic().run(),
       active: editor.isActive("italic"),
       label: "Italic",
+      shortcut: "⌘I",
       icon: <FormatItalic />,
     },
     {
@@ -78,6 +72,7 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
       disabled: !editor.can().chain().focus().toggleUnderline().run(),
       active: editor.isActive("underline"),
       label: "Underline",
+      shortcut: "⌘U",
       icon: <FormatUnderlined />,
     },
     {
@@ -85,6 +80,7 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
       disabled: !editor.can().chain().focus().toggleStrike().run(),
       active: editor.isActive("strike"),
       label: "Strike",
+      shortcut: "⌘⇧X",
       icon: <StrikethroughS />,
     },
     {
@@ -92,6 +88,7 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
       disabled: false,
       active: editor.isActive("codeBlock"),
       label: "Code",
+      shortcut: "⌘⌥C",
       icon: <Code />,
     },
     {
@@ -99,6 +96,7 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
       disabled: false,
       active: editor.isActive("link"),
       label: "Link",
+      shortcut: "⌘K",
       icon: <LinkIcon />,
     },
   ];
@@ -116,7 +114,24 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
       >
         {buttonConfigs.map((button, index) => (
           <Box key={index}>
-            <Tooltip title={button.label}>
+            <Tooltip
+              title={
+                <div>
+                  {button.label}
+                  <span
+                    style={{
+                      opacity: 0.7,
+                      fontSize: "1.3em",
+                      marginLeft: "8px",
+                      borderLeft: "1px solid rgba(255,255,255,0.3)",
+                      paddingLeft: "8px",
+                    }}
+                  >
+                    {button.shortcut}
+                  </span>
+                </div>
+              }
+            >
               <Button
                 onClick={button.action}
                 disabled={button.disabled}
