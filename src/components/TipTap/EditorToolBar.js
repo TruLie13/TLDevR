@@ -50,10 +50,15 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
     }
   };
 
+  const isInCodeBlock = () => {
+    return editor.isActive("codeBlock");
+  };
+
   const buttonConfigs = [
     {
       action: () => editor.chain().focus().toggleBold().run(),
-      disabled: !editor.can().chain().focus().toggleBold().run(),
+      disabled:
+        !editor.can().chain().focus().toggleBold().run() || isInCodeBlock(),
       active: editor.isActive("bold"),
       label: "Bold",
       shortcut: "⌘B",
@@ -61,7 +66,8 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
     },
     {
       action: () => editor.chain().focus().toggleItalic().run(),
-      disabled: !editor.can().chain().focus().toggleItalic().run(),
+      disabled:
+        !editor.can().chain().focus().toggleItalic().run() || isInCodeBlock(),
       active: editor.isActive("italic"),
       label: "Italic",
       shortcut: "⌘I",
@@ -69,7 +75,9 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
     },
     {
       action: () => editor.chain().focus().toggleUnderline().run(),
-      disabled: !editor.can().chain().focus().toggleUnderline().run(),
+      disabled:
+        !editor.can().chain().focus().toggleUnderline().run() ||
+        isInCodeBlock(),
       active: editor.isActive("underline"),
       label: "Underline",
       shortcut: "⌘U",
@@ -77,7 +85,8 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
     },
     {
       action: () => editor.chain().focus().toggleStrike().run(),
-      disabled: !editor.can().chain().focus().toggleStrike().run(),
+      disabled:
+        !editor.can().chain().focus().toggleStrike().run() || isInCodeBlock(),
       active: editor.isActive("strike"),
       label: "Strike",
       shortcut: "⌘⇧X",
@@ -93,13 +102,54 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
     },
     {
       action: handleLinkClick,
-      disabled: false,
+      disabled: isInCodeBlock(),
       active: editor.isActive("link"),
       label: "Link",
       shortcut: "⌘K",
       icon: <LinkIcon />,
     },
   ];
+
+  const ButtonWithOptionalTooltip = ({ button }) => {
+    const ButtonComponent = (
+      <Button
+        onClick={button.action}
+        disabled={button.disabled}
+        variant={button.active ? "contained" : "outlined"}
+        sx={{ marginRight: 1 }}
+        startIcon={button.icon}
+      >
+        {button.label}
+      </Button>
+    );
+
+    if (button.disabled) {
+      return ButtonComponent;
+    }
+
+    return (
+      <Tooltip
+        title={
+          <div>
+            {button.label}
+            <span
+              style={{
+                opacity: 0.7,
+                fontSize: "0.9em",
+                marginLeft: "8px",
+                borderLeft: "1px solid rgba(255,255,255,0.3)",
+                paddingLeft: "8px",
+              }}
+            >
+              {button.shortcut}
+            </span>
+          </div>
+        }
+      >
+        {ButtonComponent}
+      </Tooltip>
+    );
+  };
 
   return (
     <>
@@ -114,34 +164,7 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
       >
         {buttonConfigs.map((button, index) => (
           <Box key={index}>
-            <Tooltip
-              title={
-                <div>
-                  {button.label}
-                  <span
-                    style={{
-                      opacity: 0.7,
-                      fontSize: "1.3em",
-                      marginLeft: "8px",
-                      borderLeft: "1px solid rgba(255,255,255,0.3)",
-                      paddingLeft: "8px",
-                    }}
-                  >
-                    {button.shortcut}
-                  </span>
-                </div>
-              }
-            >
-              <Button
-                onClick={button.action}
-                disabled={button.disabled}
-                variant={button.active ? "contained" : "outlined"}
-                sx={{ marginRight: 1 }}
-                startIcon={button.icon}
-              >
-                {button.label}
-              </Button>
-            </Tooltip>
+            <ButtonWithOptionalTooltip button={button} />
           </Box>
         ))}
       </Box>
