@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { Favorite, Share } from "@mui/icons-material";
 import Breadcrumbs from "@/components/Breadcrumbs.js";
+import { getValidImageUrl } from "@/utils/imageUtils.js";
 
 export default function Article() {
   const params = useParams();
@@ -52,6 +53,8 @@ export default function Article() {
   if (isLoading) return <div>Loading article...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
+  const validImageUrl = getValidImageUrl(article.image); // Use the validation function
+
   return (
     <div className="">
       <Breadcrumbs category={article.category} />
@@ -76,11 +79,11 @@ export default function Article() {
               backgroundColor: "rgb(8, 4, 31)",
             }}
           >
-            {article.image && (
+            {validImageUrl && (
               <Image
                 width={800}
                 height={600}
-                src={article.image}
+                src={validImageUrl} // Use the validated image URL
                 alt={article.title}
                 style={{
                   width: "100%",

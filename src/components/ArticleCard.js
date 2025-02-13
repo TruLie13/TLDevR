@@ -1,9 +1,9 @@
-// components/ArticleCard.js
 "use client";
 
 import { Box, Card, Typography } from "@mui/material";
 import Image from "next/image.js";
 import { useState } from "react";
+import { getValidImageUrl } from "@/utils/imageUtils.js";
 
 export default function ArticleCard({
   article,
@@ -11,6 +11,8 @@ export default function ArticleCard({
   onArticleClick,
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  const validImageUrl = getValidImageUrl(article.image); // Use the validation function
 
   return (
     <Card
@@ -30,17 +32,16 @@ export default function ArticleCard({
       <div
         style={{
           opacity: imageLoaded ? 1 : 0,
-          // transition: "opacity .1s ease-in-out",
           position: "relative",
           width: "100%",
           height: "100%",
         }}
       >
-        {article.image && (
+        {validImageUrl && (
           <Image
             width={300}
             height={200}
-            src={article.image}
+            src={validImageUrl} // Use the validated image URL
             alt={article.title}
             style={{
               width: "100%",
