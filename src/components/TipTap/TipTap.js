@@ -56,7 +56,7 @@ const CustomKeyboardShortcuts = Extension.create({
   },
 });
 
-const Tiptap = () => {
+const Tiptap = ({ onChange }) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -68,10 +68,14 @@ const Tiptap = () => {
       Underline,
       Strike,
       CustomCodeBlock,
-      CustomKeyboardShortcuts, // Add our custom keyboard shortcuts
+      CustomKeyboardShortcuts, // Add custom keyboard shortcuts
     ],
     content: "Hello World! 🌎️",
     immediatelyRender: false,
+    onUpdate: ({ editor }) => {
+      const html = editor.getHTML(); // Convert content to HTML
+      onChange(html); // Pass updated content to parent component
+    },
   });
 
   if (!editor) {

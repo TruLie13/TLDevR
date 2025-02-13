@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Tiptap from "@/components/TipTap/TipTap.js";
 import { Card, Typography, FormControlLabel, Switch } from "@mui/material";
 import InputField from "@/components/TipTap/InputField.js";
+import { postArticle } from "@/lib/api.js";
 
 export default function CreateArticle() {
   // State for each form field
@@ -17,24 +18,33 @@ export default function CreateArticle() {
   const [status, setStatus] = useState("draft");
   const [featured, setFeatured] = useState(false);
   const [experienceLevel, setExperienceLevel] = useState("0");
+  const [content, setContent] = useState("");
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const articleData = {
       title,
       slug,
+      author, // Ensure this is included
       category,
       tags,
-      content: "", // This will be populated with TipTap content
+      content: "", // You'll need to extract TipTap content
       metaDescription,
       image,
       status,
       featured,
       experienceLevel,
+      content,
     };
-    console.log(articleData);
-    // Call your backend API to save this data
+
+    try {
+      const response = await postArticle(articleData);
+      console.log("Article created:", response);
+    } catch (error) {
+      console.error("Failed to submit article:", error);
+    }
   };
 
   // Fields configuration
@@ -138,7 +148,7 @@ export default function CreateArticle() {
         {/* TipTap Editor */}
       </Card>
       <br></br>
-      <Tiptap />
+      <Tiptap onChange={(value) => setContent(value)} />
 
       {/* Submit Button */}
       <button

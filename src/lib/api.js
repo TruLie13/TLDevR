@@ -1,14 +1,10 @@
-// src/lib/api.js
-// src/app/page.js
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 console.log("apiUrl", apiUrl);
 
 function shouldFetch() {
   const lastFetched = localStorage.getItem("lastFetched");
   const now = Date.now();
-
-  // If it's the first time or the last fetch was more than 6 hours ago
-  return !lastFetched || now - lastFetched > 6 * 60 * 60 * 1000; // 6 hours in ms
+  return !lastFetched || now - lastFetched > 6 * 60 * 60 * 1000; // 6 hours
 }
 
 export async function fetchFeaturedArticles() {
@@ -22,19 +18,39 @@ export async function fetchFeaturedArticles() {
   localStorage.setItem("lastFetched", Date.now().toString());
   localStorage.setItem("featuredArticlesCache", JSON.stringify(data));
 
-  return Array.isArray(data) ? data : []; // Ensure an array is returned
+  return Array.isArray(data) ? data : [];
 }
 
 export async function fetchNewestArticles() {
   const res = await fetch(`${apiUrl}/articleList/recent`);
-  if (!res.ok) throw new Error("Failed to fetch featured articles");
+  if (!res.ok) throw new Error("Failed to fetch newest articles");
   return res.json();
 }
 
 export async function fetchArticle(slug) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/articles/${slug}`
-  );
-  const data = await res.json();
-  return data;
+  const res = await fetch(`${apiUrl}/articles/${slug}`);
+  if (!res.ok) throw new Error(`Failed to fetch article: ${slug}`);
+  return res.json();
+}
+
+// ✅ Properly implemented postArticle function
+export async function postArticle(articleData) {
+  try {
+    const res = await fetch(`${apiUrl}/articles/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(articleData),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to create article");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error posting article:", error);
+    throw error;
+  }
 }
