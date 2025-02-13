@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { fetchArticle } from "@/lib/api";
 import { useEffect, useState } from "react";
-import Image from "next/image.js";
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -15,13 +15,15 @@ import {
   Alert,
 } from "@mui/material";
 import { Favorite, Share } from "@mui/icons-material";
-import Breadcrumbs from "@/components/Breadcrumbs.js";
-import { getValidImageUrl } from "@/utils/imageUtils.js";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import { getValidImageUrl, fallback_image } from "@/utils/imageUtils";
 
 export default function Article() {
   const params = useParams();
   const [slug, setSlug] = useState(null);
-  const [openSnackbar, setOpenSnackbar] = useState(false); // State to manage snackbar visibility
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [imageSrc, setImageSrc] = useState("");
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     if (params?.slug) {
@@ -39,6 +41,13 @@ export default function Article() {
     enabled: !!slug,
   });
 
+  useEffect(() => {
+    if (article?.image) {
+      setImageSrc(getValidImageUrl(article.image));
+      setIsError(false);
+    }
+  }, [article]); // Run this only when article data is available
+
   const handleShareClick = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setOpenSnackbar(true); // Show the Snackbar after copying the link
@@ -49,14 +58,20 @@ export default function Article() {
     setOpenSnackbar(false); // Close the Snackbar
   };
 
+  const handleImageError = () => {
+    console.log("Error loading image:", imageSrc);
+    setIsError(true);
+    setImageSrc(fallback_image);
+  };
+
   if (!slug) return <div>Loading...</div>;
   if (isLoading) return <div>Loading article...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const validImageUrl = getValidImageUrl(article.image); // Use the validation function
+  const validImageUrl = imageSrc || getValidImageUrl(article.image); // Use the validated image URL
 
   return (
-    <div className="">
+    <div>
       <Breadcrumbs category={article.category} />
       <Box
         sx={{
@@ -93,6 +108,7 @@ export default function Article() {
                 }}
                 loading="eager"
                 priority
+                onError={handleImageError}
               />
             )}
           </Card>

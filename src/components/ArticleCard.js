@@ -1,9 +1,8 @@
-"use client";
-
 import { Box, Card, Typography } from "@mui/material";
 import Image from "next/image.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getValidImageUrl } from "@/utils/imageUtils.js";
+import { fallback_image } from "@/utils/imageUtils";
 
 export default function ArticleCard({
   article,
@@ -11,8 +10,26 @@ export default function ArticleCard({
   onArticleClick,
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageSrc, setImageSrc] = useState("");
+  const [isError, setIsError] = useState(false);
 
-  const validImageUrl = getValidImageUrl(article.image); // Use the validation function
+  useEffect(() => {
+    // Set initial image source
+    setImageSrc(getValidImageUrl(article.image));
+    setIsError(false);
+    setImageLoaded(false);
+  }, [article.image]);
+
+  const handleImageError = () => {
+    console.log("Error loading image:", imageSrc);
+    setIsError(true);
+    setImageSrc(fallback_image);
+    // Don't set imageLoaded here as it will trigger another load attempt
+  };
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
 
   return (
     <Card
@@ -35,13 +52,14 @@ export default function ArticleCard({
           position: "relative",
           width: "100%",
           height: "100%",
+          transition: "opacity 0.3s ease-in-out",
         }}
       >
-        {validImageUrl && (
+        {imageSrc && (
           <Image
             width={300}
             height={200}
-            src={validImageUrl} // Use the validated image URL
+            src={imageSrc}
             alt={article.title}
             style={{
               width: "100%",
@@ -49,13 +67,15 @@ export default function ArticleCard({
               objectFit: "cover",
               display: "block",
             }}
-            onLoad={() => setImageLoaded(true)}
+            onLoad={handleImageLoad}
+            onError={handleImageError}
             loading="eager"
-            priority
+            priority={!isError} // Only prioritize initial load, not fallback
           />
         )}
       </div>
 
+      {/* Loading state or error state placeholder */}
       {!imageLoaded && (
         <div
           style={{
