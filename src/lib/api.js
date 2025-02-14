@@ -1,5 +1,6 @@
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-console.log("apiUrl", apiUrl);
+
+const accessToken = localStorage.getItem("accessToken");
 
 function shouldFetch() {
   const lastFetched = localStorage.getItem("lastFetched");
@@ -33,13 +34,13 @@ export async function fetchArticle(slug) {
   return res.json();
 }
 
-// ✅ Properly implemented postArticle function
 export async function postArticle(articleData) {
   try {
     const res = await fetch(`${apiUrl}/articles/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }), // Add Authorization header if token exists
       },
       body: JSON.stringify(articleData),
     });
@@ -71,7 +72,7 @@ export async function postLogin(loginData) {
       throw new Error(data.message || "Failed to login"); // Return server message
     }
 
-    localStorage.setItem("token", data.accessToken); // Store token in localStorage
+    localStorage.setItem("accessToken", data.accessToken); // Store token in localStorage
     return data; // Return successful login response
   } catch (error) {
     console.error("Error posting login:", error);

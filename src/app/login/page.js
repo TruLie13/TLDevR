@@ -5,8 +5,11 @@ import { Card, Typography, Button, Alert } from "@mui/material";
 import InputField from "@/components/InputField.js";
 import { postLogin } from "@/lib/api.js";
 import SnackbarComponent from "@/components/Snackbar.js";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -18,6 +21,7 @@ export default function Login() {
     try {
       const response = await postLogin({ username, password });
       console.log("Login success:", response);
+      router.push("/blog/create");
       // Handle success (redirect, store token, etc.)
     } catch (error) {
       setError(error.message); // Set error message from backend
