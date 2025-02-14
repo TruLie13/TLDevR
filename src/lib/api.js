@@ -54,3 +54,27 @@ export async function postArticle(articleData) {
     throw error;
   }
 }
+
+export async function postLogin(loginData) {
+  try {
+    const res = await fetch(`${apiUrl}/users/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    });
+
+    const data = await res.json(); // Parse response JSON
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to login"); // Return server message
+    }
+
+    localStorage.setItem("token", data.accessToken); // Store token in localStorage
+    return data; // Return successful login response
+  } catch (error) {
+    console.error("Error posting login:", error);
+    throw error; // Rethrow error for UI handling
+  }
+}

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Tiptap from "@/components/TipTap/TipTap.js";
 import { Card, Typography, FormControlLabel, Switch } from "@mui/material";
-import InputField from "@/components/TipTap/InputField.js";
+import InputField from "@/components/InputField.js";
 import { postArticle } from "@/lib/api.js";
 
 export default function CreateArticle() {
