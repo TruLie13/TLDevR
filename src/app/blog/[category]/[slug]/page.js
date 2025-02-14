@@ -11,12 +11,12 @@ import {
   Typography,
   Box,
   IconButton,
-  Snackbar,
   Alert,
 } from "@mui/material";
 import { Favorite, Share } from "@mui/icons-material";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getValidImageUrl, fallback_image } from "@/utils/imageUtils";
+import SnackbarComponent from "@/components/Snackbar.js";
 
 export default function Article() {
   const params = useParams();
@@ -172,24 +172,12 @@ export default function Article() {
         </CardContent>
 
         {/* Snackbar for Toast message */}
-        <Snackbar
+        <SnackbarComponent
           open={openSnackbar}
-          autoHideDuration={3000} // 3 seconds duration
           onClose={handleCloseSnackbar}
-        >
-          <Alert
-            onClose={handleCloseSnackbar}
-            severity="success"
-            sx={{
-              width: "100%",
-              backgroundColor: "rgb(21, 18, 43)",
-              border: "rgb(34, 31, 52) solid 1px",
-              color: "white",
-            }}
-          >
-            Share link copied to your clipboard.
-          </Alert>
-        </Snackbar>
+          message={"Share link copied to your clipboard."}
+          severity={"success"}
+        />
       </Box>
     </div>
   );

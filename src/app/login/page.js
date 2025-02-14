@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, Typography, Button, Snackbar, Alert } from "@mui/material";
+import { Card, Typography, Button, Alert } from "@mui/material";
 import InputField from "@/components/InputField.js";
 import { postLogin } from "@/lib/api.js";
+import SnackbarComponent from "@/components/Snackbar.js";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -22,6 +23,10 @@ export default function Login() {
       setError(error.message); // Set error message from backend
       setOpenSnackbar(true); // Show snackbar
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false); // Close the Snackbar
   };
 
   return (
@@ -64,19 +69,12 @@ export default function Login() {
       </Card>
 
       {/* Snackbar for error messages */}
-      <Snackbar
+      <SnackbarComponent
         open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={() => setOpenSnackbar(false)}
-      >
-        <Alert
-          severity="error"
-          onClose={() => setOpenSnackbar(false)}
-          sx={{ width: "100%" }}
-        >
-          {error}
-        </Alert>
-      </Snackbar>
+        onClose={handleCloseSnackbar}
+        message={error}
+        severity={"error"}
+      />
     </div>
   );
 }
