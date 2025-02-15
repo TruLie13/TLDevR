@@ -15,17 +15,37 @@ function shouldFetch() {
 }
 
 export async function fetchFeaturedArticles() {
-  if (!shouldFetch()) {
-    return JSON.parse(localStorage.getItem("featuredArticlesCache")) || [];
+  // Check if we're on the server side
+  if (typeof window === "undefined") {
+    // Server-side fetch
+    try {
+      const res = await fetch(`${apiUrl}/articleList/featured`);
+      if (!res.ok) throw new Error("Failed to fetch featured articles");
+      const data = await res.json();
+      return Array.isArray(data) ? data : [];
+    } catch (error) {
+      console.error("Error fetching featured articles:", error);
+      return [];
+    }
+  } else {
+    // Client-side fetch with caching
+    if (!shouldFetch()) {
+      const cachedArticles = localStorage.getItem("featuredArticlesCache");
+      return cachedArticles ? JSON.parse(cachedArticles) : [];
+    }
+
+    try {
+      const res = await fetch(`${apiUrl}/articleList/featured`);
+      if (!res.ok) throw new Error("Failed to fetch featured articles");
+      const data = await res.json();
+      localStorage.setItem("lastFetched", Date.now().toString());
+      localStorage.setItem("featuredArticlesCache", JSON.stringify(data));
+      return Array.isArray(data) ? data : [];
+    } catch (error) {
+      console.error("Error fetching featured articles:", error);
+      return [];
+    }
   }
-  const res = await fetch(`${apiUrl}/articleList/featured`);
-  if (!res.ok) throw new Error("Failed to fetch featured articles");
-
-  const data = await res.json();
-  localStorage.setItem("lastFetched", Date.now().toString());
-  localStorage.setItem("featuredArticlesCache", JSON.stringify(data));
-
-  return Array.isArray(data) ? data : [];
 }
 
 export async function fetchNewestArticles() {

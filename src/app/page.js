@@ -5,17 +5,13 @@ import ArticleList from "@/components/ArticleList.Component.js";
 import Footer from "@/components/Footer.js";
 import HomePageCover from "@/components/HomePageCover.js";
 import SafeArea from "@/components/SafeArea.js";
+import { fetchFeaturedArticles, fetchNewestArticles } from "@/lib/api.js";
 
 async function HomePage() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-  const [newestRes, featuredRes] = await Promise.all([
-    fetch(`${apiUrl}/articleList/recent`),
-    fetch(`${apiUrl}/articleList/featured`),
+  const [newestArticles, featuredArticles] = await Promise.all([
+    fetchNewestArticles(),
+    fetchFeaturedArticles(),
   ]);
-
-  const newestArticles = await newestRes.json();
-  const featuredArticles = await featuredRes.json();
 
   return (
     <SafeArea>
