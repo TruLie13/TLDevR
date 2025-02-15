@@ -1,8 +1,14 @@
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const accessToken = localStorage.getItem("accessToken");
+const isWindowUndefined = typeof window === "undefined";
+
+let accessToken;
+if (!isWindowUndefined) {
+  accessToken = localStorage.getItem("accessToken");
+}
 
 function shouldFetch() {
+  if (isWindowUndefined) return false;
   const lastFetched = localStorage.getItem("lastFetched");
   const now = Date.now();
   return !lastFetched || now - lastFetched > 6 * 60 * 60 * 1000; // 6 hours
