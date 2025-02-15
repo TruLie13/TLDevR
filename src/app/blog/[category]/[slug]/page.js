@@ -17,6 +17,7 @@ import { Favorite, Share } from "@mui/icons-material";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getValidImageUrl, fallback_image } from "@/utils/imageUtils";
 import SnackbarComponent from "@/components/Snackbar.js";
+import parse from "html-react-parser";
 
 export default function Article() {
   const params = useParams();
@@ -167,7 +168,7 @@ export default function Article() {
             variant="body1"
             sx={{ color: "rgba(255,255,255,0.8)", textAlign: "justify" }}
           >
-            {article.content}
+            {parse(article.content)}
           </Typography>
         </CardContent>
 

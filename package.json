@@ -22,6 +22,7 @@
     "@tiptap/extension-underline": "^2.11.5",
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
+    "html-react-parser": "^5.2.2",
     "next": "^13.x.x",
     "postcss": "^8.5.1",
     "react": "^18.x.x",
