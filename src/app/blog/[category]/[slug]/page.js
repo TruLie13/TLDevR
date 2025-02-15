@@ -11,6 +11,14 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { getValidImageUrl, fallback_image } from "@/utils/imageUtils";
 import SnackbarComponent from "@/components/Snackbar.js";
 import parse from "html-react-parser"; // Import html-react-parser
+import Prism from "prismjs";
+import "prismjs/themes/prism-tomorrow.css"; // Import a theme (you can choose different themes)
+import "prismjs/components/prism-javascript"; // Import language support
+import "prismjs/components/prism-jsx";
+import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-css";
+import "prismjs/components/prism-python";
+// Add more languages as needed
 
 export default function Article() {
   const params = useParams();
@@ -42,6 +50,15 @@ export default function Article() {
     }
   }, [article]);
 
+  // Apply Prism highlighting after content is rendered
+  useEffect(() => {
+    if (article?.content) {
+      setTimeout(() => {
+        Prism.highlightAll();
+      }, 0);
+    }
+  }, [article?.content]);
+
   const handleShareClick = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setOpenSnackbar(true);
@@ -57,22 +74,41 @@ export default function Article() {
     setIsError(true);
     setImageSrc(fallback_image);
   };
-  console.log("article", article);
+
+  // Process the content to add language classes to code blocks
+  const processContent = (content) => {
+    if (!content) return null;
+
+    // Parse the HTML content
+    let processedContent = content;
+
+    // Replace the custom-code-block class with prism classes
+    processedContent = processedContent.replace(
+      /<pre class="custom-code-block"><code>/g,
+      '<pre><code class="language-javascript">'
+    );
+
+    return parse(processedContent);
+  };
+
   // Custom styling for code blocks
   const customCodeBlockStyles = `
-    .custom-code-block {
+    pre {
       background-color: #2d2d2d;
       border-radius: 6px;
-      padding: .75rem;
+      padding: 16px;
       margin: 16px 0;
       overflow-x: auto;
-      min-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
     }
-    .custom-code-block code {
-      font-family: 'Courier New', monospace;
-      color: #e6e6e6;
+    pre code {
+      font-family: 'Fira Code', 'Courier New', monospace;
       display: block;
       white-space: pre;
+    }
+    .tiptap-content {
+      width: 100%;
     }
   `;
 
@@ -185,6 +221,7 @@ export default function Article() {
             sx={{
               color: "rgba(255,255,255,0.8)",
               textAlign: "justify",
+              width: "100%",
               // Add styles for links
               "& a": {
                 color: "#3498db",
@@ -200,7 +237,7 @@ export default function Article() {
               "& u": { textDecoration: "underline" },
             }}
           >
-            {article.content && parse(article.content)}
+            {processContent(article.content)}
           </Box>
         </CardContent>
 
