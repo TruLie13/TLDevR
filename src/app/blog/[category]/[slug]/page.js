@@ -5,19 +5,12 @@ import { useParams } from "next/navigation";
 import { fetchArticle } from "@/lib/api";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  IconButton,
-  Alert,
-} from "@mui/material";
+import { Card, CardContent, Typography, Box, IconButton } from "@mui/material";
 import { Favorite, Share } from "@mui/icons-material";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getValidImageUrl, fallback_image } from "@/utils/imageUtils";
 import SnackbarComponent from "@/components/Snackbar.js";
-import parse from "html-react-parser";
+import parse from "html-react-parser"; // Import html-react-parser
 
 export default function Article() {
   const params = useParams();
@@ -47,16 +40,16 @@ export default function Article() {
       setImageSrc(getValidImageUrl(article.image));
       setIsError(false);
     }
-  }, [article]); // Run this only when article data is available
+  }, [article]);
 
   const handleShareClick = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
-      setOpenSnackbar(true); // Show the Snackbar after copying the link
+      setOpenSnackbar(true);
     });
   };
 
   const handleCloseSnackbar = () => {
-    setOpenSnackbar(false); // Close the Snackbar
+    setOpenSnackbar(false);
   };
 
   const handleImageError = () => {
@@ -64,15 +57,36 @@ export default function Article() {
     setIsError(true);
     setImageSrc(fallback_image);
   };
+  console.log("article", article);
+  // Custom styling for code blocks
+  const customCodeBlockStyles = `
+    .custom-code-block {
+      background-color: #2d2d2d;
+      border-radius: 6px;
+      padding: .75rem;
+      margin: 16px 0;
+      overflow-x: auto;
+      min-width: 100%;
+    }
+    .custom-code-block code {
+      font-family: 'Courier New', monospace;
+      color: #e6e6e6;
+      display: block;
+      white-space: pre;
+    }
+  `;
 
   if (!slug) return <div>Loading...</div>;
   if (isLoading) return <div>Loading article...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const validImageUrl = imageSrc || getValidImageUrl(article.image); // Use the validated image URL
+  const validImageUrl = imageSrc || getValidImageUrl(article.image);
 
   return (
     <div>
+      {/* Add style tag for code block styling */}
+      <style>{customCodeBlockStyles}</style>
+
       <Breadcrumbs category={article.category} />
       <Box
         sx={{
@@ -99,7 +113,7 @@ export default function Article() {
               <Image
                 width={800}
                 height={600}
-                src={validImageUrl} // Use the validated image URL
+                src={validImageUrl}
                 alt={article.title}
                 style={{
                   width: "100%",
@@ -118,11 +132,11 @@ export default function Article() {
           <Box
             sx={{
               position: "absolute",
-              bottom: "-25px", // Moves the button half outside the card
-              right: "5%", // Positions it about 70% across the width
+              bottom: "-25px",
+              right: "5%",
               display: "flex",
               gap: "10px",
-              zIndex: 10, // Keeps buttons above other elements
+              zIndex: 10,
             }}
           >
             <IconButton
@@ -134,7 +148,7 @@ export default function Article() {
                 borderRadius: "50%",
                 "&:hover": { backgroundColor: "rgba(0,0,0,0.9)" },
               }}
-              onClick={handleShareClick} // Trigger copy link action
+              onClick={handleShareClick}
             >
               <Share />
             </IconButton>
@@ -164,12 +178,30 @@ export default function Article() {
           >
             {article.title}
           </Typography>
-          <Typography
-            variant="body1"
-            sx={{ color: "rgba(255,255,255,0.8)", textAlign: "justify" }}
+
+          {/* Parse and render the HTML content from TipTap */}
+          <Box
+            className="tiptap-content"
+            sx={{
+              color: "rgba(255,255,255,0.8)",
+              textAlign: "justify",
+              // Add styles for links
+              "& a": {
+                color: "#3498db",
+                textDecoration: "underline",
+                "&:hover": {
+                  color: "#2980b9",
+                },
+              },
+              // Add styles for other elements
+              "& p": { marginBottom: "16px" },
+              "& strong": { fontWeight: "bold" },
+              "& em": { fontStyle: "italic" },
+              "& u": { textDecoration: "underline" },
+            }}
           >
-            {parse(article.content)}
-          </Typography>
+            {article.content && parse(article.content)}
+          </Box>
         </CardContent>
 
         {/* Snackbar for Toast message */}
