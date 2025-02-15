@@ -10,15 +10,7 @@ import { Favorite, Share } from "@mui/icons-material";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getValidImageUrl, fallback_image } from "@/utils/imageUtils";
 import SnackbarComponent from "@/components/Snackbar.js";
-import parse from "html-react-parser"; // Import html-react-parser
-import Prism from "prismjs";
-import "prismjs/themes/prism-tomorrow.css"; // Import a theme (you can choose different themes)
-import "prismjs/components/prism-javascript"; // Import language support
-import "prismjs/components/prism-jsx";
-import "prismjs/components/prism-typescript";
-import "prismjs/components/prism-css";
-import "prismjs/components/prism-python";
-// Add more languages as needed
+import { highlightCode } from "@/utils/highlightCode"; // Import highlightCode utility
 
 export default function Article() {
   const params = useParams();
@@ -50,15 +42,6 @@ export default function Article() {
     }
   }, [article]);
 
-  // Apply Prism highlighting after content is rendered
-  useEffect(() => {
-    if (article?.content) {
-      setTimeout(() => {
-        Prism.highlightAll();
-      }, 0);
-    }
-  }, [article?.content]);
-
   const handleShareClick = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setOpenSnackbar(true);
@@ -75,23 +58,9 @@ export default function Article() {
     setImageSrc(fallback_image);
   };
 
-  // Process the content to add language classes to code blocks
-  const processContent = (content) => {
-    if (!content) return null;
+  // Use the highlightCode utility to process and highlight the content
+  const highlightedContent = highlightCode(article?.content);
 
-    // Parse the HTML content
-    let processedContent = content;
-
-    // Replace the custom-code-block class with prism classes
-    processedContent = processedContent.replace(
-      /<pre class="custom-code-block"><code>/g,
-      '<pre><code class="language-javascript">'
-    );
-
-    return parse(processedContent);
-  };
-
-  // Custom styling for code blocks
   const customCodeBlockStyles = `
     pre {
       background-color: #2d2d2d;
@@ -120,7 +89,6 @@ export default function Article() {
 
   return (
     <div>
-      {/* Add style tag for code block styling */}
       <style>{customCodeBlockStyles}</style>
 
       <Breadcrumbs category={article.category} />
@@ -215,14 +183,12 @@ export default function Article() {
             {article.title}
           </Typography>
 
-          {/* Parse and render the HTML content from TipTap */}
           <Box
             className="tiptap-content"
             sx={{
               color: "rgba(255,255,255,0.8)",
               textAlign: "justify",
               width: "100%",
-              // Add styles for links
               "& a": {
                 color: "#3498db",
                 textDecoration: "underline",
@@ -230,14 +196,13 @@ export default function Article() {
                   color: "#2980b9",
                 },
               },
-              // Add styles for other elements
               "& p": { marginBottom: "16px" },
               "& strong": { fontWeight: "bold" },
               "& em": { fontStyle: "italic" },
               "& u": { textDecoration: "underline" },
             }}
           >
-            {processContent(article.content)}
+            {highlightedContent}
           </Box>
         </CardContent>
 
