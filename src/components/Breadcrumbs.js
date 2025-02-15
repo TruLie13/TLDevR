@@ -68,7 +68,7 @@ const Breadcrumbs = () => {
         <Divider />
         <Typography variant="body1" sx={{ color: "white" }}>
           <span style={{ cursor: "pointer" }} onClick={handleCategoryClick}>
-            {category.toUpperCase()}
+            {category?.toUpperCase()}
           </span>
         </Typography>
       </Card>

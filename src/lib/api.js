@@ -55,9 +55,19 @@ export async function fetchNewestArticles() {
 }
 
 export async function fetchArticle(slug) {
-  const res = await fetch(`${apiUrl}/articles/${slug}`);
-  if (!res.ok) throw new Error(`Failed to fetch article: ${slug}`);
-  return res.json();
+  try {
+    const res = await fetch(`${apiUrl}/articles/${slug}`);
+    if (!res.ok) {
+      if (res.status === 404) {
+        return null; // Article not found
+      }
+      throw new Error(`Failed to fetch article: ${slug}`);
+    }
+    return res.json();
+  } catch (error) {
+    console.error(`Error fetching article ${slug}:`, error);
+    return null;
+  }
 }
 
 export async function postArticle(articleData) {
