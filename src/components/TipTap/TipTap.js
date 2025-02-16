@@ -32,6 +32,46 @@ const CustomCodeBlock = CodeBlock.extend({
   },
 });
 
+// Custom Link extension that supports both regular and affiliate links
+const CustomLink = Link.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      href: {
+        default: null,
+      },
+      target: {
+        default: "_blank",
+      },
+      rel: {
+        default: "noopener noreferrer nofollow",
+      },
+      linkType: {
+        default: "regular", // can be 'regular' or 'affiliate'
+        parseHTML: (element) => element.getAttribute("data-link-type"),
+        renderHTML: (attributes) => {
+          if (!attributes.linkType) {
+            return {};
+          }
+
+          // Set different rel attributes based on link type
+          if (attributes.linkType === "affiliate") {
+            return {
+              "data-link-type": "affiliate",
+              rel: "noopener sponsored",
+            };
+          }
+
+          return {
+            "data-link-type": "regular",
+            rel: "noopener noreferrer nofollow",
+          };
+        },
+      },
+    };
+  },
+});
+
 // Custom keyboard shortcut handler
 const CustomKeyboardShortcuts = Extension.create({
   name: "customKeyboardShortcuts",
@@ -66,12 +106,8 @@ const Tiptap = ({ onChange }) => {
       StarterKit.configure({
         codeBlock: false, // Disable default code block to use our custom one
       }),
-      Link.configure({
+      CustomLink.configure({
         openOnClick: false, // Prevent opening links on click
-        HTMLAttributes: {
-          target: "_blank",
-          rel: "noopener", // Remove noreferrer and nofollow (helps with SEO and affiliate)
-        },
       }),
       Bold,
       Italic,
@@ -129,13 +165,13 @@ const Tiptap = ({ onChange }) => {
     }
   };
 
-  const handleLinkSubmit = (url) => {
+  const handleLinkSubmit = (url, linkType = "regular") => {
     if (editor.isActive("link")) {
       editor
         .chain()
         .focus()
         .extendMarkRange("link")
-        .setLink({ href: url })
+        .setLink({ href: url, linkType: linkType })
         .run();
     } else {
       if (editor.state.selection.empty) {
@@ -144,12 +180,12 @@ const Tiptap = ({ onChange }) => {
           .focus()
           .insertContent({
             type: "text",
-            marks: [{ type: "link", attrs: { href: url } }],
+            marks: [{ type: "link", attrs: { href: url, linkType: linkType } }],
             text: url,
           })
           .run();
       } else {
-        editor.chain().focus().setLink({ href: url }).run();
+        editor.chain().focus().setLink({ href: url, linkType: linkType }).run();
       }
     }
   };

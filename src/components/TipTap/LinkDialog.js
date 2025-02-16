@@ -8,23 +8,30 @@ import {
   Button,
   Typography,
   Box,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import { Link as LinkIcon } from "@mui/icons-material";
 
 const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
   const [url, setUrl] = useState("https://");
   const [selectedText, setSelectedText] = useState("");
+  const [linkType, setLinkType] = useState("regular");
 
   useEffect(() => {
     if (open) {
-      // If editing an existing link, use its URL
       if (editor.isActive("link")) {
-        setUrl(editor.getAttributes("link").href);
+        const attrs = editor.getAttributes("link");
+        setUrl(attrs.href || "https://");
+        setLinkType(attrs.linkType || "regular");
       } else {
         setUrl("https://");
+        setLinkType("regular");
       }
 
-      // Get selected text
       const text = editor.state.selection.empty
         ? ""
         : editor.state.doc.textBetween(
@@ -37,7 +44,7 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(url);
+    onSubmit(url, linkType);
     setUrl("https://");
     onClose();
   };
@@ -108,6 +115,29 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
               },
             }}
           />
+          <FormControl component="fieldset" sx={{ mt: 2, color: "white" }}>
+            <FormLabel
+              component="legend"
+              sx={{ color: "rgba(255, 255, 255, 0.7)" }}
+            >
+              Link Type
+            </FormLabel>
+            <RadioGroup
+              value={linkType}
+              onChange={(e) => setLinkType(e.target.value)}
+            >
+              <FormControlLabel
+                value="regular"
+                control={<Radio sx={{ color: "rgba(255, 255, 255, 0.7)" }} />}
+                label="Regular Link"
+              />
+              <FormControlLabel
+                value="affiliate"
+                control={<Radio sx={{ color: "rgba(255, 255, 255, 0.7)" }} />}
+                label="Affiliate Link"
+              />
+            </RadioGroup>
+          </FormControl>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
           <Button onClick={onClose} sx={{ color: "rgba(255, 255, 255, 0.7)" }}>

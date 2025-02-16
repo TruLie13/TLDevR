@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Tooltip, Box } from "@mui/material";
 import {
   FormatBold,
@@ -8,46 +8,10 @@ import {
   Code,
   Link as LinkIcon,
 } from "@mui/icons-material";
-import LinkDialog from "./LinkDialog";
 
-const EditorToolbar = ({ editor, handleCodeBlock }) => {
-  const [linkDialogOpen, setLinkDialogOpen] = useState(false);
-
-  const handleLinkSubmit = (url) => {
-    if (editor.isActive("link")) {
-      editor
-        .chain()
-        .focus()
-        .extendMarkRange("link")
-        .setLink({ href: url })
-        .run();
-    } else {
-      if (editor.state.selection.empty) {
-        editor
-          .chain()
-          .focus()
-          .insertContent({
-            type: "text",
-            marks: [{ type: "link", attrs: { href: url } }],
-            text: url,
-          })
-          .run();
-      } else {
-        editor.chain().focus().setLink({ href: url }).run();
-      }
-    }
-  };
-
+const EditorToolbar = ({ editor, handleCodeBlock, setLinkDialogOpen }) => {
   const handleLinkClick = () => {
-    if (editor.isActive("link")) {
-      setLinkDialogOpen(true);
-    } else {
-      if (editor.state.selection.empty) {
-        setLinkDialogOpen(true);
-      } else {
-        setLinkDialogOpen(true);
-      }
-    }
+    setLinkDialogOpen(true);
   };
 
   const isInCodeBlock = () => {
@@ -158,30 +122,21 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
   };
 
   return (
-    <>
-      <Box
-        sx={{
-          marginBottom: "1rem",
-          borderRadius: "8px",
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 1,
-        }}
-      >
-        {buttonConfigs.map((button, index) => (
-          <Box key={index}>
-            <ButtonWithOptionalTooltip button={button} />
-          </Box>
-        ))}
-      </Box>
-
-      <LinkDialog
-        open={linkDialogOpen}
-        onClose={() => setLinkDialogOpen(false)}
-        onSubmit={handleLinkSubmit}
-        editor={editor}
-      />
-    </>
+    <Box
+      sx={{
+        marginBottom: "1rem",
+        borderRadius: "8px",
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 1,
+      }}
+    >
+      {buttonConfigs.map((button, index) => (
+        <Box key={index}>
+          <ButtonWithOptionalTooltip button={button} />
+        </Box>
+      ))}
+    </Box>
   );
 };
 
