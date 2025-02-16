@@ -1,14 +1,33 @@
 "use client";
 
-// app/articles/[slug]/ArticleContent.js
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Card, CardContent, Typography, Box, IconButton } from "@mui/material";
 import { Favorite, Share } from "@mui/icons-material";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getValidImageUrl, fallback_image } from "@/utils/imageUtils";
 import SnackbarComponent from "@/components/Snackbar.js";
-import { highlightCode } from "@/utils/highlightCode"; // Import highlightCode utility
+import { highlightCode } from "@/utils/highlightCode";
+
+const MemoizedImage = React.memo(function MemoizedImage({ src, alt, onError }) {
+  return (
+    <Image
+      width={800}
+      height={600}
+      src={src}
+      alt={alt}
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        display: "block",
+      }}
+      loading="eager"
+      priority
+      onError={onError}
+    />
+  );
+});
 
 export default function ArticleContent({ article }) {
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -22,23 +41,22 @@ export default function ArticleContent({ article }) {
     }
   }, [article]);
 
-  const handleShareClick = () => {
+  const handleShareClick = useCallback(() => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setOpenSnackbar(true);
     });
-  };
+  }, []);
 
-  const handleCloseSnackbar = () => {
+  const handleCloseSnackbar = useCallback(() => {
     setOpenSnackbar(false);
-  };
+  }, []);
 
-  const handleImageError = () => {
+  const handleImageError = useCallback(() => {
     console.log("Error loading image:", imageSrc);
     setIsError(true);
     setImageSrc(fallback_image);
-  };
+  }, [imageSrc]);
 
-  // Use the highlightCode utility to process and highlight the content
   const highlightedContent = highlightCode(article?.content);
 
   const customCodeBlockStyles = `
@@ -90,19 +108,9 @@ export default function ArticleContent({ article }) {
             }}
           >
             {validImageUrl && (
-              <Image
-                width={800}
-                height={600}
+              <MemoizedImage
                 src={validImageUrl}
                 alt={article.title}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-                loading="eager"
-                priority
                 onError={handleImageError}
               />
             )}
