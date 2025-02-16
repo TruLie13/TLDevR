@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 // List of valid categories
-const validCategories = ["react", "nextjs", "javascript"];
+const validCategories = ["react", "nextjs", "javascript", "tech"];
 
 // Mock data for articles (can be fetched from a database)
 const articles = [

@@ -70,7 +70,7 @@ export default function ArticleCard({
             onLoad={handleImageLoad}
             onError={handleImageError}
             loading="eager"
-            priority={!isError} // Only prioritize initial load, not fallback
+            priority={true} // Only prioritize initial load, not fallback
           />
         )}
       </div>

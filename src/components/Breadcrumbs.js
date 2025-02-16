@@ -1,31 +1,21 @@
 import HomeIcon from "@mui/icons-material/Home";
 import { Box, Card, IconButton, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
-const Breadcrumbs = () => {
+const Breadcrumbs = ({ category }) => {
   const router = useRouter();
-
-  const [path, setPath] = useState("");
-
-  // Get the current path to extract the category
-  useEffect(() => {
-    // Ensure this code runs only on the client side
-    if (typeof window !== "undefined") {
-      const path = window.location.pathname; // e.g., '/blog/react/whatever%20react'
-      setPath(path);
-    }
-  }, []);
-
-  const category = path.split("/")[2]; // Extracts 'react' from the path
 
   const handleHomeClick = () => {
     router.push("/");
   };
+
+  const handleCategoryClick = () => {
+    router.push(`/blog/${category}`);
+  };
+
   const Divider = () => (
     <Typography
       variant="body2"
-      className=""
       sx={{
         color: "white",
         margin: "1rem 1rem",
@@ -38,9 +28,6 @@ const Breadcrumbs = () => {
       &gt;
     </Typography>
   );
-  const handleCategoryClick = () => {
-    router.push(`/blog/${category}`);
-  };
 
   return (
     <Box
@@ -59,7 +46,6 @@ const Breadcrumbs = () => {
         sx={{
           width: "100%",
           backgroundColor: "rgba(71, 49, 184, 0)",
-          // padding: "0.5rem 1rem",
           paddingBottom: "0",
           display: "flex",
           alignItems: "center",
