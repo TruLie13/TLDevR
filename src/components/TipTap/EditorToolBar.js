@@ -7,6 +7,10 @@ import {
   StrikethroughS,
   Code,
   Link as LinkIcon,
+  Title as HeadingIcon,
+  FormatListBulleted as BulletListIcon,
+  FormatListNumbered as OrderedListIcon,
+  FormatQuote as BlockquoteIcon,
 } from "@mui/icons-material";
 
 const EditorToolbar = ({ editor, handleCodeBlock, setLinkDialogOpen }) => {
@@ -16,6 +20,18 @@ const EditorToolbar = ({ editor, handleCodeBlock, setLinkDialogOpen }) => {
 
   const isInCodeBlock = () => {
     return editor.isActive("codeBlock");
+  };
+
+  const toggleHeading = () => {
+    editor.chain().focus().toggleHeading({ level: 2 }).run();
+  };
+
+  const toggleList = (listType) => {
+    editor.chain().focus().toggleList(listType).run();
+  };
+
+  const toggleBlockquote = () => {
+    editor.chain().focus().toggleBlockquote().run();
   };
 
   const buttonConfigs = [
@@ -71,6 +87,44 @@ const EditorToolbar = ({ editor, handleCodeBlock, setLinkDialogOpen }) => {
       label: "Link",
       shortcut: "⌘K",
       icon: <LinkIcon />,
+    },
+    {
+      action: () => {
+        if (editor.isActive("heading", { level: 2 })) {
+          editor.chain().focus().setParagraph().run();
+        } else {
+          editor.chain().focus().setNode("heading", { level: 2 }).run();
+        }
+      },
+      disabled: isInCodeBlock(),
+      active: editor.isActive("heading", { level: 2 }),
+      label: "Heading",
+      shortcut: "⌘H",
+      icon: <HeadingIcon />,
+    },
+    {
+      action: () => editor.chain().focus().toggleBulletList().run(),
+      disabled: isInCodeBlock(),
+      active: editor.isActive("bulletList"),
+      label: "Bullet List",
+      shortcut: "⌘⇧8",
+      icon: <BulletListIcon />,
+    },
+    {
+      action: () => editor.chain().focus().toggleOrderedList().run(),
+      disabled: isInCodeBlock(),
+      active: editor.isActive("orderedList"),
+      label: "Ordered List",
+      shortcut: "⌘⇧9",
+      icon: <OrderedListIcon />,
+    },
+    {
+      action: () => editor.chain().focus().toggleBlockquote().run(),
+      disabled: isInCodeBlock(),
+      active: editor.isActive("blockquote"),
+      label: "Blockquote",
+      shortcut: "⌘⇧B",
+      icon: <BlockquoteIcon />,
     },
   ];
 
