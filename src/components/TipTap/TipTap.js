@@ -109,10 +109,7 @@ const Tiptap = ({ onChange }) => {
       CustomLink.configure({
         openOnClick: false, // Prevent opening links on click
       }),
-      Bold,
-      Italic,
       Underline,
-      Strike,
       CustomCodeBlock,
       CustomKeyboardShortcuts, // Add custom keyboard shortcuts
     ],
