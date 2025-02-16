@@ -1,12 +1,22 @@
 import HomeIcon from "@mui/icons-material/Home";
 import { Box, Card, IconButton, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const Breadcrumbs = () => {
   const router = useRouter();
 
+  const [path, setPath] = useState("");
+
   // Get the current path to extract the category
-  const path = window.location.pathname; // e.g., '/blog/react/whatever%20react'
+  useEffect(() => {
+    // Ensure this code runs only on the client side
+    if (typeof window !== "undefined") {
+      const path = window.location.pathname; // e.g., '/blog/react/whatever%20react'
+      setPath(path);
+    }
+  }, []);
+
   const category = path.split("/")[2]; // Extracts 'react' from the path
 
   const handleHomeClick = () => {

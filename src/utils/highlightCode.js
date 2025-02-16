@@ -10,6 +10,9 @@ import "prismjs/components/prism-python";
 
 export const highlightCode = (htmlContent) => {
   if (!htmlContent) return null;
+  if (typeof document !== "undefined") {
+    Prism.highlightAll();
+  }
 
   // Parse the HTML content
   let processedContent = htmlContent;
