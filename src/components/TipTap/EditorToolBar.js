@@ -111,9 +111,15 @@ const EditorToolbar = ({ editor, handleCodeBlock }) => {
   ];
 
   const ButtonWithOptionalTooltip = ({ button }) => {
+    const handleClick = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      button.action();
+    };
+
     const ButtonComponent = (
       <Button
-        onClick={button.action}
+        onMouseDown={handleClick}
         disabled={button.disabled}
         variant={button.active ? "contained" : "outlined"}
         sx={{ marginRight: 1 }}
