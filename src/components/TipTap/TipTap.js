@@ -2,7 +2,7 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Typography } from "@mui/material";
 import EditorToolbar from "./EditorToolBar.js";
 import Bold from "@tiptap/extension-bold";
@@ -12,6 +12,7 @@ import Link from "@tiptap/extension-link";
 import Strike from "@tiptap/extension-strike";
 import Underline from "@tiptap/extension-underline";
 import { Extension } from "@tiptap/core";
+import LinkDialog from "./LinkDialog";
 import "./styles.css";
 
 // Custom extension to style the code block
@@ -52,17 +53,26 @@ const CustomKeyboardShortcuts = Extension.create({
             .run();
         }
       },
+      // We'll handle Mod-k in the component with useEffect
     };
   },
 });
 
 const Tiptap = ({ onChange }) => {
+  const [linkDialogOpen, setLinkDialogOpen] = useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
         codeBlock: false, // Disable default code block to use our custom one
       }),
-      Link,
+      Link.configure({
+        openOnClick: false, // Prevent opening links on click
+        HTMLAttributes: {
+          target: "_blank",
+          rel: "noopener", // Remove noreferrer and nofollow (helps with SEO and affiliate)
+        },
+      }),
       Bold,
       Italic,
       Underline,
@@ -74,9 +84,30 @@ const Tiptap = ({ onChange }) => {
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML(); // Convert content to HTML
-      onChange(html); // Pass updated content to parent component
+      onChange?.(html); // Pass updated content to parent component
     },
   });
+
+  // Handle keyboard shortcut for link
+  useEffect(() => {
+    if (!editor) return;
+
+    const handleKeyDown = (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+        event.preventDefault();
+        setLinkDialogOpen(true);
+      }
+    };
+
+    // Add event listener to the editor DOM element
+    const editorElement = editor.view.dom;
+    editorElement.addEventListener("keydown", handleKeyDown);
+
+    // Clean up
+    return () => {
+      editorElement.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [editor]);
 
   if (!editor) {
     return null;
@@ -98,6 +129,31 @@ const Tiptap = ({ onChange }) => {
     }
   };
 
+  const handleLinkSubmit = (url) => {
+    if (editor.isActive("link")) {
+      editor
+        .chain()
+        .focus()
+        .extendMarkRange("link")
+        .setLink({ href: url })
+        .run();
+    } else {
+      if (editor.state.selection.empty) {
+        editor
+          .chain()
+          .focus()
+          .insertContent({
+            type: "text",
+            marks: [{ type: "link", attrs: { href: url } }],
+            text: url,
+          })
+          .run();
+      } else {
+        editor.chain().focus().setLink({ href: url }).run();
+      }
+    }
+  };
+
   return (
     <Card
       className="p-5"
@@ -111,8 +167,19 @@ const Tiptap = ({ onChange }) => {
       <Typography variant="h6" className="mb-5">
         Article Content
       </Typography>
-      <EditorToolbar editor={editor} handleCodeBlock={handleCodeBlock} />
+      <EditorToolbar
+        editor={editor}
+        handleCodeBlock={handleCodeBlock}
+        setLinkDialogOpen={setLinkDialogOpen}
+      />
       <EditorContent editor={editor} />
+
+      <LinkDialog
+        open={linkDialogOpen}
+        onClose={() => setLinkDialogOpen(false)}
+        onSubmit={handleLinkSubmit}
+        editor={editor}
+      />
     </Card>
   );
 };
