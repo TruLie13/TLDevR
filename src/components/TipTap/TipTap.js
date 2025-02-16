@@ -188,6 +188,9 @@ const Tiptap = ({ onChange }) => {
         editor.chain().focus().setLink({ href: url, linkType: linkType }).run();
       }
     }
+
+    // Move the cursor to the end of the link
+    editor.commands.setTextSelection(editor.state.selection.to);
   };
 
   return (
