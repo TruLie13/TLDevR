@@ -27,7 +27,7 @@ export default function CreateArticle() {
     const articleData = {
       title,
       slug,
-      author, // Ensure this is included
+      author,
       category,
       tags,
       content: "", // You'll need to extract TipTap content
@@ -47,11 +47,18 @@ export default function CreateArticle() {
     }
   };
 
-  // Fields configuration
+  // Fields configuration with accessibility improvements
   const fields = [
-    { label: "Title", value: title, onChange: setTitle, type: "text" },
-    { label: "Slug", value: slug, onChange: setSlug, type: "text" },
     {
+      id: "title",
+      label: "Title",
+      value: title,
+      onChange: setTitle,
+      type: "text",
+    },
+    { id: "slug", label: "Slug", value: slug, onChange: setSlug, type: "text" },
+    {
+      id: "author",
       label: "Author",
       value: author,
       onChange: setAuthor,
@@ -59,6 +66,7 @@ export default function CreateArticle() {
       options: [{ label: "Zayan", value: "Zayan" }],
     },
     {
+      id: "category",
       label: "Category",
       value: category,
       onChange: setCategory,
@@ -70,6 +78,7 @@ export default function CreateArticle() {
       ],
     },
     {
+      id: "experienceLevel",
       label: "Experience Level",
       value: experienceLevel,
       onChange: setExperienceLevel,
@@ -83,80 +92,107 @@ export default function CreateArticle() {
       ],
     },
     {
+      id: "metaDescription",
       label: "Meta Description",
       value: metaDescription,
       onChange: setMetaDescription,
       type: "text",
     },
-    { label: "Image URL", value: image, onChange: setImage, type: "text" },
+    {
+      id: "imageUrl",
+      label: "Image URL",
+      value: image,
+      onChange: setImage,
+      type: "text",
+    },
   ];
 
   return (
-    <div className="p-2 ml-5 mr-5">
-      <Card
-        className="p-5"
-        sx={{
-          backgroundColor: "rgb(21, 18, 43)",
-          width: "100%",
-          color: "white",
-          borderRadius: "1.5rem",
-        }}
-      >
-        <Typography variant="h6" className="mb-5" sx={{ color: "white" }}>
-          Create Article
-        </Typography>
+    <form onSubmit={handleSubmit} aria-labelledby="create-article-heading">
+      <div className="p-2 ml-5 mr-5">
+        <Card
+          className="p-5"
+          sx={{
+            backgroundColor: "rgb(21, 18, 43)",
+            width: "100%",
+            color: "white",
+            borderRadius: "1.5rem",
+          }}
+        >
+          <Typography
+            variant="h6"
+            className="mb-5"
+            sx={{ color: "white" }}
+            id="create-article-heading"
+          >
+            Create Article
+          </Typography>
 
-        {/* Map over fields to render dynamically */}
-        {fields.map((field, index) => (
-          <InputField
-            key={index}
-            label={field.label}
-            value={field.value}
-            onChange={field.onChange}
-            type={field.type}
-            options={field.options}
-            disabled={field.disabled}
+          {/* Map over fields to render dynamically with IDs */}
+          {fields.map((field, index) => (
+            <InputField
+              key={index}
+              id={field.id}
+              name={field.id}
+              label={field.label}
+              value={field.value}
+              onChange={field.onChange}
+              type={field.type}
+              options={field.options}
+              disabled={field.disabled}
+              aria-required={true}
+            />
+          ))}
+
+          {/* Status Toggle with unique ID and proper labeling */}
+          <FormControlLabel
+            control={
+              <Switch
+                id="status-toggle"
+                name="status"
+                checked={status === "published"}
+                onChange={() =>
+                  setStatus(status === "draft" ? "published" : "draft")
+                }
+                inputProps={{ "aria-label": "Publishing status" }}
+              />
+            }
+            label={<Typography component="span">Published</Typography>}
+            labelPlacement="end"
+            sx={{ color: "white" }}
           />
-        ))}
 
-        {/* Status Toggle */}
-        <FormControlLabel
-          control={
-            <Switch
-              checked={status === "published"}
-              onChange={() =>
-                setStatus(status === "draft" ? "published" : "draft")
-              }
-            />
-          }
-          label="Published"
-          sx={{ color: "white" }}
+          {/* Featured Toggle with unique ID and proper labeling */}
+          <FormControlLabel
+            control={
+              <Switch
+                id="featured-toggle"
+                name="featured"
+                checked={featured}
+                onChange={() => setFeatured(!featured)}
+                inputProps={{ "aria-label": "Featured article" }}
+              />
+            }
+            label="Featured"
+            sx={{ color: "white" }}
+          />
+        </Card>
+        <br></br>
+        <Tiptap
+          onChange={(value) => setContent(value)}
+          aria-label="Article content editor"
         />
 
-        {/* Featured Toggle */}
-        <FormControlLabel
-          control={
-            <Switch
-              checked={featured}
-              onChange={() => setFeatured(!featured)}
-            />
-          }
-          label="Featured"
-          sx={{ color: "white" }}
-        />
-
-        {/* TipTap Editor */}
-      </Card>
-      <br></br>
-      <Tiptap onChange={(value) => setContent(value)} />
-
-      {/* Submit Button */}
-      <button
-        onClick={handleSubmit}
-        className="mt-5 bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Submit Article
-      </button>
-    </div>
+        {/* Submit Button with proper attributes */}
+        <button
+          type="submit"
+          id="submit-article-button"
+          className="mt-5 bg-blue-500 text-white px-4 py-2 rounded"
+          aria-label="Submit article"
+        >
+          Submit Article
+        </button>
+      </div>
+    </form>
   );
 }

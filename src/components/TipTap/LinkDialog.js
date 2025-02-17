@@ -60,11 +60,9 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
       onClose={onClose}
       maxWidth="sm"
       fullWidth
-      // focus management props:
       disableEnforceFocus={false}
       disableRestoreFocus={false}
       autoFocus={true}
-      // labeled for accessibility:
       aria-labelledby="link-dialog-title"
       PaperProps={{
         sx: {
@@ -109,6 +107,10 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
             variant="outlined"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
+            // Add these attributes:
+            id="link-url-input"
+            name="url"
+            aria-describedby="url-helper-text"
             sx={{
               "& .MuiOutlinedInput-root": {
                 color: "white",
@@ -124,25 +126,47 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
               },
             }}
           />
-          <FormControl component="fieldset" sx={{ mt: 2, color: "white" }}>
+          <FormControl
+            component="fieldset"
+            sx={{ mt: 2, color: "white" }}
+            // Add these attributes:
+            id="link-type-control"
+          >
             <FormLabel
               component="legend"
               sx={{ color: "rgba(255, 255, 255, 0.7)" }}
+              // Add id for association:
+              id="link-type-label"
             >
               Link Type
             </FormLabel>
             <RadioGroup
               value={linkType}
               onChange={(e) => setLinkType(e.target.value)}
+              // Add these attributes:
+              aria-labelledby="link-type-label"
+              name="link-type"
             >
               <FormControlLabel
                 value="regular"
-                control={<Radio sx={{ color: "rgba(255, 255, 255, 0.7)" }} />}
+                control={
+                  <Radio
+                    sx={{ color: "rgba(255, 255, 255, 0.7)" }}
+                    id="regular-link-radio"
+                    name="link-type"
+                  />
+                }
                 label="Regular Link"
               />
               <FormControlLabel
                 value="affiliate"
-                control={<Radio sx={{ color: "rgba(255, 255, 255, 0.7)" }} />}
+                control={
+                  <Radio
+                    sx={{ color: "rgba(255, 255, 255, 0.7)" }}
+                    id="affiliate-link-radio"
+                    name="link-type"
+                  />
+                }
                 label="Affiliate Link"
               />
             </RadioGroup>
@@ -156,11 +180,18 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
             <Button
               onClick={handleRemoveLink}
               sx={{ color: "rgba(255, 255, 255, 0.7)" }}
+              // Add id for this button:
+              id="remove-link-button"
             >
               Remove Link
             </Button>
           )}
-          <Button type="submit" variant="contained">
+          <Button
+            type="submit"
+            variant="contained"
+            // Add id for submit button:
+            id="submit-link-button"
+          >
             {editor.isActive("link") ? "Update Link" : "Add Link"}
           </Button>
         </DialogActions>
