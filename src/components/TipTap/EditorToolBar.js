@@ -1,17 +1,16 @@
-import React from "react";
-import { Button, Tooltip, Box } from "@mui/material";
 import {
+  FormatQuote as BlockquoteIcon,
+  FormatListBulleted as BulletListIcon,
+  Code,
   FormatBold,
   FormatItalic,
   FormatUnderlined,
-  StrikethroughS,
-  Code,
-  Link as LinkIcon,
   Title as HeadingIcon,
-  FormatListBulleted as BulletListIcon,
+  Link as LinkIcon,
   FormatListNumbered as OrderedListIcon,
-  FormatQuote as BlockquoteIcon,
+  StrikethroughS,
 } from "@mui/icons-material";
+import { Box, Button, Tooltip } from "@mui/material";
 
 const EditorToolbar = ({ editor, handleCodeBlock, setLinkDialogOpen }) => {
   const handleLinkClick = () => {
@@ -22,19 +21,21 @@ const EditorToolbar = ({ editor, handleCodeBlock, setLinkDialogOpen }) => {
     return editor.isActive("codeBlock");
   };
 
-  const toggleHeading = () => {
-    editor.chain().focus().toggleHeading({ level: 2 }).run();
-  };
-
-  const toggleList = (listType) => {
-    editor.chain().focus().toggleList(listType).run();
-  };
-
-  const toggleBlockquote = () => {
-    editor.chain().focus().toggleBlockquote().run();
-  };
-
   const buttonConfigs = [
+    {
+      action: () => {
+        if (editor.isActive("heading", { level: 2 })) {
+          editor.chain().focus().setParagraph().run();
+        } else {
+          editor.chain().focus().setNode("heading", { level: 2 }).run();
+        }
+      },
+      disabled: isInCodeBlock(),
+      active: editor.isActive("heading", { level: 2 }),
+      label: "Heading",
+      shortcut: "⌘⌥H",
+      icon: <HeadingIcon />,
+    },
     {
       action: () => editor.chain().focus().toggleBold().run(),
       disabled:
@@ -90,17 +91,17 @@ const EditorToolbar = ({ editor, handleCodeBlock, setLinkDialogOpen }) => {
     },
     {
       action: () => {
-        if (editor.isActive("heading", { level: 2 })) {
-          editor.chain().focus().setParagraph().run();
+        if (editor.isActive("orderedList")) {
+          editor.chain().focus().liftListItem("listItem").run();
         } else {
-          editor.chain().focus().setNode("heading", { level: 2 }).run();
+          editor.chain().focus().toggleOrderedList().run();
         }
       },
       disabled: isInCodeBlock(),
-      active: editor.isActive("heading", { level: 2 }),
-      label: "Heading",
-      shortcut: "⌘H",
-      icon: <HeadingIcon />,
+      active: editor.isActive("orderedList"),
+      label: "Ordered List",
+      shortcut: "⌘⇧7",
+      icon: <OrderedListIcon />,
     },
     {
       action: () => {
@@ -116,20 +117,7 @@ const EditorToolbar = ({ editor, handleCodeBlock, setLinkDialogOpen }) => {
       shortcut: "⌘⇧8",
       icon: <BulletListIcon />,
     },
-    {
-      action: () => {
-        if (editor.isActive("orderedList")) {
-          editor.chain().focus().liftListItem("listItem").run();
-        } else {
-          editor.chain().focus().toggleOrderedList().run();
-        }
-      },
-      disabled: isInCodeBlock(),
-      active: editor.isActive("orderedList"),
-      label: "Ordered List",
-      shortcut: "⌘⇧9",
-      icon: <OrderedListIcon />,
-    },
+
     {
       action: () => editor.chain().focus().toggleBlockquote().run(),
       disabled: isInCodeBlock(),

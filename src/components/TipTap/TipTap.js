@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, Typography } from "@mui/material";
+import { Extension } from "@tiptap/core";
 import CodeBlock from "@tiptap/extension-code-block";
 import Link from "@tiptap/extension-link";
 import Underline from "@tiptap/extension-underline";
@@ -30,6 +31,25 @@ const CustomCodeBlock = CodeBlock.extend({
 const Tiptap = ({ onChange }) => {
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
 
+  // Custom keyboard shortcuts extension
+  const CustomKeyboardShortcuts = Extension.create({
+    name: "customKeyboardShortcuts",
+
+    addKeyboardShortcuts() {
+      return {
+        "Mod-SHIFT-7": ({ editor }) =>
+          editor.chain().focus().toggleOrderedList().run(),
+        "Mod-Alt-h": ({ editor }) =>
+          editor.chain().focus().toggleHeading({ level: 2 }).run(),
+        "Mod-k": ({ editor }) => {
+          // This will open your link dialog
+          setLinkDialogOpen(true);
+          return true;
+        },
+      };
+    },
+  });
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -50,6 +70,7 @@ const Tiptap = ({ onChange }) => {
       }),
       Underline,
       CustomCodeBlock,
+      CustomKeyboardShortcuts,
     ],
     content: "<h2>Hello World! 🌎️</h2><p>This is a paragraph.</p>",
     onUpdate: ({ editor }) => {
