@@ -98,7 +98,7 @@ export default function ArticleCard({
           color: "white",
           padding: "0.5rem",
           textAlign: "center",
-          backgroundColor: "rgba(19, 13, 48, 0.38)",
+          backgroundColor: "rgba(19, 13, 48, 0.57)",
           zIndex: 1,
         }}
       >

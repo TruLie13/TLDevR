@@ -1,6 +1,7 @@
 import HomeIcon from "@mui/icons-material/Home";
 import { Box, Card, IconButton, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const Breadcrumbs = ({ category }) => {
   const router = useRouter();
@@ -37,6 +38,7 @@ const Breadcrumbs = ({ category }) => {
         alignItems: "center",
         maxWidth: "800px",
         margin: "0 auto",
+        marginTop: ".25rem",
         padding: "0 1rem",
         width: "100%",
       }}
@@ -59,9 +61,11 @@ const Breadcrumbs = ({ category }) => {
           }}
           onClick={handleHomeClick}
         >
-          <HomeIcon />
+          <HomeIcon sx={{ fontSize: 22 }} />
         </IconButton>
-        <Divider />
+
+        <ChevronRightIcon sx={{ color: "white", mx: ".25rem" }} />
+
         <Typography variant="body1" sx={{ color: "white" }}>
           <span style={{ cursor: "pointer" }} onClick={handleCategoryClick}>
             {category?.toUpperCase()}
