@@ -34,6 +34,16 @@ const Tiptap = ({ onChange }) => {
     extensions: [
       StarterKit.configure({
         codeBlock: false,
+        bulletList: {
+          HTMLAttributes: {
+            class: "my-custom-bullet-list",
+          },
+        },
+        orderedList: {
+          HTMLAttributes: {
+            class: "my-custom-ordered-list",
+          },
+        },
       }),
       Link.configure({
         openOnClick: false,

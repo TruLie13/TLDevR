@@ -103,7 +103,13 @@ const EditorToolbar = ({ editor, handleCodeBlock, setLinkDialogOpen }) => {
       icon: <HeadingIcon />,
     },
     {
-      action: () => editor.chain().focus().toggleBulletList().run(),
+      action: () => {
+        if (editor.isActive("bulletList")) {
+          editor.chain().focus().liftListItem("listItem").run();
+        } else {
+          editor.chain().focus().toggleBulletList().run();
+        }
+      },
       disabled: isInCodeBlock(),
       active: editor.isActive("bulletList"),
       label: "Bullet List",
@@ -111,7 +117,13 @@ const EditorToolbar = ({ editor, handleCodeBlock, setLinkDialogOpen }) => {
       icon: <BulletListIcon />,
     },
     {
-      action: () => editor.chain().focus().toggleOrderedList().run(),
+      action: () => {
+        if (editor.isActive("orderedList")) {
+          editor.chain().focus().liftListItem("listItem").run();
+        } else {
+          editor.chain().focus().toggleOrderedList().run();
+        }
+      },
       disabled: isInCodeBlock(),
       active: editor.isActive("orderedList"),
       label: "Ordered List",
