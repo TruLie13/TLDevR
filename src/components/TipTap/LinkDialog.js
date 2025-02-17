@@ -60,6 +60,12 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
       onClose={onClose}
       maxWidth="sm"
       fullWidth
+      // focus management props:
+      disableEnforceFocus={false}
+      disableRestoreFocus={false}
+      autoFocus={true}
+      // labeled for accessibility:
+      aria-labelledby="link-dialog-title"
       PaperProps={{
         sx: {
           backgroundColor: "rgb(21, 18, 43)",
@@ -68,7 +74,10 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
       }}
     >
       <form onSubmit={handleSubmit}>
-        <DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <DialogTitle
+          id="link-dialog-title"
+          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+        >
           <LinkIcon />
           {editor.isActive("link") ? "Edit Link" : "Insert Link"}
         </DialogTitle>

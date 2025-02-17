@@ -78,6 +78,7 @@ const Tiptap = ({ onChange }) => {
       console.log("Editor content:", html);
       onChange?.(html);
     },
+    immediatelyRender: false,
   });
 
   if (!editor) {
