@@ -7,8 +7,7 @@
  * @returns {string} - The validated image URL or fallback URL.
  */
 
-export const fallback_image =
-  "https://image.lexica.art/full_webp/31a8a899-af34-41af-8a78-91d9c0ff578d"; // Default fallback image
+export const fallback_image = "/images/fallback.png";
 
 export const getValidImageUrl = (url) => {
   // If no URL or it's not a full URL with http/https, use the fallback image.
