@@ -1,6 +1,10 @@
 import { fetchArticle } from "@/lib/api"; // Adjust path as needed
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
+import { fallback_image } from "@/utils/imageUtils.js";
+
+// Ensure base URL is consistent
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://yourdomain.com";
 
 // Generate SEO Metadata
 export async function generateMetadata({ params }) {
@@ -14,12 +18,13 @@ export async function generateMetadata({ params }) {
   }
 
   return {
+    metadataBase: new URL(baseUrl),
     title: article.title,
     description: article.metaDescription || "Read this article on our blog.",
     openGraph: {
       title: article.title,
       description: article.metaDescription || "Read this article on our blog.",
-      url: `https://yourdomain.com/articles/${params.slug}`,
+      url: `${baseUrl}/articles/${params.slug}`,
       type: "article",
       images: article.image ? [{ url: article.image, alt: article.title }] : [],
     },
@@ -43,6 +48,33 @@ export default async function Article({ params }) {
   if (!article) {
     notFound(); // Handle case where the article is not found
   }
+
+  // JSON-LD Structured Data for Articles
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.metaDescription || "Read this article on our blog.",
+    image: article.image || fallback_image,
+    author: {
+      "@type": "Person",
+      name: article.author || "Unknown",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "TLDevR",
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/logo.png`,
+      },
+    },
+    datePublished: article.publishedAt || "",
+    dateModified: article.updatedAt || "",
+    url: `${baseUrl}/blog/${params.category}/${params.slug}`,
+  };
+
+  console.log("Full Article Object:", article);
+  console.log("article.metaDescription:", article.metaDescription);
 
   return (
     <div>
