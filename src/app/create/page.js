@@ -148,6 +148,7 @@ export default function CreateArticle() {
       value: tags, // Pass the tags array directly
       onChange: setTags, // Pass the setTags function directly
       type: "tags", // Use the new "tags" type
+      maxTags: 6,
     },
     {
       id: "imageUrl",
@@ -190,6 +191,7 @@ export default function CreateArticle() {
               onChange={field.onChange}
               maxCount={field.maxCount}
               type={field.type}
+              maxTags={field.maxTags}
               options={field.options}
               disabled={field.disabled}
               aria-required={true}

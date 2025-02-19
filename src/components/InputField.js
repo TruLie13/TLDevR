@@ -19,9 +19,11 @@ const InputField = ({
   options = [],
   disabled,
   maxCount,
+  maxTags = 6, // Default value of 6, can be overridden
   ...rest
 }) => {
   const [inputValue, setInputValue] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleChange = (e) => {
     const newValue = e.target.value;
@@ -37,9 +39,11 @@ const InputField = ({
   const handleKeyDown = (e) => {
     if (type === "tags" && e.key === "Enter" && inputValue.trim() !== "") {
       e.preventDefault();
-      const newTags = [...value, inputValue.trim()];
-      onChange(newTags);
-      setInputValue("");
+      if (value.length < maxTags) {
+        const newTags = [...value, inputValue.trim()];
+        onChange(newTags);
+        setInputValue("");
+      }
     }
   };
 
@@ -49,6 +53,18 @@ const InputField = ({
   };
 
   const renderCounter = () => {
+    if (type === "tags") {
+      const tagsCount = value.length;
+      const isMax = tagsCount >= maxTags;
+      return (
+        <Typography
+          variant="caption"
+          sx={{ color: isMax ? "red" : "white", marginRight: "4px" }}
+        >
+          {tagsCount}/{maxTags}
+        </Typography>
+      );
+    }
     if (maxCount) {
       const lengthIsMax = value.length >= maxCount;
       return (
@@ -91,44 +107,71 @@ const InputField = ({
 
   if (type === "tags") {
     return (
-      <Box
+      <FormControl
+        fullWidth
+        variant="outlined"
         sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          border: "1px solid #1976d2",
-          borderRadius: "4px",
-          padding: "8px",
-          marginBottom: "1rem",
-          minHeight: "56px",
-          "&:hover": { borderColor: "#1976d2" },
+          mb: "1rem",
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "#1976d2",
+            },
+            "&:hover fieldset": {
+              borderColor: "#1976d2",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#1976d2",
+            },
+          },
         }}
       >
-        {value.map((tag, index) => (
-          <Chip
-            key={index}
-            label={tag}
-            onDelete={() => handleDelete(tag)}
-            sx={{ margin: "2px", backgroundColor: "#1976d2", color: "white" }}
-          />
-        ))}
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          placeholder={label}
-          style={{
-            border: "none",
-            outline: "none",
-            flexGrow: 1,
-            minWidth: "50px",
-            background: "transparent",
-            color: "white",
+        <InputLabel
+          shrink={isFocused || value.length > 0}
+          sx={{ color: "white", marginBottom: "1rem" }}
+        >
+          {label}
+        </InputLabel>
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            border: "1px solid #1976d2",
+            borderRadius: "4px",
+            padding: "8px",
+            minHeight: "56px",
+            "&:hover": { borderColor: "#1976d2" },
+            backgroundColor: "transparent",
           }}
-        />
-        {renderCounter()}
-      </Box>
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+        >
+          {value.map((tag, index) => (
+            <Chip
+              key={index}
+              label={tag}
+              onDelete={() => handleDelete(tag)}
+              sx={{ margin: "2px", backgroundColor: "#1976d2", color: "white" }}
+            />
+          ))}
+          <input
+            type="text"
+            value={inputValue}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            style={{
+              border: "none",
+              outline: "none",
+              flexGrow: 1,
+              minWidth: "50px",
+              background: "transparent",
+              color: "white",
+            }}
+            disabled={value.length >= maxTags}
+          />
+          {renderCounter()}
+        </Box>
+      </FormControl>
     );
   }
 
