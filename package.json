@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:css": "tailwindcss-cli build -i ./src/styles.css -o ./dist/output.css"
+    "build:css": "tailwindcss-cli build -i ./src/styles.css -o ./dist/output.css",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -25,6 +26,7 @@
     "@tiptap/starter-kit": "^2.11.5",
     "html-react-parser": "^5.2.2",
     "next": "^13.x.x",
+    "next-sitemap": "^4.2.3",
     "postcss": "^8.5.1",
     "react": "^18.x.x",
     "react-dom": "^18.x.x",
