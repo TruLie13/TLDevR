@@ -3,7 +3,7 @@ import { Card, Typography, Box } from "@mui/material";
 
 export default function HomePageCover() {
   return (
-    <div className="w-full h-72 bg-black flex items-center justify-center relative">
+    <div className="w-full h-52 bg-black flex items-center justify-center relative">
       <Box className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-gray-900 via-black to-gray-900 opacity-70 z-10"></Box>
 
       <div className="text-center z-20">
