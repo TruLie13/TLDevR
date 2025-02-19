@@ -117,3 +117,11 @@ export async function postLogin(loginData) {
     throw error; // Rethrow error for UI handling
   }
 }
+
+// all articles
+export async function fetchAllArticles() {
+  // Fetch your articles from the API, database, or backend service
+  const response = await fetch(`${apiUrl}/articles`);
+  const articles = await response.json();
+  return articles;
+}
