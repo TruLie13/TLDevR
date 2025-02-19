@@ -8,28 +8,41 @@ import {
   Button,
   Typography,
   Box,
-  FormControl,
-  FormLabel,
-  RadioGroup,
   FormControlLabel,
-  Radio,
+  Switch,
 } from "@mui/material";
 import { Link as LinkIcon } from "@mui/icons-material";
+import { styled } from "@mui/material/styles";
+
+const CustomSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase": {
+    color: "grey",
+    "&.Mui-checked": {
+      color: "white",
+    },
+  },
+  "& .MuiSwitch-track": {
+    backgroundColor: "grey",
+    "&.Mui-checked": {
+      backgroundColor: "white",
+    },
+  },
+}));
 
 const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
   const [url, setUrl] = useState("https://");
   const [selectedText, setSelectedText] = useState("");
-  const [linkType, setLinkType] = useState("regular");
+  const [isAffiliateLink, setIsAffiliateLink] = useState(false);
 
   useEffect(() => {
     if (open) {
       if (editor.isActive("link")) {
         const attrs = editor.getAttributes("link");
         setUrl(attrs.href || "https://");
-        setLinkType(attrs.linkType || "regular");
+        setIsAffiliateLink(attrs.linkType === "affiliate");
       } else {
         setUrl("https://");
-        setLinkType("regular");
+        setIsAffiliateLink(false);
       }
 
       const text = editor.state.selection.empty
@@ -44,7 +57,18 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(url, linkType);
+
+    let finalUrl = url;
+
+    if (!isAffiliateLink && !url.startsWith("/")) {
+      finalUrl = "/" + url;
+    }
+
+    // Set the rel attribute based on whether it's an affiliate link
+    const rel = isAffiliateLink ? "sponsored noopener" : "noopener";
+
+    // Pass the rel attribute to the onSubmit function
+    onSubmit(finalUrl, isAffiliateLink ? "affiliate" : "regular", rel);
     setUrl("https://");
     onClose();
   };
@@ -107,7 +131,6 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
             variant="outlined"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            // Add these attributes:
             id="link-url-input"
             name="url"
             aria-describedby="url-helper-text"
@@ -126,51 +149,16 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
               },
             }}
           />
-          <FormControl
-            component="fieldset"
-            sx={{ mt: 2, color: "white" }}
-            // Add these attributes:
-            id="link-type-control"
-          >
-            <FormLabel
-              component="legend"
-              sx={{ color: "rgba(255, 255, 255, 0.7)" }}
-              // Add id for association:
-              id="link-type-label"
-            >
-              Link Type
-            </FormLabel>
-            <RadioGroup
-              value={linkType}
-              onChange={(e) => setLinkType(e.target.value)}
-              // Add these attributes:
-              aria-labelledby="link-type-label"
-              name="link-type"
-            >
-              <FormControlLabel
-                value="regular"
-                control={
-                  <Radio
-                    sx={{ color: "rgba(255, 255, 255, 0.7)" }}
-                    id="regular-link-radio"
-                    name="link-type"
-                  />
-                }
-                label="Regular Link"
-              />
-              <FormControlLabel
-                value="affiliate"
-                control={
-                  <Radio
-                    sx={{ color: "rgba(255, 255, 255, 0.7)" }}
-                    id="affiliate-link-radio"
-                    name="link-type"
-                  />
-                }
-                label="Affiliate Link"
-              />
-            </RadioGroup>
-          </FormControl>
+          <Box sx={{ mt: 2, display: "flex", alignItems: "center" }}>
+            <Typography sx={{ color: "white" }}>Affiliate Link</Typography>
+            <CustomSwitch
+              checked={isAffiliateLink}
+              onChange={(e) => setIsAffiliateLink(e.target.checked)}
+              name="affiliate-link-toggle"
+              id="affiliate-link-toggle"
+              sx={{ ml: "2rem" }}
+            />
+          </Box>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
           <Button onClick={onClose} sx={{ color: "rgba(255, 255, 255, 0.7)" }}>
@@ -180,18 +168,12 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
             <Button
               onClick={handleRemoveLink}
               sx={{ color: "rgba(255, 255, 255, 0.7)" }}
-              // Add id for this button:
               id="remove-link-button"
             >
               Remove Link
             </Button>
           )}
-          <Button
-            type="submit"
-            variant="contained"
-            // Add id for submit button:
-            id="submit-link-button"
-          >
+          <Button type="submit" variant="contained" id="submit-link-button">
             {editor.isActive("link") ? "Update Link" : "Add Link"}
           </Button>
         </DialogActions>
