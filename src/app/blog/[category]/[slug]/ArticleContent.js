@@ -61,10 +61,10 @@ export default function ArticleContent({ article }) {
 
   const customCodeBlockStyles = `
     pre {
-      background-color: #2d2d2d;
+      background-color:rgb(239, 10, 10);
       border-radius: 6px;
       padding: 1rem;
-      margin: 16px 0;
+      margin: 1rem 0;
       overflow-x: auto;
       width: 100%;
       box-sizing: border-box;
@@ -157,7 +157,9 @@ export default function ArticleContent({ article }) {
         </Box>
 
         {/* Article Content */}
-        <CardContent sx={{ textAlign: "left", width: "100%", mt: 4 }}>
+        <CardContent
+          sx={{ textAlign: "left", width: "100%", mt: 4, marginTop: "1rem" }}
+        >
           <Typography
             variant="h4"
             fontWeight="bold"

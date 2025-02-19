@@ -2,9 +2,19 @@
 
 import React, { useState, useEffect } from "react";
 import Tiptap from "@/components/TipTap/TipTap.js";
-import { Card, Typography, FormControlLabel, Switch } from "@mui/material";
+import {
+  Card,
+  Typography,
+  FormControlLabel,
+  Switch,
+  CircularProgress,
+  IconButton,
+} from "@mui/material";
 import InputField from "@/components/InputField.js";
 import { postArticle } from "@/lib/api.js";
+import SnackbarComponent from "@/components/Snackbar.js";
+import HomeIcon from "@mui/icons-material/Home";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 export default function CreateArticle() {
   // State for each form field
@@ -19,10 +29,20 @@ export default function CreateArticle() {
   const [featured, setFeatured] = useState(false);
   const [experienceLevel, setExperienceLevel] = useState("0");
   const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  // Determine if submit should be enabled (all required fields must be filled)
+  const isSubmitDisabled = !title || !author || !category || !image || !content;
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const articleData = {
       title,
@@ -30,24 +50,47 @@ export default function CreateArticle() {
       author,
       category,
       tags,
-      content: "", // You'll need to extract TipTap content
+      content,
       metaDescription,
       image,
       status,
       featured,
       experienceLevel,
-      content,
     };
 
     try {
-      const response = await postArticle(articleData);
-      console.log("Article created:", response);
+      await postArticle(articleData);
+      setSnackbar({
+        open: true,
+        message: "Article submitted successfully!",
+        severity: "success",
+      });
+
+      // Clear form fields after success
+      setTitle("");
+      setSlug("");
+      setAuthor("");
+      setCategory("");
+      setTags([]);
+      setMetaDescription("");
+      setImage("");
+      setStatus("draft");
+      setFeatured(false);
+      setExperienceLevel("0");
+      setContent("");
     } catch (error) {
+      setSnackbar({
+        open: true,
+        message: "Failed to submit article. Please try again.",
+        severity: "error",
+      });
       console.error("Failed to submit article:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Fields configuration with accessibility improvements
+  // Fields configuration
   const fields = [
     {
       id: "title",
@@ -128,7 +171,7 @@ export default function CreateArticle() {
             Create Article
           </Typography>
 
-          {/* Map over fields to render dynamically with IDs */}
+          {/* Dynamic Fields */}
           {fields.map((field, index) => (
             <InputField
               key={index}
@@ -144,7 +187,7 @@ export default function CreateArticle() {
             />
           ))}
 
-          {/* Status Toggle with unique ID and proper labeling */}
+          {/* Status Toggle */}
           <FormControlLabel
             control={
               <Switch
@@ -162,7 +205,7 @@ export default function CreateArticle() {
             sx={{ color: "white" }}
           />
 
-          {/* Featured Toggle with unique ID and proper labeling */}
+          {/* Featured Toggle */}
           <FormControlLabel
             control={
               <Switch
@@ -177,21 +220,35 @@ export default function CreateArticle() {
             sx={{ color: "white" }}
           />
         </Card>
-        <br></br>
+        <br />
+
         <Tiptap
           onChange={(value) => setContent(value)}
           aria-label="Article content editor"
         />
 
-        {/* Submit Button with proper attributes */}
+        {/* Submit Button */}
         <button
           type="submit"
           id="submit-article-button"
-          className="mt-5 bg-blue-500 text-white px-4 py-2 rounded"
+          className={`mt-5 px-4 py-2 rounded ${
+            isSubmitDisabled || loading
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          } text-white`}
           aria-label="Submit article"
+          disabled={isSubmitDisabled || loading}
         >
           Submit Article
         </button>
+
+        {/* Snackbar Notifications */}
+        <SnackbarComponent
+          open={snackbar.open}
+          message={snackbar.message}
+          severity={snackbar.severity}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+        />
       </div>
     </form>
   );
