@@ -72,7 +72,7 @@ const Tiptap = ({ onChange }) => {
       CustomCodeBlock,
       CustomKeyboardShortcuts,
     ],
-    content: "<h2>Hello World! 🌎️</h2><p>This is a paragraph.</p>",
+    content: "",
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       console.log("Editor content:", html);

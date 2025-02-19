@@ -82,7 +82,9 @@ export async function postArticle(articleData) {
     });
 
     if (!res.ok) {
-      throw new Error("Failed to create article");
+      // Get the error message from the response
+      const errorData = await res.json();
+      throw errorData; // This will pass through the actual error message
     }
 
     return await res.json();

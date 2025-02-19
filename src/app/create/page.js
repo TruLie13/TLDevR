@@ -59,7 +59,7 @@ export default function CreateArticle() {
     };
 
     try {
-      await postArticle(articleData);
+      await postArticle(articleData); // Remove res = since we don't need it
       setSnackbar({
         open: true,
         message: "Article submitted successfully!",
@@ -81,10 +81,9 @@ export default function CreateArticle() {
     } catch (error) {
       setSnackbar({
         open: true,
-        message: "Failed to submit article. Please try again.",
+        message: error.message || "Failed to submit article. Please try again.",
         severity: "error",
       });
-      console.error("Failed to submit article:", error);
     } finally {
       setLoading(false);
     }
