@@ -92,14 +92,6 @@ export default function CreateArticle() {
   // Fields configuration
   const fields = [
     {
-      id: "title",
-      label: "Title",
-      value: title,
-      onChange: setTitle,
-      type: "text",
-    },
-    { id: "slug", label: "Slug", value: slug, onChange: setSlug, type: "text" },
-    {
       id: "author",
       label: "Author",
       value: author,
@@ -107,6 +99,14 @@ export default function CreateArticle() {
       type: "dropdown",
       options: [{ label: "Zayan", value: "Zayan" }],
     },
+    {
+      id: "title",
+      label: "Title",
+      value: title,
+      onChange: setTitle,
+      type: "text",
+    },
+    { id: "slug", label: "Slug", value: slug, onChange: setSlug, type: "text" },
     {
       id: "category",
       label: "Category",
@@ -138,6 +138,14 @@ export default function CreateArticle() {
       label: "Meta Description",
       value: metaDescription,
       onChange: setMetaDescription,
+      type: "text",
+    },
+    {
+      id: "tags",
+      label: "Tags",
+      value: tags.join(", "), // Display tags as a comma-separated string
+      onChange: (e) =>
+        setTags(e.target.value.split(",").map((tag) => tag.trim())), // Convert input to an array
       type: "text",
     },
     {
