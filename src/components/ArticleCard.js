@@ -57,16 +57,17 @@ export default function ArticleCard({
       >
         {imageSrc && (
           <Image
-            width={300}
-            height={200}
             src={imageSrc}
-            alt={article.title}
+            alt={`Image for article about ${article.title}`}
             style={{
               width: "100%",
               height: "100%",
               objectFit: "cover",
               display: "block",
             }}
+            width={300}
+            height={200}
+            sizes="(max-width: 600px) 80vw, (max-width: 1200px) 30vw, 300px"
             onLoad={handleImageLoad}
             onError={handleImageError}
             loading="eager"

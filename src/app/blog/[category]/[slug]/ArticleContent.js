@@ -110,8 +110,9 @@ export default function ArticleContent({ article }) {
             {validImageUrl && (
               <MemoizedImage
                 src={validImageUrl}
-                alt={article.title}
+                alt={`Image for article: ${article.title}`}
                 onError={handleImageError}
+                sizes="(max-width: 600px) 100vw, 50vw"
               />
             )}
           </Card>
