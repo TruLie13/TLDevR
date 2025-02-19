@@ -5,6 +5,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Typography,
+  InputAdornment,
 } from "@mui/material";
 
 const InputField = ({
@@ -14,8 +16,33 @@ const InputField = ({
   type,
   options = [],
   disabled,
+  maxCount,
   ...rest
 }) => {
+  const handleChange = (e) => {
+    const newValue = e.target.value;
+    if (maxCount && newValue.length <= maxCount) {
+      onChange(newValue);
+    } else if (!maxCount) {
+      onChange(newValue);
+    }
+  };
+
+  const renderCounter = () => {
+    if (maxCount) {
+      const lengthIsMax = value.length >= maxCount;
+      return (
+        <Typography
+          variant="caption"
+          sx={{ color: lengthIsMax ? "red" : "white" }}
+        >
+          {value.length}/{maxCount}
+        </Typography>
+      );
+    }
+    return null;
+  };
+
   if (type === "text") {
     return (
       <TextField
@@ -23,20 +50,24 @@ const InputField = ({
         variant="outlined"
         fullWidth
         value={value}
-        onChange={(e) => onChange(e.target.value)} // Fixed: Extract value from event
-        disabled={disabled}
+        onChange={handleChange}
         sx={{
-          mb: 2,
+          mb: 1,
           input: { color: "white" },
           label: { color: "white" },
           fieldset: { borderColor: "#1976d2" },
           "&:hover fieldset": { borderColor: "#1976d2 !important" },
+          marginBottom: "1rem",
+        }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">{renderCounter()}</InputAdornment>
+          ),
         }}
         {...rest}
       />
     );
   }
-
   if (type === "dropdown") {
     return (
       <FormControl fullWidth sx={{ mb: 2 }}>
@@ -57,6 +88,7 @@ const InputField = ({
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: "#1976d2",
             },
+            ".MuiSelect-icon": { color: "grey" }, // Add this line to change the icon color to white
           }}
           MenuProps={{
             PaperProps: {

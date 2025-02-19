@@ -105,8 +105,9 @@ export default function CreateArticle() {
       value: title,
       onChange: setTitle,
       type: "text",
+      maxCount: 60,
     },
-    { id: "slug", label: "Slug", value: slug, onChange: setSlug, type: "text" },
+    // { id: "slug", label: "Slug", value: slug, onChange: setSlug, type: "text" },
     {
       id: "category",
       label: "Category",
@@ -139,6 +140,7 @@ export default function CreateArticle() {
       value: metaDescription,
       onChange: setMetaDescription,
       type: "text",
+      maxCount: 160,
     },
     {
       id: "tags",
@@ -187,6 +189,7 @@ export default function CreateArticle() {
               label={field.label}
               value={field.value}
               onChange={field.onChange}
+              maxCount={field.maxCount}
               type={field.type}
               options={field.options}
               disabled={field.disabled}
