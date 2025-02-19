@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TextField,
   FormControl,
@@ -7,6 +7,8 @@ import {
   MenuItem,
   Typography,
   InputAdornment,
+  Chip,
+  Box,
 } from "@mui/material";
 
 const InputField = ({
@@ -19,13 +21,31 @@ const InputField = ({
   maxCount,
   ...rest
 }) => {
+  const [inputValue, setInputValue] = useState("");
+
   const handleChange = (e) => {
     const newValue = e.target.value;
-    if (maxCount && newValue.length <= maxCount) {
+    if (type === "tags") {
+      setInputValue(newValue);
+    } else if (maxCount && newValue.length <= maxCount) {
       onChange(newValue);
     } else if (!maxCount) {
       onChange(newValue);
     }
+  };
+
+  const handleKeyDown = (e) => {
+    if (type === "tags" && e.key === "Enter" && inputValue.trim() !== "") {
+      e.preventDefault();
+      const newTags = [...value, inputValue.trim()];
+      onChange(newTags);
+      setInputValue("");
+    }
+  };
+
+  const handleDelete = (tagToDelete) => {
+    const newTags = value.filter((tag) => tag !== tagToDelete);
+    onChange(newTags);
   };
 
   const renderCounter = () => {
@@ -68,6 +88,50 @@ const InputField = ({
       />
     );
   }
+
+  if (type === "tags") {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          border: "1px solid #1976d2",
+          borderRadius: "4px",
+          padding: "8px",
+          marginBottom: "1rem",
+          minHeight: "56px",
+          "&:hover": { borderColor: "#1976d2" },
+        }}
+      >
+        {value.map((tag, index) => (
+          <Chip
+            key={index}
+            label={tag}
+            onDelete={() => handleDelete(tag)}
+            sx={{ margin: "2px", backgroundColor: "#1976d2", color: "white" }}
+          />
+        ))}
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          placeholder={label}
+          style={{
+            border: "none",
+            outline: "none",
+            flexGrow: 1,
+            minWidth: "50px",
+            background: "transparent",
+            color: "white",
+          }}
+        />
+        {renderCounter()}
+      </Box>
+    );
+  }
+
   if (type === "dropdown") {
     return (
       <FormControl fullWidth sx={{ mb: 2 }}>
@@ -88,7 +152,7 @@ const InputField = ({
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: "#1976d2",
             },
-            ".MuiSelect-icon": { color: "grey" }, // Add this line to change the icon color to white
+            ".MuiSelect-icon": { color: "grey" },
           }}
           MenuProps={{
             PaperProps: {

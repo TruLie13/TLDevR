@@ -145,10 +145,9 @@ export default function CreateArticle() {
     {
       id: "tags",
       label: "Tags",
-      value: tags.join(", "), // Display tags as a comma-separated string
-      onChange: (e) =>
-        setTags(e.target.value.split(",").map((tag) => tag.trim())), // Convert input to an array
-      type: "text",
+      value: tags, // Pass the tags array directly
+      onChange: setTags, // Pass the setTags function directly
+      type: "tags", // Use the new "tags" type
     },
     {
       id: "imageUrl",
