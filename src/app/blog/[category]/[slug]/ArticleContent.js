@@ -144,6 +144,7 @@ export default function ArticleContent({ article }) {
                   "&:hover": { backgroundColor: "rgba(0,0,0,0.9)" },
                 }}
                 onClick={handleShareClick}
+                aria-label="Copy link to share article"
               >
                 <Share />
               </IconButton>
@@ -157,6 +158,7 @@ export default function ArticleContent({ article }) {
                   borderRadius: "50%",
                   "&:hover": { backgroundColor: "rgba(0,0,0,0.9)" },
                 }}
+                aria-label="Favorite article"
               >
                 <Favorite />
               </IconButton>

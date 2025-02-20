@@ -60,6 +60,7 @@ const Breadcrumbs = ({ category }) => {
             padding: "0",
           }}
           onClick={handleHomeClick}
+          aria-label="Go to Homepage"
         >
           <HomeIcon sx={{ fontSize: 22 }} />
         </IconButton>
