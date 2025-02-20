@@ -188,6 +188,40 @@ export default function ArticleContent({ article }) {
                 color: "rgba(255,255,255,0.8)",
                 textAlign: "justify",
                 width: "100%",
+                "& a": {
+                  color: "#3498db",
+                  textDecoration: "underline",
+                  "&:hover": {
+                    color: "#2980b9",
+                  },
+                },
+                "& p": { marginBottom: "16px" },
+                "& strong": { fontWeight: "bold" },
+                "& em": { fontStyle: "italic" },
+                "& u": { textDecoration: "underline" },
+                // Styling for number lists
+                "& ol": {
+                  listStyleType: "decimal", // Display ordered (numbered) list
+                  marginLeft: "20px", // Add space on the left
+                  paddingLeft: "10px", // Optional padding for spacing
+                },
+                "& li": {
+                  marginBottom: "8px", // Space between list items
+                },
+                // Styling for bullet lists
+                "& ul": {
+                  listStyleType: "disc", // Display unordered (bullet) list
+                  marginLeft: "20px", // Add space on the left
+                  paddingLeft: "10px", // Optional padding for spacing
+                },
+                // Styling for quote blocks
+                "& blockquote": {
+                  borderLeft: "4px solid #3498db", // Blue left border for quotes
+                  paddingLeft: "16px", // Space between border and text
+                  fontStyle: "italic", // Italic text for blockquotes
+                  margin: "16px 0", // Space above and below the quote block
+                  color: "rgba(255, 255, 255, 0.8)", // Optional: same color as text
+                },
               }}
             >
               {highlightedContent}

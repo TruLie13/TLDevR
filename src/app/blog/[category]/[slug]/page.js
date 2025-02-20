@@ -73,9 +73,6 @@ export default async function Article({ params }) {
     url: `${baseUrl}/blog/${params.category}/${params.slug}`,
   };
 
-  console.log("Full Article Object:", article);
-  console.log("article.metaDescription:", article.metaDescription);
-
   return (
     <div>
       <ArticleContent article={article} />

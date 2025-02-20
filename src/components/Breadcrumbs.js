@@ -14,22 +14,6 @@ const Breadcrumbs = ({ category }) => {
     router.push(`/blog/${category}`);
   };
 
-  const Divider = () => (
-    <Typography
-      variant="body2"
-      sx={{
-        color: "white",
-        margin: "1rem 1rem",
-        marginBottom: "1rem",
-        paddingBottom: ".2rem",
-        backgroundColor: "transparent",
-        border: "none",
-      }}
-    >
-      &gt;
-    </Typography>
-  );
-
   return (
     <Box
       sx={{
