@@ -77,7 +77,7 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
     onSubmit(finalUrl, isAffiliateLink ? "affiliate" : "regular", rel);
 
     // Update the URL and rel attribute if the link is already in the editor
-    if (editor.isActive("link")) {
+    if (editor?.isActive("link")) {
       editor
         .chain()
         .focus()
@@ -117,7 +117,7 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
           sx={{ display: "flex", alignItems: "center", gap: 1 }}
         >
           <LinkIcon />
-          {editor.isActive("link") ? "Edit Link" : "Insert Link"}
+          {editor?.isActive("link") ? "Edit Link" : "Insert Link"}
         </DialogTitle>
         <DialogContent>
           {selectedText && (
@@ -180,7 +180,7 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
           <Button onClick={onClose} sx={{ color: "rgba(255, 255, 255, 0.7)" }}>
             Cancel
           </Button>
-          {editor.isActive("link") && (
+          {editor?.isActive("link") && (
             <Button
               onClick={handleRemoveLink}
               sx={{ color: "rgba(255, 255, 255, 0.7)" }}
@@ -190,7 +190,7 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
             </Button>
           )}
           <Button type="submit" variant="contained" id="submit-link-button">
-            {editor.isActive("link") ? "Update Link" : "Add Link"}
+            {editor?.isActive("link") ? "Update Link" : "Add Link"}
           </Button>
         </DialogActions>
       </form>

@@ -78,19 +78,15 @@ const Tiptap = ({ onChange }) => {
       console.log("Editor content:", html);
       onChange?.(html);
     },
-    immediatelyRender: false,
+    immediatelyRender: true,
   });
-
-  if (!editor) {
-    return null;
-  }
 
   const handleCodeBlock = () => {
     editor.chain().focus().toggleCodeBlock().run();
   };
 
   const handleLinkSubmit = (url, linkType = "regular") => {
-    if (editor.isActive("link")) {
+    if (editor?.isActive("link")) {
       editor
         .chain()
         .focus()
@@ -104,22 +100,26 @@ const Tiptap = ({ onChange }) => {
 
   return (
     <Card
-      className="p-5 mt-5"
+      // className="p-5 mt-5"
       sx={{
         backgroundColor: "rgb(21, 18, 43)",
         width: "100%",
         color: "white",
         borderRadius: "1.5rem",
+        padding: "1.5rem",
+        marginTop: "1.5rem",
       }}
     >
-      <Typography variant="h6" className="mb-5">
+      <Typography variant="h6" className="mb-5" sx={{ marginBottom: "1.5rem" }}>
         Article Content
       </Typography>
-      <EditorToolbar
-        editor={editor}
-        handleCodeBlock={handleCodeBlock}
-        setLinkDialogOpen={setLinkDialogOpen}
-      />
+      {editor && (
+        <EditorToolbar
+          editor={editor}
+          handleCodeBlock={handleCodeBlock}
+          setLinkDialogOpen={setLinkDialogOpen}
+        />
+      )}
       <EditorContent editor={editor} />
 
       <LinkDialog
