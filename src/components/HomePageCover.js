@@ -10,12 +10,17 @@ export default function HomePageCover() {
         {/* Main Title */}
         <Typography
           variant="h3"
+          component="h1"
           className="font-bold text-white tracking-tight"
         >
           TLDevR
         </Typography>
         {/* Subtext */}
-        <Typography variant="h5" className="text-white font-light mt-2">
+        <Typography
+          variant="h5"
+          component="h2"
+          className="text-white font-light mt-2"
+        >
           Quick Dev Articles
         </Typography>
       </div>

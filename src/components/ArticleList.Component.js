@@ -14,7 +14,7 @@ export default function ArticleList({ listName, articles }) {
 
   return (
     <section>
-      <Typography variant="h4" fontWeight="bold" mb={2}>
+      <Typography variant="h4" component="h3" fontWeight="bold" mb={2}>
         {listName}
       </Typography>
 
