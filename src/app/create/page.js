@@ -160,9 +160,8 @@ export default function CreateArticle() {
   ];
 
   return (
-    <div className="p-2 ml-5 mr-5">
-      {/* Form for article metadata */}
-      <form onSubmit={handleSubmit} aria-labelledby="create-article-heading">
+    <form onSubmit={handleSubmit} aria-labelledby="create-article-heading">
+      <div className="p-2 ml-5 mr-5">
         <Card
           className="p-5"
           sx={{
@@ -232,37 +231,36 @@ export default function CreateArticle() {
             sx={{ color: "white" }}
           />
         </Card>
-      </form>
+        <br />
 
-      {/* Move Tiptap outside the form */}
-      <Tiptap
-        onChange={(value) => setContent(value)}
-        aria-label="Article content editor"
-      />
+        <Tiptap
+          onChange={(value) => setContent(value)}
+          aria-label="Article content editor"
+        />
 
-      {/* Submit Button */}
-      <button
-        type="submit"
-        id="submit-article-button"
-        className={`mt-5 px-4 py-2 rounded ${
-          isSubmitDisabled || loading
-            ? "bg-gray-500 cursor-not-allowed"
-            : "bg-blue-500 hover:bg-blue-600"
-        } text-white`}
-        aria-label="Submit article"
-        disabled={isSubmitDisabled || loading}
-        onClick={handleSubmit} // Manually handle form submission
-      >
-        Submit Article
-      </button>
+        {/* Submit Button */}
+        <button
+          type="submit"
+          id="submit-article-button"
+          className={`mt-5 px-4 py-2 rounded ${
+            isSubmitDisabled || loading
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          } text-white`}
+          aria-label="Submit article"
+          disabled={isSubmitDisabled || loading}
+        >
+          Submit Article
+        </button>
 
-      {/* Snackbar Notifications */}
-      <SnackbarComponent
-        open={snackbar.open}
-        message={snackbar.message}
-        severity={snackbar.severity}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-      />
-    </div>
+        {/* Snackbar Notifications */}
+        <SnackbarComponent
+          open={snackbar.open}
+          message={snackbar.message}
+          severity={snackbar.severity}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+        />
+      </div>
+    </form>
   );
 }
