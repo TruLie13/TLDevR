@@ -60,7 +60,13 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
 
     let finalUrl = url;
 
-    if (!isAffiliateLink && !url.startsWith("/")) {
+    // Only prepend "/" for internal links (not starting with "http://" or "https://")
+    if (
+      !isAffiliateLink &&
+      !url.startsWith("http://") &&
+      !url.startsWith("https://") &&
+      !url.startsWith("/")
+    ) {
       finalUrl = "/" + url;
     }
 
