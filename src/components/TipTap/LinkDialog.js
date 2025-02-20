@@ -39,7 +39,7 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
       if (editor.isActive("link")) {
         const attrs = editor.getAttributes("link");
         setUrl(attrs.href || "https://");
-        setIsAffiliateLink(attrs.linkType === "affiliate");
+        setIsAffiliateLink(attrs.linkType === "affiliate"); // Ensure correct state for affiliate toggle
       } else {
         setUrl("https://");
         setIsAffiliateLink(false);
@@ -75,6 +75,16 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
 
     // Pass the rel attribute to the onSubmit function
     onSubmit(finalUrl, isAffiliateLink ? "affiliate" : "regular", rel);
+
+    // Update the URL and rel attribute if the link is already in the editor
+    if (editor.isActive("link")) {
+      editor
+        .chain()
+        .focus()
+        .setLink({ href: finalUrl, rel }) // Update the link with the new URL and rel
+        .run();
+    }
+
     setUrl("https://");
     onClose();
   };
