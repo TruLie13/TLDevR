@@ -174,8 +174,7 @@ export default function CreateArticle() {
         >
           <Typography
             variant="h6"
-            className="mb-5"
-            sx={{ color: "white" }}
+            sx={{ color: "white", marginBottom: "1.5rem" }}
             id="create-article-heading"
           >
             Create Article
@@ -234,7 +233,7 @@ export default function CreateArticle() {
         </Card>
       </form>
 
-      {/* Move Tiptap outside the form */}
+      {/* Content Input*/}
       <Tiptap
         onChange={(value) => setContent(value)}
         aria-label="Article content editor"

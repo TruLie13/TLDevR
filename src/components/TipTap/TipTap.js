@@ -104,7 +104,7 @@ const Tiptap = ({ onChange }) => {
 
   return (
     <Card
-      className="p-5 mt-10"
+      className="p-5 mt-5"
       sx={{
         backgroundColor: "rgb(21, 18, 43)",
         width: "100%",
