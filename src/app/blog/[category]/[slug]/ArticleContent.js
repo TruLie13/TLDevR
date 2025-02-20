@@ -22,8 +22,7 @@ const MemoizedImage = React.memo(function MemoizedImage({ src, alt, onError }) {
         objectFit: "cover",
         display: "block",
       }}
-      loading="eager"
-      priority
+      loading="lazy"
       onError={onError}
     />
   );
