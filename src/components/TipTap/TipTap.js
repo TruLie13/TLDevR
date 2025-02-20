@@ -78,7 +78,7 @@ const Tiptap = ({ onChange }) => {
       console.log("Editor content:", html);
       onChange?.(html);
     },
-    immediatelyRender: true,
+    immediatelyRender: false,
   });
 
   const handleCodeBlock = () => {
@@ -100,7 +100,6 @@ const Tiptap = ({ onChange }) => {
 
   return (
     <Card
-      // className="p-5 mt-5"
       sx={{
         backgroundColor: "rgb(21, 18, 43)",
         width: "100%",
@@ -110,16 +109,16 @@ const Tiptap = ({ onChange }) => {
         marginTop: "1.5rem",
       }}
     >
-      <Typography variant="h6" className="mb-5" sx={{ marginBottom: "1.5rem" }}>
+      <Typography variant="h6" sx={{ marginBottom: "1.5rem" }}>
         Article Content
       </Typography>
-      {editor && (
-        <EditorToolbar
-          editor={editor}
-          handleCodeBlock={handleCodeBlock}
-          setLinkDialogOpen={setLinkDialogOpen}
-        />
-      )}
+
+      <EditorToolbar
+        editor={editor}
+        handleCodeBlock={handleCodeBlock}
+        setLinkDialogOpen={setLinkDialogOpen}
+      />
+
       <EditorContent editor={editor} />
 
       <LinkDialog
