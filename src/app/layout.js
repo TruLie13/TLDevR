@@ -1,10 +1,9 @@
-import { Inter } from "next/font/google";
-import "./globals.css";
-import "../../dist/output.css";
-import QueryProvider from "./QueryProvider";
-import Navbar from "@/components/Navbar.js";
 import Footer from "@/components/Footer.js";
-import ClientThemeWrapper from "./ThemeWrapper.js";
+import Navbar from "@/components/Navbar.js";
+import { Inter } from "next/font/google";
+import "../../dist/output.css";
+import "./globals.css";
+import QueryProvider from "./QueryProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -20,13 +19,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen flex flex-col">
-        {/* <ClientThemeWrapper> */}
         <Navbar />
         <main className="flex-grow pt-16">
           <QueryProvider>{children}</QueryProvider>
         </main>
         <Footer />
-        {/* </ClientThemeWrapper> */}
       </body>
     </html>
   );

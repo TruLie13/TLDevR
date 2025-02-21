@@ -11,7 +11,7 @@ export default function HomePageCover() {
         <Typography
           variant="h3"
           component="h1"
-          className="font-bold text-white tracking-tight"
+          sx={{ fontWeight: "bold", letterSpacing: "-0.02562em" }}
         >
           TLDevR
         </Typography>
@@ -19,7 +19,7 @@ export default function HomePageCover() {
         <Typography
           variant="h5"
           component="h2"
-          className="text-white font-light mt-2"
+          sx={{ fontWeight: "light", marginTop: "0.5rem" }}
         >
           Quick Dev Articles
         </Typography>

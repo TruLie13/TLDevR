@@ -67,11 +67,9 @@ export default function ArticleCard({
             }}
             width={300}
             height={200}
-            sizes="(max-width: 600px) 80vw, (max-width: 1200px) 30vw, 300px"
             onLoad={handleImageLoad}
             onError={handleImageError}
             loading="eager"
-            priority={true} // Only prioritize initial load, not fallback
           />
         )}
       </div>
@@ -99,11 +97,11 @@ export default function ArticleCard({
           color: "white",
           padding: "0.5rem",
           textAlign: "center",
-          backgroundColor: "rgba(19, 13, 48, 0.57)",
+          backgroundColor: "rgba(19, 13, 48, 0.75)",
           zIndex: 1,
         }}
       >
-        <Typography className="text-white font-bold text-lg">
+        <Typography sx={{ fontSize: "1.1rem", fontWeight: "bold" }}>
           {article.title}
         </Typography>
       </Box>
