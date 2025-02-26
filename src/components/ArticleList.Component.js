@@ -4,18 +4,35 @@ import { useRouter } from "next/navigation";
 import { Typography, Box } from "@mui/material";
 import ArticleCard from "./ArticleCard";
 
-export default function ArticleList({ listName, articles }) {
+export default function ArticleList({ listName, articles, categorySlug }) {
   const router = useRouter();
   const isListFeatured = listName === "Featured Articles";
+  const isListNewest = listName === "Newest Articles";
+  const isListCategory = !isListFeatured && !isListNewest; // True for category lists
 
-  const handleArticleClick = (category, slug) => {
-    console.log("Article clicked:", category, slug);
-    router.push(`/blog/${category}/${slug}`);
+  const handleArticleClick = (categorySlug, slug) => {
+    if (!categorySlug) {
+      console.warn("Category slug is missing, defaulting to 'general'");
+    }
+    router.push(`/blog/${categorySlug || "general"}/${slug}`);
+  };
+
+  const handleCategoryClick = () => {
+    if (isListCategory && categorySlug) {
+      router.push(`/blog/${categorySlug}`);
+    }
   };
 
   return (
     <section>
-      <Typography variant="h4" component="h3" fontWeight="bold" mb={1}>
+      <Typography
+        variant="h4"
+        component="h3"
+        fontWeight="bold"
+        mb={1}
+        sx={isListCategory ? { cursor: "pointer" } : {}}
+        onClick={isListCategory ? handleCategoryClick : undefined}
+      >
         {listName}
       </Typography>
 
@@ -32,10 +49,15 @@ export default function ArticleList({ listName, articles }) {
         >
           {articles.map((article, index) => (
             <ArticleCard
-              key={article.id || index}
+              key={article._id || index}
               article={article}
               isListFeatured={isListFeatured}
-              onArticleClick={handleArticleClick}
+              onArticleClick={() =>
+                handleArticleClick(
+                  categorySlug || article.category?.slug,
+                  article.slug
+                )
+              }
             />
           ))}
         </Box>

@@ -34,7 +34,7 @@ export default function ArticleContent({ article }) {
   const [isError, setIsError] = useState(false);
 
   const articleTitle = article?.title || "Article Title";
-  const articleCategory = article?.category?.name || "Category";
+  const articleCategory = article?.category?.name || "general";
   const articleSlug = article?.slug || "article-slug";
   const articleUrl = `/blog/${articleCategory}/${articleSlug}`;
   const articleImage = article?.image || fallback_image;

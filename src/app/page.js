@@ -42,6 +42,7 @@ async function HomePage() {
                   <ArticleList
                     listName={categoryData.category.name}
                     articles={categoryData.articles}
+                    categorySlug={categoryData.category.slug}
                   />
                   <br />
                 </div>
