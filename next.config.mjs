@@ -5,4 +5,6 @@ const nextConfig = {
   },
 };
 
+export const ALLOWED_IMAGE_HOSTNAMES = nextConfig.images.domains;
+
 export default nextConfig;

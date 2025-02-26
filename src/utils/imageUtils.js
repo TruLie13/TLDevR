@@ -7,20 +7,27 @@
  * @returns {string} - The validated image URL or fallback URL.
  */
 
+import { ALLOWED_IMAGE_HOSTNAMES } from "../../next.config.mjs";
+
 export const fallback_image = "/images/fallback.png";
 
 export const getValidImageUrl = (url) => {
-  // If no URL or it's not a full URL with http/https, use the fallback image.
   if (!url || !/^(https?:\/\/)/.test(url)) {
     return fallback_image;
   }
 
-  // Check if the URL contains lexica.art
-  if (url.includes("lexica.art/prompt")) {
-    // Attempt to adjust the URL to point to an actual image file
-    return url.replace("/prompt", "/full_webp") + ".webp"; // Ensure it ends with an image format
+  try {
+    const hostname = new URL(url).hostname;
+    if (!ALLOWED_IMAGE_HOSTNAMES.includes(hostname)) {
+      return fallback_image; // Block unapproved third-party images
+    }
+  } catch (error) {
+    return fallback_image; // Handle invalid URLs gracefully
   }
 
-  // Otherwise, return the URL (which should be an actual image URL already)
+  if (url.includes("lexica.art/prompt")) {
+    return url.replace("/prompt", "/full_webp") + ".webp";
+  }
+
   return url;
 };
