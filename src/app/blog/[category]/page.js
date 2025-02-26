@@ -1,9 +1,7 @@
 import { notFound } from "next/navigation";
+import { fetchAllCategories } from "@/lib/api.js";
 
-// List of valid categories
-const validCategories = ["react", "nextjs", "javascript", "tech"];
-
-// Mock data for articles (can be fetched from a database)
+// Mock data for articles (replace later with database fetch)
 const articles = [
   {
     id: 1,
@@ -27,6 +25,10 @@ const articles = [
 
 export default async function Category({ params }) {
   const { category } = params;
+
+  // Fetch valid categories from the API
+  const categories = await fetchAllCategories();
+  const validCategories = categories.map((cat) => cat.slug);
 
   // Check if the category is valid
   if (!validCategories.includes(category)) {
@@ -52,7 +54,8 @@ export default async function Category({ params }) {
   );
 }
 
-// Generate static params for valid categories
+// Generate static params dynamically from the API
 export async function generateStaticParams() {
-  return validCategories.map((category) => ({ category }));
+  const categories = await fetchAllCategories();
+  return categories.map((cat) => ({ category: cat.slug }));
 }
