@@ -9,6 +9,7 @@ export default function ArticleList({ listName, articles }) {
   const isListNewestArticle = listName === "Newest Articles";
 
   const handleArticleClick = (category, slug) => {
+    console.log("Article clicked:", category, slug);
     router.push(`/blog/${category}/${slug}`);
   };
 

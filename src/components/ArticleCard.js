@@ -13,12 +13,17 @@ export default function ArticleCard({
   const [imageSrc, setImageSrc] = useState("");
   const [isError, setIsError] = useState(false);
 
+  const articleTitle = article?.title || "Article Title";
+  const articleCategory = article?.category?.name || "Category"; //refactor to accomadate 'misc' after categories created so clicking has a fallbakc page instead of 404.
+  const articleSlug = article?.slug || "article-slug";
+  const articleImage = article?.image || fallback_image;
+
   useEffect(() => {
     // Set initial image source
-    setImageSrc(getValidImageUrl(article.image));
+    setImageSrc(getValidImageUrl(articleImage));
     setIsError(false);
     setImageLoaded(false);
-  }, [article.image]);
+  }, [articleImage]);
 
   const handleImageError = () => {
     console.log("Error loading image:", imageSrc);
@@ -44,7 +49,7 @@ export default function ArticleCard({
         border: "none",
         backgroundColor: "rgb(8, 4, 31)",
       }}
-      onClick={() => onArticleClick(article.category, article.slug)}
+      onClick={() => onArticleClick(articleCategory, articleSlug)}
     >
       <div
         style={{
@@ -58,7 +63,7 @@ export default function ArticleCard({
         {imageSrc && (
           <Image
             src={imageSrc}
-            alt={`Image for article about ${article.title}`}
+            alt={`Image for article about ${articleTitle}`}
             style={{
               width: "100%",
               height: "100%",
@@ -102,7 +107,7 @@ export default function ArticleCard({
         }}
       >
         <Typography sx={{ fontSize: "1.1rem", fontWeight: "bold" }}>
-          {article.title}
+          {articleTitle}
         </Typography>
       </Box>
     </Card>

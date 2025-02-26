@@ -33,12 +33,20 @@ export default function ArticleContent({ article }) {
   const [imageSrc, setImageSrc] = useState("");
   const [isError, setIsError] = useState(false);
 
+  const articleTitle = article?.title || "Article Title";
+  const articleCategory = article?.category?.name || "Category";
+  const articleSlug = article?.slug || "article-slug";
+  const articleUrl = `/blog/${articleCategory}/${articleSlug}`;
+  const articleImage = article?.image || fallback_image;
+  const articleContent = article?.content || "Article content goes here.";
+  const articleDate = article?.publishedAt || "2023-01-01";
+
   useEffect(() => {
-    if (article?.image) {
-      setImageSrc(getValidImageUrl(article.image));
+    if (articleImage) {
+      setImageSrc(getValidImageUrl(articleImage));
       setIsError(false);
     }
-  }, [article]);
+  }, [articleImage]);
 
   const handleShareClick = useCallback(() => {
     navigator.clipboard.writeText(window.location.href).then(() => {
@@ -56,7 +64,7 @@ export default function ArticleContent({ article }) {
     setImageSrc(fallback_image);
   }, [imageSrc]);
 
-  const highlightedContent = highlightCode(article?.content);
+  const highlightedContent = highlightCode(articleContent);
 
   const customCodeBlockStyles = `
     pre {
@@ -78,21 +86,18 @@ export default function ArticleContent({ article }) {
     }
   `;
 
-  const validImageUrl = imageSrc || getValidImageUrl(article.image);
-  const formattedDate = new Date(article.publishedAt).toLocaleDateString(
-    "en-US",
-    {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }
-  );
+  const validImageUrl = imageSrc || getValidImageUrl(articleImage);
+  const formattedDate = new Date(articleDate).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <div>
       <style>{customCodeBlockStyles}</style>
 
-      <Breadcrumbs category={article.category} />
+      <Breadcrumbs category={articleCategory} />
       <Box
         sx={{
           display: "flex",
@@ -117,7 +122,7 @@ export default function ArticleContent({ article }) {
               {validImageUrl && (
                 <MemoizedImage
                   src={validImageUrl}
-                  alt={`Image for article: ${article.title}`}
+                  alt={`Image for article: ${articleTitle}`}
                   onError={handleImageError}
                   sizes="(max-width: 600px) 100vw, 50vw"
                 />
@@ -172,7 +177,7 @@ export default function ArticleContent({ article }) {
                 gutterBottom
                 sx={{ color: "white" }}
               >
-                {article.title}
+                {articleTitle}
               </Typography>
               <Typography
                 variant="body2"
