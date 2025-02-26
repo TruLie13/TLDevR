@@ -21,7 +21,7 @@ export default function Login() {
     try {
       const response = await postLogin({ username, password });
       console.log("Login success:", response);
-      router.push("/blog/create");
+      router.push("/create");
       // Handle success (redirect, store token, etc.)
     } catch (error) {
       setError(error.message); // Set error message from backend
