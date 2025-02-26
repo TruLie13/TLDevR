@@ -14,6 +14,7 @@ function shouldFetch() {
   return !lastFetched || now - lastFetched > 6 * 60 * 60 * 1000; // 6 hours
 }
 
+// Start Articles ******
 export async function fetchFeaturedArticles() {
   // Check if we're on the server side
   if (typeof window === "undefined") {
@@ -94,6 +95,25 @@ export async function postArticle(articleData) {
   }
 }
 
+// all articles
+export async function fetchAllArticles() {
+  // Fetch your articles from the API, database, or backend service
+  const response = await fetch(`${apiUrl}/articles`);
+  const articles = await response.json();
+  return articles;
+}
+// End Articles ******
+
+// Start Categories ******
+export async function fetchAllCategories() {
+  // Fetch your articles from the API, database, or backend service
+  const response = await fetch(`${apiUrl}/categories`);
+  const articles = await response.json();
+  return articles;
+}
+// End Categories ******
+
+// Start Login function ******
 export async function postLogin(loginData) {
   try {
     const res = await fetch(`${apiUrl}/users/login`, {
@@ -117,11 +137,4 @@ export async function postLogin(loginData) {
     throw error; // Rethrow error for UI handling
   }
 }
-
-// all articles
-export async function fetchAllArticles() {
-  // Fetch your articles from the API, database, or backend service
-  const response = await fetch(`${apiUrl}/articles`);
-  const articles = await response.json();
-  return articles;
-}
+// End Login function ******

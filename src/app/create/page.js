@@ -13,8 +13,7 @@ import {
 import InputField from "@/components/InputField.js";
 import { postArticle } from "@/lib/api.js";
 import SnackbarComponent from "@/components/Snackbar.js";
-import HomeIcon from "@mui/icons-material/Home";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { fetchAllCategories } from "@/lib/api.js";
 
 export default function CreateArticle() {
   // State for each form field
@@ -22,6 +21,7 @@ export default function CreateArticle() {
   const [slug, setSlug] = useState("");
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
+  const [categoryList, setCategoryList] = useState([]);
   const [tags, setTags] = useState([]);
   const [metaDescription, setMetaDescription] = useState("");
   const [image, setImage] = useState("");
@@ -35,6 +35,20 @@ export default function CreateArticle() {
     message: "",
     severity: "success",
   });
+
+  // Fetch categories on component mount
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const fetchedCategories = await fetchAllCategories();
+        setCategoryList(fetchedCategories);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+
+    loadCategories();
+  }, []);
 
   // Determine if submit should be enabled (all required fields must be filled)
   const isSubmitDisabled = !title || !author || !category || !image || !content;
@@ -71,6 +85,7 @@ export default function CreateArticle() {
       setSlug("");
       setAuthor("");
       setCategory("");
+      setCategoryList([]);
       setTags([]);
       setMetaDescription("");
       setImage("");
@@ -114,11 +129,9 @@ export default function CreateArticle() {
       value: category,
       onChange: setCategory,
       type: "dropdown",
-      options: [
-        { label: "Tech", value: "tech" },
-        { label: "Lifestyle", value: "lifestyle" },
-        { label: "Education", value: "education" },
-      ],
+      options: categoryList?.length
+        ? categoryList?.map((cat) => ({ label: cat.name, value: cat._id }))
+        : [],
     },
     {
       id: "experienceLevel",
