@@ -111,6 +111,13 @@ export async function fetchAllCategories() {
   const articles = await response.json();
   return articles;
 }
+
+export async function fetchCategoryPreviews() {
+  // Fetch your articles from the API, database, or backend service
+  const response = await fetch(`${apiUrl}/categories/previews`);
+  const articles = await response.json();
+  return articles;
+}
 // End Categories ******
 
 // Start Login function ******

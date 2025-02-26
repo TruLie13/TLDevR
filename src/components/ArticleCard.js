@@ -6,7 +6,7 @@ import { fallback_image } from "@/utils/imageUtils";
 
 export default function ArticleCard({
   article,
-  isListNewestArticle,
+  isListFeatured,
   onArticleClick,
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -39,8 +39,8 @@ export default function ArticleCard({
   return (
     <Card
       sx={{
-        width: isListNewestArticle ? "10rem" : "15rem",
-        minHeight: isListNewestArticle ? "14rem" : "25rem",
+        width: isListFeatured ? "15rem" : "10rem",
+        minHeight: isListFeatured ? "25rem" : "14rem",
         flexShrink: 0,
         cursor: "pointer",
         borderRadius: "1.5rem",

@@ -6,7 +6,7 @@ import ArticleCard from "./ArticleCard";
 
 export default function ArticleList({ listName, articles }) {
   const router = useRouter();
-  const isListNewestArticle = listName === "Newest Articles";
+  const isListFeatured = listName === "Featured Articles";
 
   const handleArticleClick = (category, slug) => {
     console.log("Article clicked:", category, slug);
@@ -15,7 +15,7 @@ export default function ArticleList({ listName, articles }) {
 
   return (
     <section>
-      <Typography variant="h4" component="h3" fontWeight="bold" mb={2}>
+      <Typography variant="h4" component="h3" fontWeight="bold" mb={1}>
         {listName}
       </Typography>
 
@@ -34,7 +34,7 @@ export default function ArticleList({ listName, articles }) {
             <ArticleCard
               key={article.id || index}
               article={article}
-              isListNewestArticle={isListNewestArticle}
+              isListFeatured={isListFeatured}
               onArticleClick={handleArticleClick}
             />
           ))}
