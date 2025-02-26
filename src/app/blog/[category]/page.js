@@ -24,29 +24,34 @@ const articles = [
 ];
 
 export default async function Category({ params }) {
-  const { category } = params;
+  const { category: categorySlug } = params;
 
   // Fetch valid categories from the API
   const categories = await fetchAllCategories();
-  const validCategories = categories.map((cat) => cat.slug);
 
-  // Check if the category is valid
-  if (!validCategories.includes(category)) {
+  // Find category by slug
+  const category = categories.find((cat) => cat.slug === categorySlug);
+
+  // If category doesn't exist, show 404
+  if (!category) {
     notFound();
   }
 
   // Filter articles by category
   const filteredArticles = articles.filter(
-    (article) => article.category === category
+    (article) => article.category === categorySlug
   );
 
   return (
     <div>
-      <h1>{category} Articles</h1>
+      <h1>{category.name} Articles</h1>{" "}
+      {/* Use category.name instead of slug */}
       <ul>
         {filteredArticles.map((article) => (
           <li key={article.id}>
-            <a href={`/blog/${category}/${article.slug}`}>{article.title}</a>
+            <a href={`/blog/${categorySlug}/${article.slug}`}>
+              {article.title}
+            </a>
           </li>
         ))}
       </ul>
