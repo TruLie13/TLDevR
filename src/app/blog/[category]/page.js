@@ -23,19 +23,25 @@ export default async function Category({ params }) {
       <Typography variant="h5" sx={{ color: "white", marginBottom: "1rem" }}>
         {category.name} Articles
       </Typography>
-      <ArticleGrid articles={articles.slice(0, 2)} columns={2} height="300px" />
+      <ArticleGrid
+        articles={articles.slice(0, 2)}
+        columns={2}
+        height="300px"
+        categorySlug={categorySlug}
+      />
       <ArticleGrid
         articles={articles.slice(2, 5)}
         columns={3}
         height="250px"
         sx={{ marginTop: "1rem" }}
+        categorySlug={categorySlug}
       />
       <ArticleList articles={articles.slice(5)} categorySlug={categorySlug} />
     </Box>
   );
 }
 
-function ArticleGrid({ articles, columns, height, sx = {} }) {
+function ArticleGrid({ articles, columns, height, sx = {}, categorySlug }) {
   return (
     <Box
       sx={{
@@ -53,6 +59,7 @@ function ArticleGrid({ articles, columns, height, sx = {} }) {
           key={article.id}
           article={article}
           height={height}
+          categorySlug={categorySlug}
         />
       ))}
     </Box>
