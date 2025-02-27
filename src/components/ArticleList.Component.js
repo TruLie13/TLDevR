@@ -24,6 +24,7 @@ export default function ArticleList({ listName, articles, categorySlug }) {
     router.push(`/blog/${category}/${slug}`);
   };
 
+  if (articles.length === 0) return null;
   return (
     <section>
       <Box

@@ -92,7 +92,7 @@ function ArticleList({ articles, categorySlug }) {
                 className="zoom-image"
                 sx={{
                   width: "100%",
-                  marginBottom: "1rem",
+                  marginBottom: ".75rem",
                   backgroundColor: "rgba(41, 37, 66, 0.58)",
                   padding: ".5rem",
                   borderRadius: "8px",
