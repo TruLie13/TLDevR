@@ -39,8 +39,8 @@ export default function ArticleCard({
   return (
     <Card
       sx={{
-        width: isListFeatured ? "15rem" : "10rem",
-        minHeight: isListFeatured ? "25rem" : "14rem",
+        width: isListFeatured ? "14rem" : "11rem",
+        minHeight: isListFeatured ? "25rem" : "10rem",
         flexShrink: 0,
         cursor: "pointer",
         borderRadius: "1.5rem",
@@ -75,6 +75,7 @@ export default function ArticleCard({
             onLoad={handleImageLoad}
             onError={handleImageError}
             loading="eager"
+            className="zoom-image"
           />
         )}
       </div>
