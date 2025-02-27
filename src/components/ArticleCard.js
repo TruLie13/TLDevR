@@ -14,7 +14,7 @@ export default function ArticleCard({
   const [isError, setIsError] = useState(false);
 
   const articleTitle = article?.title || "Article Title";
-  const articleCategory = article?.category?.name || "Category"; //refactor to accomadate 'misc' after categories created so clicking has a fallbakc page instead of 404.
+  const articleCategory = article?.category?.slug || "Category"; //refactor to accomadate 'misc' after categories created so clicking has a fallbakc page instead of 404.
   const articleSlug = article?.slug || "article-slug";
   const articleImage = article?.image || fallback_image;
 

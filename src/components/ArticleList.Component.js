@@ -15,8 +15,13 @@ export default function ArticleList({ listName, articles, categorySlug }) {
 
   console.log("categorySlug", categorySlug);
 
-  const handleNavigation = () => {
+  const handleCategoryClick = () => {
     router.push(`/blog/${categorySlug || "general"}`);
+  };
+
+  const handleArticleClick = (category, slug) => {
+    console.log("Article clicked:", category, slug);
+    router.push(`/blog/${category}/${slug}`);
   };
 
   return (
@@ -36,7 +41,7 @@ export default function ArticleList({ listName, articles, categorySlug }) {
           component="h3"
           fontWeight="bold"
           sx={{ cursor: isListCategory ? "pointer" : "default" }}
-          onClick={isListCategory ? handleNavigation : undefined}
+          onClick={isListCategory ? handleCategoryClick : undefined}
         >
           {listName}
         </Typography>
@@ -48,7 +53,7 @@ export default function ArticleList({ listName, articles, categorySlug }) {
               textDecoration: "none",
               whiteSpace: "nowrap",
             }}
-            onClick={handleNavigation}
+            onClick={handleCategoryClick}
           >
             View All
           </Link>
@@ -73,7 +78,7 @@ export default function ArticleList({ listName, articles, categorySlug }) {
               article={article}
               isListFeatured={isListFeatured}
               onArticleClick={() =>
-                handleNavigation(
+                handleArticleClick(
                   categorySlug || article.category?.slug,
                   article.slug
                 )

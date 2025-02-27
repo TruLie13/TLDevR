@@ -107,7 +107,7 @@ export async function fetchArticlesByCategory(categorySlug) {
     throw new Error("categorySlug is required to fetch articles.");
   }
 
-  const response = await fetch(`${apiUrl}/articles/${categorySlug}`);
+  const response = await fetch(`${apiUrl}/articles/category/${categorySlug}`);
 
   if (!response.ok) {
     throw new Error(`Failed to fetch articles for category: ${categorySlug}`);
