@@ -6,8 +6,8 @@ import ArticleCard from "./ArticleCard";
 
 export default function ArticleList({ listName, articles, categorySlug }) {
   const router = useRouter();
-  const isListFeatured = listName === "Featured Articles";
-  const isListNewest = listName === "Newest Articles";
+  const isListFeatured = listName === "Featured";
+  const isListNewest = listName === "Newest";
   const isListCategory = !isListFeatured && !isListNewest; // True for category lists
 
   const handleArticleClick = (categorySlug, slug) => {

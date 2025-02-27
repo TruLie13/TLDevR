@@ -23,12 +23,12 @@ async function HomePage() {
       <HomePageCover />
       <div className="pt-10 pl-5 pr-5">
         <ArticleList
-          listName="Newest Articles"
+          listName="Newest"
           articles={Array.isArray(newestArticles) ? newestArticles : []}
         />
         <br />
         <ArticleList
-          listName="Featured Articles"
+          listName="Featured"
           articles={Array.isArray(featuredArticles) ? featuredArticles : []}
         />
         <br />
