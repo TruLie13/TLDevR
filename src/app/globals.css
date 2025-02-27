@@ -65,3 +65,7 @@ a {
 .zoom-image:hover {
   transform: scale(1.1);
 }
+
+.card-container:hover .zoom-image {
+  transform: scale(1.1);
+}

@@ -38,6 +38,7 @@ export default function ArticleCard({
 
   return (
     <Card
+      className="card-container"
       sx={{
         width: isListFeatured ? "14rem" : "11rem",
         minHeight: isListFeatured ? "25rem" : "16rem", //for card before imgs load
