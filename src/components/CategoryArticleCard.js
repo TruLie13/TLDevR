@@ -1,7 +1,7 @@
-import { Card, Box, Typography } from "@mui/material";
+import { fallback_image, getValidImageUrl } from "@/utils/imageUtils";
+import { Box, Card, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { getValidImageUrl, fallback_image } from "@/utils/imageUtils";
 
 export default function CategoryArticleCard({ article, height, categorySlug }) {
   return (
