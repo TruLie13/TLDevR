@@ -95,13 +95,28 @@ export async function postArticle(articleData) {
   }
 }
 
-// all articles
 export async function fetchAllArticles() {
   // Fetch your articles from the API, database, or backend service
   const response = await fetch(`${apiUrl}/articles`);
   const articles = await response.json();
   return articles;
 }
+
+export async function fetchArticlesByCategory(categorySlug) {
+  if (!categorySlug) {
+    throw new Error("categorySlug is required to fetch articles.");
+  }
+
+  const response = await fetch(`${apiUrl}/articles/${categorySlug}`);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch articles for category: ${categorySlug}`);
+  }
+
+  const data = await response.json();
+  return data.articles; // Extract only the articles array
+}
+
 // End Articles ******
 
 // Start Categories ******

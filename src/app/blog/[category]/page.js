@@ -1,30 +1,10 @@
 import { notFound } from "next/navigation";
-import { fetchAllCategories } from "@/lib/api.js";
-
-// Mock data for articles (replace later with database fetch)
-const articles = [
-  {
-    id: 1,
-    category: "react",
-    slug: "react-basics",
-    title: "Getting Started with React",
-  },
-  {
-    id: 2,
-    category: "nextjs",
-    slug: "nextjs-introduction",
-    title: "Introduction to Next.js",
-  },
-  {
-    id: 3,
-    category: "javascript",
-    slug: "javascript-tips",
-    title: "Top 10 JavaScript Tips",
-  },
-];
+import { fetchAllCategories, fetchArticlesByCategory } from "@/lib/api.js";
 
 export default async function Category({ params }) {
   const { category: categorySlug } = params;
+
+  console.log("categorySlug", categorySlug);
 
   // Fetch valid categories from the API
   const categories = await fetchAllCategories();
@@ -37,23 +17,25 @@ export default async function Category({ params }) {
     notFound();
   }
 
-  // Filter articles by category
-  const filteredArticles = articles.filter(
-    (article) => article.category === categorySlug
-  );
+  // Fetch articles dynamically based on categorySlug
+  const articles = await fetchArticlesByCategory(categorySlug);
 
   return (
     <div>
       <h1>{category.name} Articles</h1>{" "}
       {/* Use category.name instead of slug */}
       <ul>
-        {filteredArticles.map((article) => (
-          <li key={article.id}>
-            <a href={`/blog/${categorySlug}/${article.slug}`}>
-              {article.title}
-            </a>
-          </li>
-        ))}
+        {articles.length > 0 ? (
+          articles.map((article) => (
+            <li key={article.id}>
+              <a href={`/blog/${categorySlug}/${article.slug}`}>
+                {article.title}
+              </a>
+            </li>
+          ))
+        ) : (
+          <li>No articles found in this category.</li>
+        )}
       </ul>
     </div>
   );

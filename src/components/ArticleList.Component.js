@@ -21,7 +21,6 @@ export default function ArticleList({ listName, articles, categorySlug }) {
 
   return (
     <section>
-      {/* Header Row: Title & View All */}
       <Box
         sx={{
           display: "flex",
@@ -29,7 +28,7 @@ export default function ArticleList({ listName, articles, categorySlug }) {
           alignItems: "center",
           mb: 1,
           width: "100%",
-          maxWidth: { sm: "100%", md: totalWidth }, // Ensures "View All" aligns with last card
+          maxWidth: { sm: "100%", md: totalWidth, lg: totalWidth }, // Ensures "View All" aligns with last card
         }}
       >
         <Typography
