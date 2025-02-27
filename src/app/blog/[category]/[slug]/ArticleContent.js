@@ -34,9 +34,10 @@ export default function ArticleContent({ article }) {
   const [isError, setIsError] = useState(false);
 
   const articleTitle = article?.title || "Article Title";
-  const articleCategory = article?.category?.name || "general";
+  const articleCategoryName = article?.category?.name || "general";
+  const articleCategorySlug = article?.category?.slug || "general";
   const articleSlug = article?.slug || "article-slug";
-  const articleUrl = `/blog/${articleCategory}/${articleSlug}`;
+  // const articleUrl = `/blog/${articleCategory}/${articleSlug}`;
   const articleImage = article?.image || fallback_image;
   const articleContent = article?.content || "Article content goes here.";
   const articleDate = article?.publishedAt || "2023-01-01";
@@ -97,7 +98,10 @@ export default function ArticleContent({ article }) {
     <div>
       <style>{customCodeBlockStyles}</style>
 
-      <Breadcrumbs category={articleCategory} />
+      <Breadcrumbs
+        categoryName={articleCategoryName}
+        categorySlug={articleCategorySlug}
+      />
       <Box
         sx={{
           display: "flex",

@@ -3,7 +3,7 @@ import { Box, Card, IconButton, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-const Breadcrumbs = ({ category }) => {
+const Breadcrumbs = ({ categoryName, categorySlug }) => {
   const router = useRouter();
 
   const handleHomeClick = () => {
@@ -11,7 +11,7 @@ const Breadcrumbs = ({ category }) => {
   };
 
   const handleCategoryClick = () => {
-    router.push(`/blog/${category}`);
+    router.push(`/blog/${categorySlug}`);
   };
 
   return (
@@ -53,7 +53,7 @@ const Breadcrumbs = ({ category }) => {
 
         <Typography variant="body1" sx={{ color: "white" }}>
           <span style={{ cursor: "pointer" }} onClick={handleCategoryClick}>
-            {category?.toUpperCase()}
+            {categoryName?.toUpperCase()}
           </span>
         </Typography>
       </Card>
