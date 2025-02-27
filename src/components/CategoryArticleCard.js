@@ -1,9 +1,20 @@
+"use client";
+
+import React, { useState } from "react";
 import { fallback_image, getValidImageUrl } from "@/utils/imageUtils";
 import { Box, Card, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function CategoryArticleCard({ article, height, categorySlug }) {
+  const [imgSrc, setImgSrc] = useState(
+    getValidImageUrl(article.image) || fallback_image
+  );
+
+  const handleImageError = () => {
+    setImgSrc(fallback_image);
+  };
+
   return (
     <Link href={`/blog/${categorySlug}/${article.slug}`} passHref>
       <Card
@@ -19,10 +30,11 @@ export default function CategoryArticleCard({ article, height, categorySlug }) {
         }}
       >
         <Image
-          src={getValidImageUrl(article.image) || fallback_image}
+          src={imgSrc}
           alt={article.title}
           layout="fill"
           objectFit="cover"
+          onError={handleImageError}
         />
         <Box
           sx={{

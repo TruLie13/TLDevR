@@ -88,6 +88,7 @@ export default function ArticleContent({ article }) {
   `;
 
   const validImageUrl = imageSrc || getValidImageUrl(articleImage);
+
   const formattedDate = new Date(articleDate).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -173,7 +174,7 @@ export default function ArticleContent({ article }) {
             </Box>
           </Box>
 
-          <CardContent sx={{ textAlign: "left", width: "100%", mt: 4 }}>
+          <CardContent sx={{ textAlign: "left", width: "100%", mt: 2 }}>
             <header>
               <Typography
                 variant="h4"
@@ -185,7 +186,7 @@ export default function ArticleContent({ article }) {
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ color: "rgba(255, 255, 255, 0.6)" }}
+                sx={{ color: "rgba(255, 255, 255, 0.6)", marginBottom: "2rem" }}
               >
                 Published on {formattedDate}
               </Typography>
@@ -204,25 +205,42 @@ export default function ArticleContent({ article }) {
                     color: "#2980b9",
                   },
                 },
-                "& p": { marginBottom: "16px" },
-                "& strong": { fontWeight: "bold" },
+                "& p": {
+                  marginBottom: "16px",
+                  fontFamily: "georgia",
+                  color: "white",
+                },
+                "& p:empty": {
+                  margin: "16px 0" /* Adjust to your desired space */,
+                  padding: "1px" /* Optional: Set padding if needed */,
+                },
+                "& strong": { fontWeight: "bold", fontFamily: "Arial" },
+
                 "& em": { fontStyle: "italic" },
                 "& u": { textDecoration: "underline" },
                 // Styling for number lists
                 "& ol": {
                   listStyleType: "decimal", // Display ordered (numbered) list
-                  marginLeft: "20px", // Add space on the left
+                  marginLeft: "5px", // Add space on the left
                   paddingLeft: "10px", // Optional padding for spacing
                 },
                 "& li": {
                   marginBottom: "8px", // Space between list items
+                  margin: 0,
                 },
                 // Styling for bullet lists
                 "& ul": {
                   listStyleType: "disc", // Display unordered (bullet) list
-                  marginLeft: "20px", // Add space on the left
+                  marginLeft: "5px", // Add space on the left
                   paddingLeft: "10px", // Optional padding for spacing
                 },
+                "& ol li p strong": {
+                  // fontWeight: "bold",
+                  fontFamily: "Arial",
+                  color: "white",
+                  marginBottom: "0px",
+                },
+
                 // Styling for quote blocks
                 "& blockquote": {
                   borderLeft: "4px solid #3498db", // Blue left border for quotes

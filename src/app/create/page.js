@@ -112,7 +112,7 @@ export default function CreateArticle() {
       value: author,
       onChange: setAuthor,
       type: "dropdown",
-      options: [{ label: "Zayan", value: "Zayan" }],
+      options: [{ label: "Zayan", value: "Jonathan Zayan" }],
     },
     {
       id: "title",
