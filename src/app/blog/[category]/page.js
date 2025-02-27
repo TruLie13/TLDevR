@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { fetchAllCategories, fetchArticlesByCategory } from "@/lib/api.js";
 import { Box, Typography } from "@mui/material";
 import CategoryArticleCard from "@/components/CategoryArticleCard";
+import Link from "next/link.js";
 
 export default async function Category({ params }) {
   const { category: categorySlug } = params;
@@ -78,12 +79,12 @@ function ArticleList({ articles, categorySlug }) {
     >
       {articles.map((article) => (
         <li key={article.id}>
-          <a
+          <Link
             href={`/blog/${categorySlug}/${article.slug}`}
             style={{ color: "white", textDecoration: "none" }}
           >
             {article.title}
-          </a>
+          </Link>
         </li>
       ))}
     </ul>
