@@ -8,41 +8,39 @@ import {
   Button,
   Typography,
   Box,
-  FormControlLabel,
-  Switch,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { Link as LinkIcon } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 
-const CustomSwitch = styled(Switch)(({ theme }) => ({
-  "& .MuiSwitch-switchBase": {
-    color: "grey",
-    "&.Mui-checked": {
-      color: "white",
-    },
+const CustomSelect = styled(Select)(({ theme }) => ({
+  color: "white",
+  "& .MuiSelect-icon": {
+    color: "white",
   },
-  "& .MuiSwitch-track": {
-    backgroundColor: "grey",
-    "&.Mui-checked": {
-      backgroundColor: "white",
-    },
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderColor: "rgba(255, 255, 255, 0.23)",
+  },
+  "&:hover .MuiOutlinedInput-notchedOutline": {
+    borderColor: "rgba(255, 255, 255, 0.4)",
   },
 }));
 
 const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
   const [url, setUrl] = useState("https://");
   const [selectedText, setSelectedText] = useState("");
-  const [isAffiliateLink, setIsAffiliateLink] = useState(false);
+  const [linkType, setLinkType] = useState("internal");
 
   useEffect(() => {
     if (open) {
       if (editor.isActive("link")) {
         const attrs = editor.getAttributes("link");
-        setUrl(attrs.href || "https://");
-        setIsAffiliateLink(attrs.linkType === "affiliate"); // Ensure correct state for affiliate toggle
+        setLinkType(attrs.linkType || "internal");
+        setUrl(attrs.href || "");
       } else {
-        setUrl("https://");
-        setIsAffiliateLink(false);
+        setLinkType("internal");
+        setUrl("/");
       }
 
       const text = editor.state.selection.empty
@@ -55,37 +53,63 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
     }
   }, [open, editor]);
 
+  // Add this effect to handle URL prefix changes when link type changes
+  useEffect(() => {
+    if (linkType === "internal") {
+      setUrl((prevUrl) =>
+        prevUrl.startsWith("/")
+          ? prevUrl
+          : "/" + prevUrl.replace(/^https?:\/\//, "")
+      );
+    } else {
+      setUrl((prevUrl) =>
+        prevUrl.startsWith("http")
+          ? prevUrl
+          : "https://" + prevUrl.replace(/^\//, "")
+      );
+    }
+  }, [linkType]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     let finalUrl = url;
+    let rel = "";
+    let target = "";
 
-    // Only prepend "/" for internal links (not starting with "http://" or "https://")
-    if (
-      !isAffiliateLink &&
-      !url.startsWith("http://") &&
-      !url.startsWith("https://") &&
-      !url.startsWith("/")
-    ) {
-      finalUrl = "/" + url;
+    console.log("Link Type:", linkType);
+
+    if (linkType === "internal") {
+      finalUrl = url.startsWith("/") ? url : "/" + url;
+      // No target or rel for internal links
+    } else {
+      if (!finalUrl.startsWith("http://") && !finalUrl.startsWith("https://")) {
+        finalUrl = "https://" + finalUrl;
+      }
+      rel = "noopener noreferrer";
+      target = "_blank";
+
+      if (linkType === "affiliate") {
+        rel = "sponsored noopener noreferrer";
+      }
     }
 
-    // Set the rel attribute based on whether it's an affiliate link
-    const rel = isAffiliateLink ? "sponsored noopener" : "noopener";
+    // Use null instead of empty string to remove attributes
+    const linkAttrs = {
+      href: finalUrl,
+      rel: rel || null,
+      target: target || null,
+      linkType,
+    };
 
-    // Pass the rel attribute to the onSubmit function
-    onSubmit(finalUrl, isAffiliateLink ? "affiliate" : "regular", rel);
+    onSubmit(finalUrl, linkType, rel, target);
 
-    // Update the URL and rel attribute if the link is already in the editor
     if (editor?.isActive("link")) {
-      editor
-        .chain()
-        .focus()
-        .setLink({ href: finalUrl, rel }) // Update the link with the new URL and rel
-        .run();
+      editor.chain().focus().setLink(linkAttrs).run();
     }
 
-    setUrl("https://");
+    setUrl(linkType === "internal" ? "" : "https://");
+    setLinkType("external");
     onClose();
   };
 
@@ -141,8 +165,8 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
           <TextField
             autoFocus
             margin="dense"
-            label="URL"
-            type="url"
+            label={linkType === "internal" ? "Path" : "URL"}
+            type={linkType === "internal" ? "text" : "url"}
             fullWidth
             variant="outlined"
             value={url}
@@ -150,6 +174,11 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
             id="link-url-input"
             name="url"
             aria-describedby="url-helper-text"
+            helperText={
+              linkType === "internal"
+                ? "Enter page path (e.g., '/about') or full URL"
+                : "Enter full URL including https://"
+            }
             sx={{
               "& .MuiOutlinedInput-root": {
                 color: "white",
@@ -163,17 +192,22 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
               "& .MuiInputLabel-root": {
                 color: "rgba(255, 255, 255, 0.7)",
               },
+              "& .MuiFormHelperText-root": {
+                color: "rgba(255, 255, 255, 0.5)",
+              },
             }}
           />
           <Box sx={{ mt: 2, display: "flex", alignItems: "center" }}>
-            <Typography sx={{ color: "white" }}>Affiliate Link</Typography>
-            <CustomSwitch
-              checked={isAffiliateLink}
-              onChange={(e) => setIsAffiliateLink(e.target.checked)}
-              name="affiliate-link-toggle"
-              id="affiliate-link-toggle"
-              sx={{ ml: "2rem" }}
-            />
+            <Typography sx={{ color: "white" }}>Link Type</Typography>
+            <CustomSelect
+              value={linkType}
+              onChange={(e) => setLinkType(e.target.value)}
+              sx={{ ml: 2 }}
+            >
+              <MenuItem value="internal">Internal</MenuItem>
+              <MenuItem value="external">External</MenuItem>
+              <MenuItem value="affiliate">Affiliate</MenuItem>
+            </CustomSelect>
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>

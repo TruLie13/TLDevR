@@ -225,7 +225,7 @@ export default function ArticleContent({ article }) {
                   paddingLeft: "10px", // Optional padding for spacing
                 },
                 "& li": {
-                  marginBottom: "8px", // Space between list items
+                  marginBottom: "2.5rem !important", // Space between list items
                   margin: 0,
                 },
                 // Styling for bullet lists
