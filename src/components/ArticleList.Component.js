@@ -48,13 +48,14 @@ export default function ArticleList({ listName, articles, categorySlug }) {
         </Typography>
         {isListCategory && (
           <Link
+            href={`/blog/${categorySlug || "general"}`} // Added href for crawlability
             sx={{
               cursor: "pointer",
               fontWeight: "bold",
               textDecoration: "none",
               whiteSpace: "nowrap",
+              color: "white",
             }}
-            onClick={handleCategoryClick}
           >
             View All
           </Link>
