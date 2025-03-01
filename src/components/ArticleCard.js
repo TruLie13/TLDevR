@@ -76,6 +76,7 @@ export default function ArticleCard({
             onLoad={handleImageLoad}
             onError={handleImageError}
             loading="eager"
+            priority
             className="zoom-image"
           />
         )}

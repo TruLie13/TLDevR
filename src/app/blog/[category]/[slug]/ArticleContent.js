@@ -201,10 +201,25 @@ export default function ArticleContent({ article }) {
                 "& a": {
                   color: "#3498db",
                   textDecoration: "underline",
+                  fontWeight: "bold",
                   "&:hover": {
                     color: "#2980b9",
                   },
                 },
+                "& a[target='_blank']": {
+                  color: "white",
+                  textDecoration: "underline",
+                  "&:hover": {
+                    color: "#2980b9",
+                  },
+                  "&::after": {
+                    textDecoration: "none !important",
+                    content: `" ↗"`,
+                    fontSize: "0.9em",
+                    display: "inline",
+                  },
+                },
+
                 "& p": {
                   marginBottom: "16px",
                   fontFamily: "georgia",
