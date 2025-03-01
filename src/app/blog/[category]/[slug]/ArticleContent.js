@@ -219,11 +219,22 @@ export default function ArticleContent({ article }) {
                     display: "inline",
                   },
                 },
-
                 "& p": {
-                  marginBottom: "16px",
+                  // marginBottom: "16px",
                   fontFamily: "georgia",
                   color: "white",
+                },
+                "& h4": {
+                  color: "white",
+                  fontSize: "1.2rem",
+                },
+                "& h3": {
+                  color: "white",
+                  fontSize: "1.5rem",
+                },
+                "& h2": {
+                  color: "white",
+                  fontSize: "1.5rem",
                 },
                 "& p:empty": {
                   margin: "16px 0" /* Adjust to your desired space */,
@@ -238,9 +249,10 @@ export default function ArticleContent({ article }) {
                   listStyleType: "decimal", // Display ordered (numbered) list
                   marginLeft: "5px", // Add space on the left
                   paddingLeft: "10px", // Optional padding for spacing
+                  color: "white",
                 },
                 "& li": {
-                  marginBottom: "2.5rem !important", // Space between list items
+                  marginBottom: "1rem !important", // Space between list items
                   margin: 0,
                 },
                 // Styling for bullet lists
@@ -253,7 +265,6 @@ export default function ArticleContent({ article }) {
                   // fontWeight: "bold",
                   fontFamily: "Arial",
                   color: "white",
-                  marginBottom: "0px",
                 },
 
                 // Styling for quote blocks

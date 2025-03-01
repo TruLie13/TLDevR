@@ -50,9 +50,15 @@ export async function fetchFeaturedArticles() {
 }
 
 export async function fetchNewestArticles() {
-  const res = await fetch(`${apiUrl}/articleList/recent`);
-  if (!res.ok) throw new Error("Failed to fetch newest articles");
-  return res.json();
+  try {
+    const res = await fetch(`${apiUrl}/articleList/recent`);
+    if (!res.ok) throw new Error("Failed to fetch newest articles");
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching newest articles:", error);
+    // You can return an empty array, default data, or show an error message to the user
+    return []; // or return a default fallback value
+  }
 }
 
 export async function fetchArticle(slug) {
