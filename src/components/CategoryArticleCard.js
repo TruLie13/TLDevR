@@ -18,7 +18,6 @@ export default function CategoryArticleCard({ article, height, categorySlug }) {
   return (
     <Link href={`/blog/${categorySlug}/${article.slug}`} passHref>
       <Card
-        className="zoom-image"
         sx={{
           borderRadius: "1.5rem",
           overflow: "hidden",
@@ -27,6 +26,11 @@ export default function CategoryArticleCard({ article, height, categorySlug }) {
           width: "100%",
           height,
           cursor: "pointer",
+          transition: "transform 0.3s ease-in-out",
+          "&:hover": {
+            transform: "scale(1.05)",
+            zIndex: 10,
+          },
         }}
       >
         <Image

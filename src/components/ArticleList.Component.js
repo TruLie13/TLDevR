@@ -9,9 +9,10 @@ export default function ArticleList({ listName, articles, categorySlug }) {
   const isListFeatured = listName === "Featured";
   const isListNewest = listName === "Newest";
   const isListCategory = !isListFeatured && !isListNewest;
+  const articleCount = articles.length;
 
   const cardWidth = isListFeatured ? 224 : 176; // 14rem = 224px, 11rem = 176px
-  const totalWidth = articles.length * cardWidth + (articles.length - 1) * 16; // 16px gap between cards
+  const totalWidth = articleCount * cardWidth + (articleCount - 1) * 16; // 16px gap between cards
 
   console.log("categorySlug", categorySlug);
 
@@ -24,7 +25,7 @@ export default function ArticleList({ listName, articles, categorySlug }) {
     router.push(`/blog/${category}/${slug}`);
   };
 
-  if (articles.length === 0) return null;
+  if (articleCount === 0) return null;
   return (
     <section>
       <Box
@@ -46,7 +47,7 @@ export default function ArticleList({ listName, articles, categorySlug }) {
         >
           {listName}
         </Typography>
-        {isListCategory && (
+        {isListCategory && articleCount > 5 && (
           <Link
             href={`/blog/${categorySlug || "general"}`} // Added href for crawlability
             sx={{
@@ -63,7 +64,7 @@ export default function ArticleList({ listName, articles, categorySlug }) {
       </Box>
 
       {/* Articles Row */}
-      {articles && articles.length > 0 && (
+      {articles && articleCount > 0 && (
         <Box
           sx={{
             display: "flex",

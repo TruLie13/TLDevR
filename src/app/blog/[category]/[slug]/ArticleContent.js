@@ -196,7 +196,7 @@ export default function ArticleContent({ article }) {
               className="tiptap-content"
               sx={{
                 color: "rgba(255,255,255,0.8)",
-                textAlign: "justify",
+                textAlign: "left",
                 width: "100%",
                 "& a": {
                   color: "#3498db",
@@ -205,6 +205,7 @@ export default function ArticleContent({ article }) {
                   "&:hover": {
                     color: "#2980b9",
                   },
+                  margin: 0,
                 },
                 "& a[target='_blank']": {
                   color: "white",
@@ -213,10 +214,10 @@ export default function ArticleContent({ article }) {
                     color: "#2980b9",
                   },
                   "&::after": {
-                    textDecoration: "none !important",
-                    content: `" ↗"`,
+                    content: `"[↗]"`,
+                    marginLeft: "0.2em",
                     fontSize: "0.9em",
-                    display: "inline",
+                    // display: "inline",
                   },
                 },
                 "& p": {
@@ -227,14 +228,17 @@ export default function ArticleContent({ article }) {
                 "& h4": {
                   color: "white",
                   fontSize: "1.2rem",
+                  textAlign: "left",
                 },
                 "& h3": {
                   color: "white",
                   fontSize: "1.5rem",
+                  textAlign: "left",
                 },
                 "& h2": {
                   color: "white",
                   fontSize: "1.5rem",
+                  textAlign: "left",
                 },
                 "& p:empty": {
                   margin: "16px 0" /* Adjust to your desired space */,
