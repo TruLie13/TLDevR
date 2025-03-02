@@ -1,4 +1,3 @@
-export const dynamic = "force-static";
 export const revalidate = 21600; // 6 hours
 
 import ArticleList from "@/components/ArticleList.Component.js";
