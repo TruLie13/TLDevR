@@ -1,4 +1,5 @@
-const apiUrl = process.env.NEXT_PUBLIC_API_URL + "/api";
+// const apiUrl = process.env.NEXT_PUBLIC_API_URL + "/api";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const isWindowUndefined = typeof window === "undefined";
 
