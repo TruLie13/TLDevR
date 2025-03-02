@@ -77,7 +77,7 @@ export default async function Article({ params }) {
   };
 
   return (
-    <div className="mt-1">
+    <div className="mt-1 pl-1 pr-1">
       <ArticleContent article={article} />
     </div>
   );

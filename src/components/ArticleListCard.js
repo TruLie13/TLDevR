@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { getValidImageUrl } from "@/utils/imageUtils.js";
 import { fallback_image } from "@/utils/imageUtils";
 
-export default function ArticleCard({
+export default function ArticleListCard({
   article,
   isListFeatured,
   onArticleClick,
