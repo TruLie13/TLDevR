@@ -41,9 +41,12 @@ export async function generateMetadata({ params }) {
 export default async function Article({ params }) {
   // Fetch Article on the Server
   const article = await fetchArticle(params.slug);
-  const ArticleContent = dynamic(() => import("./ArticleContent"), {
-    ssr: false,
-  });
+  const ArticleContent = dynamic(
+    () => import("@/components/article/ArticleContent.js"),
+    {
+      ssr: false,
+    }
+  );
 
   if (!article) {
     notFound(); // Handle case where the article is not found
