@@ -28,6 +28,7 @@ export const articleContentStyles = {
   "& p": {
     fontFamily: "georgia",
     color: "white",
+    marginBottom: "1rem",
   },
   "& h4": {
     color: "white",
