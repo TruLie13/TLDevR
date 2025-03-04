@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "../../dist/output.css";
 import "./globals.css";
 import QueryProvider from "./QueryProvider";
+import GoogleAnalytics from "@/components/GoogleAnalytics.js";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,6 +26,8 @@ export default function RootLayout({ children }) {
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1337305196700921"
           crossorigin="anonymous"
         ></script>
+        {/* Google Analytics */}
+        <GoogleAnalytics />
       </head>
       <body className="min-h-screen flex flex-col">
         <Navbar />
