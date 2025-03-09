@@ -1,7 +1,7 @@
 import { fetchAllArticles } from "@/lib/api";
 
 // Set your base URL properly for production
-const baseUrl = "https://tldevrcom";
+const baseUrl = "https://tldevr.com";
 
 export default async function sitemap() {
   // Current date for lastmod
