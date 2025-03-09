@@ -2,6 +2,7 @@ import { fetchArticle } from "@/lib/api"; // Adjust path as needed
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 import { fallback_image } from "@/utils/imageUtils.js";
+import Script from "next/script";
 
 // Ensure base URL is consistent
 const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://yourdomain.com";
@@ -78,6 +79,11 @@ export default async function Article({ params }) {
 
   return (
     <div className="mt-1">
+      <Script
+        id="article-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ArticleContent article={article} />
     </div>
   );
