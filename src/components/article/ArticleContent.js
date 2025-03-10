@@ -1,4 +1,3 @@
-// File: /components/article/ArticleContent.js (updated)
 "use client";
 
 import React, { useState, useCallback } from "react";
@@ -11,6 +10,7 @@ import ArticleBody from "./ArticleBody";
 import ArticleActions from "./ArticleActions";
 import CustomStyles from "./CustomStyles";
 import { highlightCode } from "@/utils/highlightCode";
+import AuthorCard from "./AuthorCard.js";
 
 export default function ArticleContent({ article }) {
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -58,6 +58,8 @@ export default function ArticleContent({ article }) {
           <ArticleHeader article={article} />
           <ArticleBody content={highlightedContent} />
         </article>
+
+        <AuthorCard />
 
         <SnackbarComponent
           open={openSnackbar}
