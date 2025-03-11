@@ -123,6 +123,49 @@ export async function fetchArticlesByCategory(categorySlug) {
   const data = await response.json();
   return data.articles; // Extract only the articles array
 }
+// Start Article Like ******
+export async function fetchArticleLikeStatus(articleSlug) {
+  if (!articleSlug) return null;
+
+  try {
+    const response = await fetch(`${apiUrl}/articles/${articleSlug}`);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch article like status for ${articleSlug}`);
+    }
+
+    const data = await response.json();
+    return data.article;
+  } catch (error) {
+    console.error("Error fetching article like status:", error);
+    return null;
+  }
+}
+
+export async function updateArticleLikeStatus(articleSlug, action) {
+  if (!articleSlug) return null;
+
+  try {
+    const response = await fetch(`${apiUrl}/articles/like/${articleSlug}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+      },
+      body: JSON.stringify({ action }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to update like status for ${articleSlug}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating article like status:", error);
+    throw error;
+  }
+}
+// End Article Like ******
 
 // End Articles ******
 

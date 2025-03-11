@@ -1,35 +1,9 @@
+// ArticleActions.js
 import React, { useState, useEffect } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
-import { Favorite, FavoriteBorder, Share } from "@mui/icons-material";
-
-const actionButtonStyle = {
-  backgroundColor: "rgba(0,0,0,0.7)",
-  color: "white",
-  width: "50px",
-  height: "40px",
-  borderRadius: "50%",
-  "&:hover": {
-    backgroundColor: "rgba(0,0,0,0.7)",
-  },
-};
-
-const favoriteButtonStyle = {
-  backgroundColor: "rgba(0,0,0,0.7)",
-  color: "white",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "0 10px",
-  borderRadius: "25px",
-  minWidth: "70px",
-  height: "40px",
-  // Ensure disabled state looks identical (otherwise flashes)
-  "&.Mui-disabled": {
-    backgroundColor: "rgba(0,0,0,0.7)",
-    color: "white",
-    opacity: 1,
-  },
-};
+import { Box } from "@mui/material";
+import ShareButton from "./ShareButton";
+import LikeButton from "./LikeButton";
+import { fetchArticleLikeStatus, updateArticleLikeStatus } from "../../lib/api";
 
 export default function ArticleActions({
   onShareClick,
@@ -42,21 +16,15 @@ export default function ArticleActions({
 
   // Fetch initial like status and count from server when component mounts
   useEffect(() => {
-    const fetchLikeStatus = async () => {
+    const loadLikeStatus = async () => {
+      if (!articleSlug) return;
+
       try {
-        // Get the API base URL
-        const API_BASE_URL =
-          process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        // Fetch article data from API service
+        const article = await fetchArticleLikeStatus(articleSlug);
 
-        // Fetch current like count from server
-        const response = await fetch(
-          `${API_BASE_URL}/api/articles/${articleSlug}`
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          // Use the actual likeCount from the server, not likeRNG
-          setLikeCount(data.article.likeCount);
+        if (article) {
+          setLikeCount(article.likeCount);
         }
 
         // Check if this article is liked by the current user
@@ -65,13 +33,11 @@ export default function ArticleActions({
         );
         setIsLiked(likedArticles.includes(articleSlug));
       } catch (error) {
-        console.error("Error fetching article like status:", error);
+        console.error("Error loading like status:", error);
       }
     };
 
-    if (articleSlug) {
-      fetchLikeStatus();
-    }
+    loadLikeStatus();
   }, [articleSlug]);
 
   const handleLikeClick = async () => {
@@ -80,32 +46,12 @@ export default function ArticleActions({
     // Use a local variable to prevent multiple renders
     const newLikedStatus = !isLiked;
     const action = newLikedStatus ? "like" : "unlike";
-    const newCount =
-      action === "like" ? likeCount + 1 : Math.max(0, likeCount - 1);
 
     try {
       setIsLoading(true);
 
-      // Perform the API request without immediately updating UI
-      const API_BASE_URL =
-        process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-
-      const response = await fetch(
-        `${API_BASE_URL}/api/articles/like/${articleSlug}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ action }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to update like status");
-      }
-
-      const data = await response.json();
+      // Use the API service to update like status
+      const data = await updateArticleLikeStatus(articleSlug, action);
 
       // Only update state once after the API call completes
       setIsLiked(newLikedStatus);
@@ -145,45 +91,13 @@ export default function ArticleActions({
         zIndex: 10,
       }}
     >
-      <IconButton
-        sx={actionButtonStyle}
-        onClick={onShareClick}
-        aria-label="Copy link to share article"
-      >
-        <Share />
-      </IconButton>
-
-      <IconButton
-        sx={favoriteButtonStyle}
-        onClick={handleLikeClick}
-        disabled={isLoading}
-        disableRipple={true}
-        aria-label={
-          isLiked ? "Remove favorite from article" : "Favorite article"
-        }
-      >
-        {isLiked ? (
-          <Favorite
-            sx={{
-              animation: "heartPulse 0.8s forwards",
-              color: "red",
-              "@keyframes heartPulse": {
-                "0%": { transform: "scale(1)" },
-                "50%": { transform: "scale(1.3)" },
-                "100%": { transform: "scale(1)" },
-              },
-            }}
-          />
-        ) : (
-          <FavoriteBorder sx={{ transition: "none" }} />
-        )}
-        <Typography
-          variant="body2"
-          sx={{ marginLeft: 1, fontWeight: "bold", fontSize: "1rem" }}
-        >
-          {likeCount}
-        </Typography>
-      </IconButton>
+      <ShareButton onShareClick={onShareClick} />
+      <LikeButton
+        isLiked={isLiked}
+        isLoading={isLoading}
+        likeCount={likeCount}
+        onLikeClick={handleLikeClick}
+      />
     </Box>
   );
 }
