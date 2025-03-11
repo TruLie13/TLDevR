@@ -163,7 +163,17 @@ export default function ArticleActions({
         }
       >
         {isLiked ? (
-          <Favorite sx={{ transition: "none" }} />
+          <Favorite
+            sx={{
+              animation: "heartPulse 0.8s forwards",
+              color: "red",
+              "@keyframes heartPulse": {
+                "0%": { transform: "scale(1)" },
+                "50%": { transform: "scale(1.3)" },
+                "100%": { transform: "scale(1)" },
+              },
+            }}
+          />
         ) : (
           <FavoriteBorder sx={{ transition: "none" }} />
         )}
