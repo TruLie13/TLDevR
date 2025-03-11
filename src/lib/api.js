@@ -64,7 +64,14 @@ export async function fetchNewestArticles() {
 
 export async function fetchArticle(slug) {
   try {
-    const res = await fetch(`${apiUrl}/articles/${slug}`);
+    const res = await fetch(`${apiUrl}/articles/${slug}`, {
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
+
     if (!res.ok) {
       if (res.status === 404) {
         return null; // Article not found
