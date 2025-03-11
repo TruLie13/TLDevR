@@ -9,11 +9,12 @@ export default function QueryProvider({ children }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 6 * 60 * 60 * 1000, // 6 hours
-            gcTime: 7 * 60 * 60 * 1000, // Slightly longer than stale time
-            refetchOnWindowFocus: false, // Prevent refetching when returning to tab
-            refetchOnReconnect: false, // Prevent refetching on network reconnection
-            refetchOnMount: false,
+            // Keep most settings as defaults
+            staleTime: 30 * 1000, // 30 seconds instead of 6 hours
+            gcTime: 5 * 60 * 1000, // 5 minutes
+            refetchOnMount: true, // Enable refetch on mount
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
           },
         },
       })
