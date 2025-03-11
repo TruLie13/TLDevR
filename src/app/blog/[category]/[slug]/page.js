@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 import { fallback_image } from "@/utils/imageUtils.js";
 import Script from "next/script";
-import AuthorModal from "@/components/article/AuthorCard.js";
 
 // Ensure base URL is consistent
 const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://yourdomain.com";

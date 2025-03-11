@@ -25,11 +25,18 @@ export default function ArticleContent({ article }) {
     });
   }, []);
 
+  // const handleLikeClick = useCallback(() => {
+  //   navigator.clipboard.writeText(window.location.href).then(() => {
+  //     setOpenSnackbar(true);
+  //   });
+  // }, []);
+
   const handleCloseSnackbar = useCallback(() => {
     setOpenSnackbar(false);
   }, []);
 
   const highlightedContent = highlightCode(articleContent);
+  console.log("article", article.likeCount);
 
   return (
     <div>
@@ -52,7 +59,12 @@ export default function ArticleContent({ article }) {
         <article style={{ width: "100%" }}>
           <Box sx={{ position: "relative", width: "100%" }}>
             <ArticleImageCard article={article} />
-            <ArticleActions onShareClick={handleShareClick} />
+            <ArticleActions
+              onShareClick={handleShareClick}
+              // onLikeClick={handleLikeClick}
+              articleLikeCount={article.likeCount}
+              articleSlug={article.slug}
+            />
           </Box>
 
           <ArticleHeader article={article} />
