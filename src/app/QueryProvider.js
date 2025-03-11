@@ -9,12 +9,9 @@ export default function QueryProvider({ children }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            // Keep most settings as defaults
-            staleTime: 30 * 1000, // 30 seconds instead of 6 hours
-            gcTime: 5 * 60 * 1000, // 5 minutes
-            refetchOnMount: true, // Enable refetch on mount
-            refetchOnWindowFocus: false,
-            refetchOnReconnect: false,
+            staleTime: 0, // Consider it immediately stale
+            refetchOnMount: true, // Always refetch when mounted
+            refetchOnWindowFocus: true,
           },
         },
       })
