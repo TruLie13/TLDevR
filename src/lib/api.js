@@ -17,65 +17,58 @@ function shouldFetch() {
 
 // Start Articles ******
 export async function fetchFeaturedArticles() {
-  // Check if we're on the server side
-  if (typeof window === "undefined") {
-    // Server-side fetch
-    try {
-      const res = await fetch(`${apiUrl}/articleList/featured`);
-      if (!res.ok) throw new Error("Failed to fetch featured articles");
-      const data = await res.json();
-      return Array.isArray(data) ? data : [];
-    } catch (error) {
-      console.error("Error fetching featured articles:", error);
-      return [];
-    }
-  } else {
-    // Client-side fetch with caching
-    if (!shouldFetch()) {
-      const cachedArticles = localStorage.getItem("featuredArticlesCache");
-      return cachedArticles ? JSON.parse(cachedArticles) : [];
-    }
-
-    try {
-      const res = await fetch(`${apiUrl}/articleList/featured`);
-      if (!res.ok) throw new Error("Failed to fetch featured articles");
-      const data = await res.json();
-      localStorage.setItem("lastFetched", Date.now().toString());
-      localStorage.setItem("featuredArticlesCache", JSON.stringify(data));
-      return Array.isArray(data) ? data : [];
-    } catch (error) {
-      console.error("Error fetching featured articles:", error);
-      return [];
-    }
+  try {
+    const res = await fetch(
+      `${apiUrl}/articleList/featured?timestamp=${Date.now()}`,
+      {
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
+    );
+    if (!res.ok) throw new Error("Failed to fetch featured articles");
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error("Error fetching featured articles:", error);
+    return [];
   }
 }
 
 export async function fetchNewestArticles() {
   try {
-    const res = await fetch(`${apiUrl}/articleList/recent`, {
-      headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
-      },
-    });
+    const res = await fetch(
+      `${apiUrl}/articleList/recent?timestamp=${Date.now()}`,
+      {
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
+    );
     if (!res.ok) throw new Error("Failed to fetch newest articles");
-    return res.json();
+    return await res.json();
   } catch (error) {
     console.error("Error fetching newest articles:", error);
-    return []; // or return a default fallback value
+    return []; // Return an empty array or default fallback data
   }
 }
 
 export async function fetchArticle(slug) {
   try {
-    const res = await fetch(`${apiUrl}/articles/${slug}`, {
-      headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
-      },
-    });
+    const res = await fetch(
+      `${apiUrl}/articles/${slug}?timestamp=${Date.now()}`,
+      {
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
+    );
 
     if (!res.ok) {
       if (res.status === 404) {
@@ -90,9 +83,37 @@ export async function fetchArticle(slug) {
   }
 }
 
+export async function fetchArticlesByCategory(categorySlug) {
+  if (!categorySlug) {
+    throw new Error("categorySlug is required to fetch articles.");
+  }
+
+  try {
+    const res = await fetch(
+      `${apiUrl}/articles/category/${categorySlug}?timestamp=${Date.now()}`,
+      {
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch articles for category: ${categorySlug}`);
+    }
+    const data = await res.json();
+    return data.articles; // Extract only the articles array
+  } catch (error) {
+    console.error("Error fetching articles by category:", error);
+    return [];
+  }
+}
+
 export async function fetchAllArticles() {
   try {
-    const res = await fetch(`${apiUrl}/articles`, {
+    const res = await fetch(`${apiUrl}/articles?timestamp=${Date.now()}`, {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         Pragma: "no-cache",
@@ -103,50 +124,25 @@ export async function fetchAllArticles() {
     return articles;
   } catch (error) {
     console.error("Error fetching all articles:", error);
-    return [];
+    return []; // Return fallback data if fetching fails
   }
 }
 
-export async function fetchArticlesByCategory(categorySlug) {
-  if (!categorySlug) {
-    throw new Error("categorySlug is required to fetch articles.");
-  }
-
-  try {
-    const res = await fetch(`${apiUrl}/articles/category/${categorySlug}`, {
-      headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
-      },
-    });
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch articles for category: ${categorySlug}`);
-    }
-
-    const data = await res.json();
-    return data.articles; // Extract only the articles array
-  } catch (error) {
-    console.error(
-      `Error fetching articles for category ${categorySlug}:`,
-      error
-    );
-    return [];
-  }
-}
 // Start Article Like ******
 export async function fetchArticleLikeStatus(articleSlug) {
   if (!articleSlug) return null;
 
   try {
-    const response = await fetch(`${apiUrl}/articles/${articleSlug}`, {
-      headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
-      },
-    });
+    const response = await fetch(
+      `${apiUrl}/articles/${articleSlug}?timestamp=${Date.now()}`,
+      {
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Failed to fetch article like status for ${articleSlug}`);
@@ -190,7 +186,7 @@ export async function updateArticleLikeStatus(articleSlug, action) {
 // Start Categories ******
 export async function fetchAllCategories() {
   // Fetch your articles from the API, database, or backend service
-  const response = await fetch(`${apiUrl}/categories`, {
+  const response = await fetch(`${apiUrl}/categories?timestamp=${Date.now()}`, {
     headers: {
       "Cache-Control": "no-cache, no-store, must-revalidate",
       Pragma: "no-cache",
@@ -203,13 +199,16 @@ export async function fetchAllCategories() {
 
 export async function fetchCategoryPreviews() {
   // Fetch your articles from the API, database, or backend service
-  const response = await fetch(`${apiUrl}/categories/previews`, {
-    headers: {
-      "Cache-Control": "no-cache, no-store, must-revalidate",
-      Pragma: "no-cache",
-      Expires: "0",
-    },
-  });
+  const response = await fetch(
+    `${apiUrl}/categories/previews?timestamp=${Date.now()}`,
+    {
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    }
+  );
   const articles = await response.json();
   return articles;
 }
