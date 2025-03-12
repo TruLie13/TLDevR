@@ -52,12 +52,17 @@ export async function fetchFeaturedArticles() {
 
 export async function fetchNewestArticles() {
   try {
-    const res = await fetch(`${apiUrl}/articleList/recent`);
+    const res = await fetch(`${apiUrl}/articleList/recent`, {
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
     if (!res.ok) throw new Error("Failed to fetch newest articles");
     return res.json();
   } catch (error) {
     console.error("Error fetching newest articles:", error);
-    // You can return an empty array, default data, or show an error message to the user
     return []; // or return a default fallback value
   }
 }
@@ -85,35 +90,21 @@ export async function fetchArticle(slug) {
   }
 }
 
-export async function postArticle(articleData) {
-  try {
-    const res = await fetch(`${apiUrl}/articles/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(accessToken && { Authorization: `Bearer ${accessToken}` }), // Add Authorization header if token exists
-      },
-      body: JSON.stringify(articleData),
-    });
-
-    if (!res.ok) {
-      // Get the error message from the response
-      const errorData = await res.json();
-      throw errorData; // This will pass through the actual error message
-    }
-
-    return await res.json();
-  } catch (error) {
-    console.error("Error posting article:", error);
-    throw error;
-  }
-}
-
 export async function fetchAllArticles() {
-  // Fetch your articles from the API, database, or backend service
-  const response = await fetch(`${apiUrl}/articles`);
-  const articles = await response.json();
-  return articles;
+  try {
+    const res = await fetch(`${apiUrl}/articles`, {
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
+    const articles = await res.json();
+    return articles;
+  } catch (error) {
+    console.error("Error fetching all articles:", error);
+    return [];
+  }
 }
 
 export async function fetchArticlesByCategory(categorySlug) {
@@ -121,21 +112,41 @@ export async function fetchArticlesByCategory(categorySlug) {
     throw new Error("categorySlug is required to fetch articles.");
   }
 
-  const response = await fetch(`${apiUrl}/articles/category/${categorySlug}`);
+  try {
+    const res = await fetch(`${apiUrl}/articles/category/${categorySlug}`, {
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch articles for category: ${categorySlug}`);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch articles for category: ${categorySlug}`);
+    }
+
+    const data = await res.json();
+    return data.articles; // Extract only the articles array
+  } catch (error) {
+    console.error(
+      `Error fetching articles for category ${categorySlug}:`,
+      error
+    );
+    return [];
   }
-
-  const data = await response.json();
-  return data.articles; // Extract only the articles array
 }
 // Start Article Like ******
 export async function fetchArticleLikeStatus(articleSlug) {
   if (!articleSlug) return null;
 
   try {
-    const response = await fetch(`${apiUrl}/articles/${articleSlug}`);
+    const response = await fetch(`${apiUrl}/articles/${articleSlug}`, {
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch article like status for ${articleSlug}`);
@@ -179,14 +190,26 @@ export async function updateArticleLikeStatus(articleSlug, action) {
 // Start Categories ******
 export async function fetchAllCategories() {
   // Fetch your articles from the API, database, or backend service
-  const response = await fetch(`${apiUrl}/categories`);
+  const response = await fetch(`${apiUrl}/categories`, {
+    headers: {
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
+  });
   const articles = await response.json();
   return articles;
 }
 
 export async function fetchCategoryPreviews() {
   // Fetch your articles from the API, database, or backend service
-  const response = await fetch(`${apiUrl}/categories/previews`);
+  const response = await fetch(`${apiUrl}/categories/previews`, {
+    headers: {
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
+  });
   const articles = await response.json();
   return articles;
 }
