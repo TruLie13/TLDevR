@@ -1,4 +1,4 @@
-export const revalidate = 21600; // 6 hours
+export const revalidate = 3600; // 1 hour
 
 import ArticleList from "@/components/ArticleList.Component.js";
 import HomePageCover from "@/components/HomePageCover.js";

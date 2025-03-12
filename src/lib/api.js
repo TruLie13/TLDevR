@@ -8,13 +8,6 @@ if (!isWindowUndefined) {
   accessToken = localStorage.getItem("accessToken");
 }
 
-function shouldFetch() {
-  if (isWindowUndefined) return false;
-  const lastFetched = localStorage.getItem("lastFetched");
-  const now = Date.now();
-  return !lastFetched || now - lastFetched > 6 * 60 * 60 * 1000; // 6 hours
-}
-
 // Start Articles ******
 export async function fetchFeaturedArticles() {
   try {
@@ -24,7 +17,7 @@ export async function fetchFeaturedArticles() {
         headers: {
           "Cache-Control": "no-cache, no-store, must-revalidate",
           Pragma: "no-cache",
-          Expires: "0",
+          Expires: "3600",
         },
       }
     );
@@ -65,7 +58,7 @@ export async function fetchArticle(slug) {
         headers: {
           "Cache-Control": "no-cache, no-store, must-revalidate",
           Pragma: "no-cache",
-          Expires: "0",
+          Expires: "7200",
         },
       }
     );
@@ -95,7 +88,7 @@ export async function fetchArticlesByCategory(categorySlug) {
         headers: {
           "Cache-Control": "no-cache, no-store, must-revalidate",
           Pragma: "no-cache",
-          Expires: "0",
+          Expires: "3600",
         },
       }
     );
@@ -190,7 +183,7 @@ export async function fetchAllCategories() {
     headers: {
       "Cache-Control": "no-cache, no-store, must-revalidate",
       Pragma: "no-cache",
-      Expires: "0",
+      Expires: "3600",
     },
   });
   const articles = await response.json();
@@ -205,7 +198,7 @@ export async function fetchCategoryPreviews() {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         Pragma: "no-cache",
-        Expires: "0",
+        Expires: "3600",
       },
     }
   );
