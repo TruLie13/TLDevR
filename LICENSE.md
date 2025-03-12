@@ -4,7 +4,7 @@ All rights reserved. This code and content are proprietary to **Zayan** and **pi
 
 For licensing inquiries, please contact:
 
-- **Zayan**: [insert email or URL]
-- **pi.que LLC**: [insert email or URL]
+- **Zayan**: [https://www.linkedin.com/in/jzayan]
+- **pi.que LLC**: [http://pi-que.com/]
 
 By using or viewing this repository, you agree to the terms outlined in this license.
