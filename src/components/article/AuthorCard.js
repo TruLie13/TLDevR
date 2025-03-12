@@ -45,6 +45,7 @@ const AuthorCard = () => {
             href={author.linkedin}
             target="_blank"
             sx={{ color: "white" }}
+            aria-label="Visit Jonathan Zayan's LinkedIn profile"
           >
             <LinkedInIcon />
           </IconButton>
@@ -53,6 +54,7 @@ const AuthorCard = () => {
             href={author.github}
             target="_blank"
             sx={{ color: "white" }}
+            aria-label="Visit Jonathan Zayan's Github profile"
           >
             <GitHubIcon />
           </IconButton>

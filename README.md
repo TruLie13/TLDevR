@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TLDevR
 
-## Getting Started
+TLDevR is a **blog platform** featuring **concise, easy-to-digest articles** designed for **new and early-career developers**. The name is a play on “TL;DR,” emphasizing **short, high-value content** to help developers quickly grasp key concepts without sifting through lengthy tutorials.
 
-First, run the development server:
+# Live Site: www.tldevr.com
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠 Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js & React** – For a fast, SEO-friendly web experience
+- **Vercel** – Hosting and deployment
+- **Google Analytics** – To understand readership and improve content
+- **UUID-based Likes** – Simple engagement system allowing users to like articles without requiring an account
+- **SSR (Server-Side Rendering) & SSG (Static Site Generation)** – Optimized for performance and fresh content delivery
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🎯 Target Audience
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+TLDevR is built for:
 
-## Learn More
+- **Aspiring and junior developers** looking for **concise, actionable insights**
+- **Self-taught coders and bootcamp grads** who want to reinforce their learning
+- **Busy professionals** who prefer straight-to-the-point explanations over lengthy articles
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Curated micro-articles** – Covering programming concepts, best practices, and career advice
+- **Like system (UUID-based)** – Users can engage without needing an account
+- **Fast & accessible UI** – Minimalist design for distraction-free reading
+- **SSR & SSG for performance** – Ensures pages load quickly while keeping content up to date
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📌 Future Plans
 
-## Deploy on Vercel
+While TLDevR is currently a **curated blog**, potential expansions may include:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- More interactive features (comments, discussions)
+- Additional learning resources
+- Community-driven content
