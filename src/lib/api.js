@@ -174,6 +174,33 @@ export async function updateArticleLikeStatus(articleSlug, action) {
 }
 // End Article Like ******
 
+// Start Articles Post******
+export async function postArticle(articleData) {
+  try {
+    const res = await fetch(`${apiUrl}/articles`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+      },
+      body: JSON.stringify(articleData),
+    });
+
+    const data = await res.json(); // Parse response JSON
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to create article"); // Return server message
+    }
+
+    return data; // Return successful creation response
+  } catch (error) {
+    console.error("Error posting article:", error);
+    throw error; // Rethrow error for UI handling
+  }
+}
+
+// End Articles Post******
+
 // End Articles ******
 
 // Start Categories ******
