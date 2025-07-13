@@ -106,3 +106,17 @@ export const codeBlockStyles = `
     width: 100%;
   }
 `;
+
+export const getUserAgentStyles = () => {
+  if (
+    typeof window !== "undefined" &&
+    /iPhone|iPad|iPod/.test(navigator.userAgent)
+  ) {
+    return `
+      a[target='_blank']::after {
+        content: "↗" !important;
+      }
+    `;
+  }
+  return "";
+};

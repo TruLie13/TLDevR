@@ -73,7 +73,7 @@ export default function CreateArticle() {
     };
 
     try {
-      await postArticle(articleData); // Remove res = since we don't need it
+      await postArticle(articleData);
       setSnackbar({
         open: true,
         message: "Article submitted successfully!",
