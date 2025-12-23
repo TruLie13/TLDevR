@@ -25,6 +25,9 @@ export function setAuthToken(token) {
 
   // Also set localStorage for client-side API calls
   localStorage.setItem(AUTH_TOKEN_NAME, token);
+
+  // Dispatch event to notify components of auth change
+  window.dispatchEvent(new Event("authChange"));
 }
 
 /**

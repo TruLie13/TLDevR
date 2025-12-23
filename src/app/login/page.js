@@ -10,8 +10,8 @@ import { useRouter } from "next/navigation";
 export default function Login() {
   const router = useRouter();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("Zayan");
+  const [password, setPassword] = useState("2Forme13!#");
   const [error, setError] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -45,7 +45,7 @@ export default function Login() {
           borderRadius: "1.5rem",
         }}
       >
-        <Typography variant="h6" className="mb-5" sx={{ color: "white" }}>
+        <Typography variant="h6" sx={{ color: "white", marginBottom: "1.25rem" }}>
           Login
         </Typography>
 
@@ -66,7 +66,7 @@ export default function Login() {
           onClick={handleSubmit}
           variant="contained"
           color="primary"
-          className="mt-5 w-full"
+          sx={{ marginTop: "1.25rem", width: "100%" }}
         >
           Login
         </Button>

@@ -25,6 +25,10 @@ export default function ArticleContent({ article }) {
     });
   }, []);
 
+  const handleEditClick = useCallback(() => {
+    ()=>{null()}
+  }, []);
+
   const handleCloseSnackbar = useCallback(() => {
     setOpenSnackbar(false);
   }, []);
@@ -54,6 +58,7 @@ export default function ArticleContent({ article }) {
           <Box sx={{ position: "relative", width: "100%" }}>
             <ArticleImageCard article={article} />
             <ArticleActions
+              onEditClick={handleEditClick}
               onShareClick={handleShareClick}
               articleLikeCount={article.likeCount}
               articleSlug={article.slug}

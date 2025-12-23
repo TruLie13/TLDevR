@@ -4,8 +4,11 @@ import { Box } from "@mui/material";
 import ShareButton from "./ShareButton";
 import LikeButton from "./LikeButton";
 import { fetchArticleLikeStatus, updateArticleLikeStatus } from "../../lib/api";
+import { getAuthToken } from "../../lib/auth";
+import EditButton from "./EditButton";
 
 export default function ArticleActions({
+  onEditClick,
   onShareClick,
   articleLikeCount,
   articleSlug,
@@ -13,7 +16,12 @@ export default function ArticleActions({
   const [likeCount, setLikeCount] = useState(articleLikeCount);
   const [isLiked, setIsLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // Check if user is logged in
+  useEffect(() => {
+    setIsLoggedIn(!!getAuthToken());
+  }, []);
   // Fetch initial like status and count from server when component mounts
   useEffect(() => {
     const loadLikeStatus = async () => {
@@ -91,6 +99,7 @@ export default function ArticleActions({
         zIndex: 10,
       }}
     >
+      {isLoggedIn && <EditButton onEditClick={onEditClick} />}
       <ShareButton onShareClick={onShareClick} />
       <LikeButton
         isLiked={isLiked}
