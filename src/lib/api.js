@@ -1,11 +1,12 @@
+import { getAuthToken, setAuthToken } from "./auth";
+
 // const apiUrl = process.env.NEXT_PUBLIC_API_URL + "/api";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const isWindowUndefined = typeof window === "undefined";
-
-let accessToken;
-if (!isWindowUndefined) {
-  accessToken = localStorage.getItem("accessToken");
+// Helper to get auth header with fresh token
+function getAuthHeader() {
+  const token = getAuthToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
 // Start Articles ******
@@ -157,7 +158,7 @@ export async function updateArticleLikeStatus(articleSlug, action) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+        ...getAuthHeader(),
       },
       body: JSON.stringify({ action }),
     });
@@ -181,7 +182,7 @@ export async function postArticle(articleData) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+        ...getAuthHeader(),
       },
       body: JSON.stringify(articleData),
     });
@@ -251,7 +252,7 @@ export async function postLogin(loginData) {
       throw new Error(data.message || "Failed to login"); // Return server message
     }
 
-    localStorage.setItem("accessToken", data.accessToken); // Store token in localStorage
+    setAuthToken(data.accessToken); // Store token in cookie and localStorage
     return data; // Return successful login response
   } catch (error) {
     console.error("Error posting login:", error);

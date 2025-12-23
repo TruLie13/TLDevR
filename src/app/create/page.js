@@ -1,19 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Tiptap from "@/components/TipTap/TipTap.js";
-import {
-  Card,
-  Typography,
-  FormControlLabel,
-  Switch,
-  CircularProgress,
-  IconButton,
-} from "@mui/material";
 import InputField from "@/components/InputField.js";
-import { postArticle } from "@/lib/api.js";
 import SnackbarComponent from "@/components/Snackbar.js";
-import { fetchAllCategories } from "@/lib/api.js";
+import Tiptap from "@/components/TipTap/TipTap.js";
+import { fetchAllCategories, postArticle } from "@/lib/api.js";
+import { Card, FormControlLabel, Switch, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export default function CreateArticle() {
   // State for each form field
