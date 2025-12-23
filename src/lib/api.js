@@ -1,7 +1,7 @@
 import { getAuthToken, setAuthToken } from "./auth";
 
 // const apiUrl = process.env.NEXT_PUBLIC_API_URL + "/api";
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, ""); // Remove trailing slash if present
 
 // Helper to get auth header with fresh token
 function getAuthHeader() {
@@ -199,8 +199,33 @@ export async function postArticle(articleData) {
     throw error; // Rethrow error for UI handling
   }
 }
-
 // End Articles Post******
+
+// Start Articles Update******
+export async function updateArticle(slug, articleData) {
+  try {
+    const res = await fetch(`${apiUrl}/articles/${slug}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...getAuthHeader(),
+      },
+      body: JSON.stringify(articleData),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to update article");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error updating article:", error);
+    throw error;
+  }
+}
+// End Articles Update******
 
 // End Articles ******
 

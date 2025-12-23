@@ -10,7 +10,7 @@ export function middleware(request) {
   const token = request.cookies.get(AUTH_TOKEN_NAME)?.value;
 
   // Define protected routes
-  const protectedPaths = ["/create"];
+  const protectedPaths = ["/create", "/edit"];
   const isProtectedPath = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
@@ -27,5 +27,5 @@ export function middleware(request) {
 
 // Only run middleware on these routes for performance
 export const config = {
-  matcher: ["/create/:path*"],
+  matcher: ["/create/:path*", "/edit/:path*"],
 };

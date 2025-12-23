@@ -28,7 +28,7 @@ const CustomCodeBlock = CodeBlock.extend({
   },
 });
 
-const Tiptap = ({ onChange }) => {
+const Tiptap = ({ onChange, initialContent = "" }) => {
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
 
   // Custom keyboard shortcuts extension
@@ -72,7 +72,7 @@ const Tiptap = ({ onChange }) => {
       CustomCodeBlock,
       CustomKeyboardShortcuts,
     ],
-    content: "",
+    content: initialContent,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       console.log("Editor content:", html);

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { Box } from "@mui/material";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import SnackbarComponent from "@/components/Snackbar.js";
@@ -13,6 +14,7 @@ import { highlightCode } from "@/utils/highlightCode";
 import AuthorCard from "./AuthorCard.js";
 
 export default function ArticleContent({ article }) {
+  const router = useRouter();
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const articleCategoryName = article?.category?.name || "general";
@@ -26,8 +28,8 @@ export default function ArticleContent({ article }) {
   }, []);
 
   const handleEditClick = useCallback(() => {
-    ()=>{null()}
-  }, []);
+    router.push(`/edit/${article?.slug}`);
+  }, [router, article?.slug]);
 
   const handleCloseSnackbar = useCallback(() => {
     setOpenSnackbar(false);
