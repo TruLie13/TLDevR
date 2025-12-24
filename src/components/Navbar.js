@@ -56,7 +56,7 @@ export default function Navbar() {
   return (
     <AppBar
       position="fixed"
-      sx={{ backgroundColor: "background.paper", zIndex: 1300 }}
+      sx={{ backgroundColor: "background.default", zIndex: 1300 }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Typography
@@ -83,12 +83,14 @@ export default function Navbar() {
               onClose={handleMenuClose}
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               transformOrigin={{ vertical: "top", horizontal: "right" }}
-              PaperProps={{
-                sx: {
-                  backgroundColor: "background.paper",
-                  border: "1px solid", 
-                  borderColor: "background.hover",
-                  color: "text.primary",
+              slotProps={{
+                paper: {
+                  sx: {
+                    backgroundColor: "background.paper",
+                    border: "1px solid", 
+                    borderColor: "background.hover",
+                    color: "text.primary",
+                  },
                 },
               }}
             >

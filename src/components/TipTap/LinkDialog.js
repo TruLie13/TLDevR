@@ -126,10 +126,12 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
       disableRestoreFocus={false}
       autoFocus={true}
       aria-labelledby="link-dialog-title"
-      PaperProps={{
-        sx: {
-          backgroundColor: "background.paper",
-          color: "text.primary",
+      slotProps={{
+        paper: {
+          sx: {
+            backgroundColor: "background.paper",
+            color: "text.primary",
+          },
         },
       }}
     >

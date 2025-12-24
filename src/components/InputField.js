@@ -199,10 +199,12 @@ const InputField = ({
             ".MuiSelect-icon": { color: "action.active" },
           }}
           MenuProps={{
-            PaperProps: {
-              sx: {
-                backgroundColor: "background.paper",
-                color: "text.primary",
+            slotProps: {
+              paper: {
+                sx: {
+                  backgroundColor: "background.paper",
+                  color: "text.primary",
+                },
               },
             },
           }}
