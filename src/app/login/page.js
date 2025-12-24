@@ -6,6 +6,7 @@ import InputField from "@/components/InputField.js";
 import { postLogin } from "@/lib/api.js";
 import SnackbarComponent from "@/components/Snackbar.js";
 import { useRouter } from "next/navigation";
+import { background } from "@/lib/themeTokens";
 
 export default function Login() {
   const router = useRouter();
@@ -38,7 +39,7 @@ export default function Login() {
       <Card
         className="p-5"
         sx={{
-          backgroundColor: "rgb(21, 18, 43)",
+          backgroundColor: background.paper,
           width: "100%",
           maxWidth: "400px",
           color: "white",

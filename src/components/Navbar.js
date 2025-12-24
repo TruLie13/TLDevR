@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { background } from "@/lib/themeTokens";
 
 export default function Navbar() {
   const router = useRouter();
@@ -55,7 +56,7 @@ export default function Navbar() {
   return (
     <AppBar
       position="fixed"
-      sx={{ backgroundColor: "rgb(21, 18, 43)", zIndex: 1300 }}
+      sx={{ backgroundColor: background.paper, zIndex: 1300 }}
     >
       <Container maxWidth="lg">
         <Toolbar>
@@ -85,21 +86,21 @@ export default function Navbar() {
                 transformOrigin={{ vertical: "top", horizontal: "right" }}
                 PaperProps={{
                   sx: {
-                    backgroundColor: "rgb(21, 18, 43)",
-                    border: "1px solid rgb(34, 31, 52)",
+                    backgroundColor: background.paper,
+                    border: `1px solid ${background.hover}`,
                     color: "white",
                   },
                 }}
               >
               <MenuItem
                   onClick={handleCreateClick}
-                  sx={{ "&:hover": { backgroundColor: "rgb(34, 31, 52)" } }}
+                  sx={{ "&:hover": { backgroundColor: background.hover } }}
                 >
                   Create
                 </MenuItem>
                 <MenuItem
                   onClick={handleLogout}
-                  sx={{color: "grey", "&:hover": { backgroundColor: "rgb(34, 31, 52)" } }}
+                  sx={{color: "grey", "&:hover": { backgroundColor: background.hover } }}
                 >
                   Logout
                 </MenuItem>

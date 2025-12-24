@@ -2,15 +2,16 @@
 import React from "react";
 import { IconButton } from "@mui/material";
 import { Share } from "@mui/icons-material";
+import { background } from "@/lib/themeTokens";
 
 const actionButtonStyle = {
-  backgroundColor: "rgba(0,0,0,0.7)",
+  backgroundColor: background.buttonOverlay,
   color: "white",
   width: "50px",
   height: "40px",
   borderRadius: "50%",
   "&:hover": {
-    backgroundColor: "rgba(0,0,0,0.7)",
+    backgroundColor: background.buttonOverlay,
   },
 };
 

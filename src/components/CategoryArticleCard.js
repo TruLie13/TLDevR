@@ -5,6 +5,7 @@ import { fallback_image, getValidImageUrl } from "@/utils/imageUtils";
 import { Box, Card, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { background } from "@/lib/themeTokens";
 
 export default function CategoryArticleCard({ article, height, categorySlug }) {
   const [imgSrc, setImgSrc] = useState(
@@ -21,7 +22,7 @@ export default function CategoryArticleCard({ article, height, categorySlug }) {
         sx={{
           borderRadius: "1.5rem",
           overflow: "hidden",
-          backgroundColor: "rgb(8, 4, 31)",
+          backgroundColor: background.default,
           position: "relative",
           width: "100%",
           height,
@@ -50,7 +51,7 @@ export default function CategoryArticleCard({ article, height, categorySlug }) {
             color: "white",
             padding: "0.5rem",
             textAlign: "center",
-            backgroundColor: "rgba(19, 13, 48, 0.75)",
+            backgroundColor: background.overlay,
           }}
         >
           <Typography sx={{ fontSize: "1.1rem", fontWeight: "bold" }}>

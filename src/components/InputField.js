@@ -10,6 +10,7 @@ import {
   Chip,
   Box,
 } from "@mui/material";
+import { background } from "@/lib/themeTokens";
 
 const InputField = ({
   label,
@@ -200,7 +201,7 @@ const InputField = ({
           MenuProps={{
             PaperProps: {
               sx: {
-                backgroundColor: "rgb(21, 18, 43)",
+                backgroundColor: background.paper,
                 color: "white",
               },
             },
@@ -213,7 +214,7 @@ const InputField = ({
               value={option.value}
               sx={{
                 color: "white",
-                "&:hover": { backgroundColor: "rgb(8, 4, 31)" },
+                "&:hover": { backgroundColor: background.default },
               }}
             >
               {option.label}

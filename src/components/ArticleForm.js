@@ -4,6 +4,7 @@ import InputField from "@/components/InputField.js";
 import SnackbarComponent from "@/components/Snackbar.js";
 import Tiptap from "@/components/TipTap/TipTap.js";
 import { fetchAllCategories } from "@/lib/api.js";
+import { background } from "@/lib/themeTokens";
 import { Card, FormControlLabel, Switch, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -158,7 +159,7 @@ export default function ArticleForm({
     {
       id: "category",
       label: "Category",
-      value: category,
+      value: categoryList?.length ? category : "",
       onChange: setCategory,
       type: "dropdown",
       options: categoryList?.length
@@ -211,7 +212,7 @@ export default function ArticleForm({
         <Card
           className="p-5"
           sx={{
-            backgroundColor: "rgb(21, 18, 43)",
+            backgroundColor: background.paper,
             width: "100%",
             color: "white",
             borderRadius: "1.5rem",

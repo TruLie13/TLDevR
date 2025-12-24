@@ -2,6 +2,7 @@
 "use client";
 
 import { Snackbar, Alert } from "@mui/material";
+import { background } from "@/lib/themeTokens";
 
 export default function SnackbarComponent({
   open,
@@ -16,8 +17,8 @@ export default function SnackbarComponent({
         severity={severity || "error"}
         sx={{
           width: "100%",
-          backgroundColor: "rgb(21, 18, 43)",
-          border: "rgb(34, 31, 52) solid 1px",
+          backgroundColor: background.paper,
+          border: `${background.hover} solid 1px`,
           color: "white",
         }}
       >

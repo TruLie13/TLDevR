@@ -11,6 +11,7 @@ import { useState } from "react";
 import EditorToolbar from "./EditorToolBar.js";
 import LinkDialog from "./LinkDialog";
 import "./styles.css";
+import { background } from "@/lib/themeTokens";
 
 const CustomCodeBlock = CodeBlock.extend({
   addAttributes() {
@@ -101,7 +102,7 @@ const Tiptap = ({ onChange, initialContent = "" }) => {
   return (
     <Card
       sx={{
-        backgroundColor: "rgb(21, 18, 43)",
+        backgroundColor: background.paper,
         width: "100%",
         color: "white",
         borderRadius: "1.5rem",
