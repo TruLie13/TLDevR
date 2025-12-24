@@ -13,7 +13,7 @@ const inter = Inter({
 
 export const metadata = {
   title: "TLDevR",
-  description: "TLDevR - quick tech articles",
+  description: "Quick dev articles for busy devs",
 };
 
 export default function RootLayout({ children }) {

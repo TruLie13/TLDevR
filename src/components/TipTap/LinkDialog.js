@@ -77,8 +77,6 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
     let rel = "";
     let target = "";
 
-    console.log("Link Type:", linkType);
-
     if (linkType === "internal") {
       finalUrl = url.startsWith("/") ? url : "/" + url;
       // No target or rel for internal links

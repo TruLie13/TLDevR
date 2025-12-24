@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: http://localhost:8000
+Host: https://tldevr.com
 
 # Sitemaps
-Sitemap: http://localhost:8000/sitemap.xml
+Sitemap: https://tldevr.com/sitemap.xml

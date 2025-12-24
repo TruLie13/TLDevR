@@ -76,7 +76,6 @@ const Tiptap = ({ onChange, initialContent = "" }) => {
     content: initialContent,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
-      console.log("Editor content:", html);
       onChange?.(html);
     },
     immediatelyRender: false,

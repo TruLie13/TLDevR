@@ -36,7 +36,6 @@ export default function ArticleContent({ article }) {
   }, []);
 
   const highlightedContent = highlightCode(articleContent);
-  console.log("article", article.likeCount);
 
   return (
     <div>

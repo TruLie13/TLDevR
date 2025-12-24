@@ -14,14 +14,11 @@ export default function ArticleList({ listName, articles, categorySlug }) {
   const cardWidth = isListFeatured ? 224 : 176; // 14rem = 224px, 11rem = 176px
   const totalWidth = articleCount * cardWidth + (articleCount - 1) * 16; // 16px gap between cards
 
-  console.log("categorySlug", categorySlug);
-
   const handleCategoryClick = () => {
     router.push(`/blog/${categorySlug || "general"}`);
   };
 
   const handleArticleClick = (category, slug) => {
-    console.log("Article clicked:", category, slug);
     router.push(`/blog/${category}/${slug}`);
   };
 

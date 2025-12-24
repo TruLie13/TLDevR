@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: article.title,
       description: article.metaDescription || "Read this article on our blog.",
-      url: `${baseUrl}/articles/${params.slug}`,
+      url: `${baseUrl}/blog/${params.category}/${params.slug}`,
       type: "article",
       images: article.image ? [{ url: article.image, alt: article.title }] : [],
     },
@@ -69,7 +69,7 @@ export default async function Article({ params }) {
       name: "TLDevR",
       logo: {
         "@type": "ImageObject",
-        url: `${baseUrl}/logo.png`,
+        url: `${baseUrl}/logo.svg`,
       },
     },
     datePublished: article.publishedAt || "",

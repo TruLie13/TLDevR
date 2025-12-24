@@ -6,6 +6,29 @@ import { Box, Typography } from "@mui/material";
 import Link from "next/link.js";
 import { notFound } from "next/navigation";
 
+// Generate SEO Metadata for category pages
+export async function generateMetadata({ params }) {
+  const categories = await fetchAllCategories();
+  const category = categories.find((cat) => cat.slug === params.category);
+
+  if (!category) {
+    return {
+      title: "Category Not Found | TLDevR",
+      description: "This category does not exist.",
+    };
+  }
+
+  return {
+    title: `${category.name} Articles | TLDevR`,
+    description: `Browse ${category.name.toLowerCase()} articles - quick dev reads for busy developers.`,
+    openGraph: {
+      title: `${category.name} Articles | TLDevR`,
+      description: `Browse ${category.name.toLowerCase()} articles - quick dev reads for busy developers.`,
+      type: "website",
+    },
+  };
+}
+
 export default async function Category({ params }) {
   const { category: categorySlug } = params;
   const categories = await fetchAllCategories();
