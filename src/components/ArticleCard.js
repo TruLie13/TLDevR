@@ -71,8 +71,9 @@ export default function ArticleCard({
               objectFit: "cover",
               display: "block",
             }}
-            width={300}
-            height={200}
+            width={224}
+            height={400}
+            sizes={isListFeatured ? "224px" : "176px"}
             onLoad={handleImageLoad}
             onError={handleImageError}
             loading="eager"

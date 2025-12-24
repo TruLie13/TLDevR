@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Card } from "@mui/material";
 import { getValidImageUrl, fallback_image } from "@/utils/imageUtils";
 
-const MemoizedImage = React.memo(function MemoizedImage({ src, alt, onError }) {
+const MemoizedImage = React.memo(function MemoizedImage({ src, alt, onError, sizes }) {
   return (
     <Image
       width={800}
@@ -19,7 +19,8 @@ const MemoizedImage = React.memo(function MemoizedImage({ src, alt, onError }) {
         objectFit: "cover",
         display: "block",
       }}
-      loading="lazy"
+      priority
+      sizes={sizes}
       onError={onError}
     />
   );

@@ -36,8 +36,9 @@ export default function CategoryArticleCard({ article, height, categorySlug }) {
         <Image
           src={imgSrc}
           alt={article.title}
-          layout="fill"
-          objectFit="cover"
+          fill
+          sizes="(max-width: 768px) 50vw, 33vw"
+          style={{ objectFit: "cover" }}
           onError={handleImageError}
         />
         <Box

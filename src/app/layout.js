@@ -1,7 +1,6 @@
 import Footer from "@/components/Footer.js";
 import Navbar from "@/components/Navbar.js";
 import { Inter } from "next/font/google";
-import "../../dist/output.css";
 import "./globals.css";
 import QueryProvider from "./QueryProvider";
 import GoogleAnalytics from "@/components/GoogleAnalytics.js";
@@ -20,12 +19,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
       <head>
-        {/* Google AdSense script */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1337305196700921"
-          crossorigin="anonymous"
-        ></script>
         {/* Google Analytics */}
         <GoogleAnalytics />
       </head>
