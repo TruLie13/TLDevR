@@ -4,7 +4,6 @@ import InputField from "@/components/InputField.js";
 import SnackbarComponent from "@/components/Snackbar.js";
 import Tiptap from "@/components/TipTap/TipTap.js";
 import { fetchAllCategories } from "@/lib/api.js";
-import { background } from "@/lib/themeTokens";
 import { Card, FormControlLabel, Switch, Typography, Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -280,15 +279,15 @@ export default function ArticleForm({
         <Card
           sx={{
             padding: "1.25rem",
-            backgroundColor: background.paper,
+            backgroundColor: "background.paper",
             width: "100%",
-            color: "white",
+            color: "text.primary",
             borderRadius: "1.5rem",
           }}
         >
           <Typography
             variant="h6"
-            sx={{ color: "white", marginBottom: "1.5rem" }}
+            sx={{ color: "text.primary", marginBottom: "1.5rem" }}
             id="create-article-heading"
           >
             {formTitle}
@@ -327,7 +326,7 @@ export default function ArticleForm({
             }
             label={<Typography component="span">Published</Typography>}
             labelPlacement="end"
-            sx={{ color: "white" }}
+            sx={{ color: "text.primary" }}
           />
 
           {/* Featured Toggle */}
@@ -342,7 +341,7 @@ export default function ArticleForm({
               />
             }
             label="Featured"
-            sx={{ color: "white" }}
+            sx={{ color: "text.primary" }}
           />
         </Card>
       </form>
@@ -364,14 +363,14 @@ export default function ArticleForm({
           paddingX: "1rem",
           paddingY: "0.5rem",
           backgroundColor: "primary.main",
-          color: "white",
+          color: "primary.contrastText",
           "&:hover": {
             backgroundColor: "primary.dark",
           },
           // Explicitly define disabled state styles to override invisible default theme
           "&.Mui-disabled": {
-            backgroundColor: "grey.600",
-            color: "rgba(255, 255, 255, 0.7)",
+            backgroundColor: "action.disabledBackground",
+            color: "text.disabled",
             opacity: 0.7,
             cursor: "not-allowed",
           },

@@ -1,10 +1,21 @@
+"use client";
+
 import React from "react";
 import { Typography, Box } from "@mui/material";
 
 export default function HomePageCover() {
   return (
-    <Box sx={{ width: "100%", height: "13rem", bgcolor: "black", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-      <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", background: "linear-gradient(to right, rgb(17, 24, 39), rgb(0, 0, 0), rgb(17, 24, 39))", opacity: 0.7, zIndex: 10 }}></Box>
+    <Box sx={{ width: "100%", height: "13rem", bgcolor: "background.default", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+      <Box sx={{ 
+        position: "absolute", 
+        top: 0, 
+        left: 0, 
+        width: "100%", 
+        height: "100%", 
+        background: (theme) => `linear-gradient(to right, ${theme.palette.background.paper}, ${theme.palette.background.default}, ${theme.palette.background.paper})`,
+        opacity: 0.8, 
+        zIndex: 10 
+      }}></Box>
 
       <Box sx={{ textAlign: "center", zIndex: 20 }}>
         {/* Main Title */}

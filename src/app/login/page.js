@@ -6,7 +6,6 @@ import InputField from "@/components/InputField.js";
 import { postLogin } from "@/lib/api.js";
 import SnackbarComponent from "@/components/Snackbar.js";
 import { useRouter } from "next/navigation";
-import { background } from "@/lib/themeTokens";
 
 export default function Login() {
   const router = useRouter();
@@ -39,14 +38,14 @@ export default function Login() {
       <Card
         sx={{
           padding: "1.25rem",
-          backgroundColor: background.paper,
+          backgroundColor: "background.paper",
           width: "100%",
           maxWidth: "400px",
-          color: "white",
+          color: "text.primary",
           borderRadius: "1.5rem",
         }}
       >
-        <Typography variant="h6" sx={{ color: "white", marginBottom: "1.25rem" }}>
+        <Typography variant="h6" sx={{ color: "text.primary", marginBottom: "1.25rem" }}>
           Login
         </Typography>
 
@@ -71,10 +70,11 @@ export default function Login() {
           sx={{
             marginTop: "1.25rem",
             width: "100%",
+            color: "primary.contrastText",
             // Ensure visible style when disabled
             "&.Mui-disabled": {
-              backgroundColor: "grey.600",
-              color: "rgba(255, 255, 255, 0.7)",
+              backgroundColor: "action.disabledBackground",
+              color: "text.disabled",
               cursor: "not-allowed",
             },
           }}

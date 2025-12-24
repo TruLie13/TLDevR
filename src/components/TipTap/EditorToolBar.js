@@ -156,7 +156,8 @@ const EditorToolbar = ({ editor, handleCodeBlock, setLinkDialogOpen }) => {
                 opacity: 0.7,
                 fontSize: "0.9em",
                 marginLeft: "8px",
-                borderLeft: "1px solid rgba(255,255,255,0.3)",
+                borderLeft: "1px solid",
+                borderColor: "divider",
                 paddingLeft: "8px",
               }}
             >

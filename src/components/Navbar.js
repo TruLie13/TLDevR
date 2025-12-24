@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { background } from "@/lib/themeTokens";
+
 
 export default function Navbar() {
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function Navbar() {
   return (
     <AppBar
       position="fixed"
-      sx={{ backgroundColor: background.paper, zIndex: 1300 }}
+      sx={{ backgroundColor: "background.paper", zIndex: 1300 }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Typography
@@ -72,7 +72,7 @@ export default function Navbar() {
           <Box>
             <IconButton
               onClick={handleMenuOpen}
-              sx={{ color: "white" }}
+              sx={{ color: "text.primary" }}
               aria-label="User menu"
             >
               <AccountCircle sx={{ fontSize: 32 }} />
@@ -85,21 +85,22 @@ export default function Navbar() {
               transformOrigin={{ vertical: "top", horizontal: "right" }}
               PaperProps={{
                 sx: {
-                  backgroundColor: background.paper,
-                  border: `1px solid ${background.hover}`,
-                  color: "white",
+                  backgroundColor: "background.paper",
+                  border: "1px solid", 
+                  borderColor: "background.hover",
+                  color: "text.primary",
                 },
               }}
             >
               <MenuItem
                 onClick={handleCreateClick}
-                sx={{ "&:hover": { backgroundColor: background.hover } }}
+                sx={{ "&:hover": { backgroundColor: "background.hover" } }}
               >
                 Create
               </MenuItem>
               <MenuItem
                 onClick={handleLogout}
-                sx={{ color: "grey", "&:hover": { backgroundColor: background.hover } }}
+                sx={{ color: "text.secondary", "&:hover": { backgroundColor: "background.hover" } }}
               >
                 Logout
               </MenuItem>

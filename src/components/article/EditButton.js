@@ -1,17 +1,16 @@
-// ShareButton.js
+// EditButton.js
 import React from "react";
 import { IconButton } from "@mui/material";
 import { Edit } from "@mui/icons-material";
-import { background } from "@/lib/themeTokens";
 
 const actionButtonStyle = {
-  backgroundColor: background.buttonOverlay,
-  color: "white",
+  backgroundColor: "background.buttonOverlay",
+  color: "text.primary",
   width: "50px",
   height: "40px",
   borderRadius: "50%",
   "&:hover": {
-    backgroundColor: background.buttonOverlay,
+    backgroundColor: "background.buttonOverlay",
   },
 };
 
@@ -24,10 +23,10 @@ export default function EditButton({ onEditClick }) {
     >
       <Edit
         sx={{
-          color: "white", // Default color
+          color: "inherit", 
           transition: "color 0.3s ease",
           "&:hover": {
-            color: "#00BFFF", // Light blue color on hover
+            color: "primary.main",
           },
         }}
       />

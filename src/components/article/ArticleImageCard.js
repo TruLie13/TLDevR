@@ -5,7 +5,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Card } from "@mui/material";
 import { getValidImageUrl, fallback_image } from "@/utils/imageUtils";
-import { background } from "@/lib/themeTokens";
 
 const MemoizedImage = React.memo(function MemoizedImage({ src, alt, onError, sizes }) {
   return (
@@ -56,7 +55,7 @@ export default function ArticleImageCard({ article }) {
         height: { xs: "35vh", sm: "35vh" },
         borderRadius: "1.5rem",
         overflow: "hidden",
-        backgroundColor: background.default,
+        backgroundColor: "background.default",
       }}
     >
       {validImageUrl && (

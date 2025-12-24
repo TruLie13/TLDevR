@@ -20,9 +20,9 @@ const AuthorCard = () => {
         pb: 0,
         mt: 4,
         boxShadow: 3,
-        backgroundColor: "rgb(21, 18, 43)",
+        backgroundColor: "background.paper",
         borderRadius: "24px",
-        color: "white",
+        color: "text.primary",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -44,7 +44,7 @@ const AuthorCard = () => {
             // component="a"
             href={author.linkedin}
             target="_blank"
-            sx={{ color: "white" }}
+            color="inherit"
             aria-label="Visit Jonathan Zayan's LinkedIn profile"
           >
             <LinkedInIcon />
@@ -53,7 +53,7 @@ const AuthorCard = () => {
             // component="a"
             href={author.github}
             target="_blank"
-            sx={{ color: "white" }}
+            color="inherit"
             aria-label="Visit Jonathan Zayan's Github profile"
           >
             <GitHubIcon />

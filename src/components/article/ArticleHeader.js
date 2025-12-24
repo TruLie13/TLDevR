@@ -19,13 +19,13 @@ export default function ArticleHeader({ article }) {
           variant="h4"
           fontWeight="bold"
           gutterBottom
-          sx={{ color: "white" }}
+          sx={{ color: "text.primary" }}
         >
           {articleTitle}
         </Typography>
         <Typography
           variant="body2"
-          sx={{ color: "rgba(255, 255, 255, 0.6)", marginBottom: "2rem" }}
+          sx={{ color: "text.subtle", marginBottom: "2rem" }}
         >
           Published on {formattedDate}
         </Typography>

@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer.js";
 import Navbar from "@/components/Navbar.js";
+import ThemeRegistry from "@/components/ThemeRegistry";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "./QueryProvider";
@@ -23,13 +24,23 @@ export default function RootLayout({ children }) {
         {/* Google Analytics */}
         <GoogleAnalytics />
       </head>
-      <Box component="body" sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-        <Navbar />
-        <Box component="main" sx={{ flexGrow: 1, paddingTop: "4rem" }}>
-          <QueryProvider>{children}</QueryProvider>
-        </Box>
-        <Footer />
-      </Box>
+      <body>
+        <ThemeRegistry>
+          <Box
+            sx={{
+              minHeight: "100vh",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Navbar />
+            <Box component="main" sx={{ flexGrow: 1, paddingTop: "4rem" }}>
+              <QueryProvider>{children}</QueryProvider>
+            </Box>
+            <Footer />
+          </Box>
+        </ThemeRegistry>
+      </body>
     </html>
   );
 }

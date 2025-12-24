@@ -10,8 +10,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { useState } from "react";
 import EditorToolbar from "./EditorToolBar.js";
 import LinkDialog from "./LinkDialog";
-import "./styles.css";
-import { background } from "@/lib/themeTokens";
+// import { background } from "@/lib/themeTokens";
 
 const CustomCodeBlock = CodeBlock.extend({
   addAttributes() {
@@ -101,12 +100,83 @@ const Tiptap = ({ onChange, initialContent = "" }) => {
   return (
     <Card
       sx={{
-        backgroundColor: background.paper,
+        backgroundColor: "background.paper",
         width: "100%",
-        color: "white",
+        color: "text.primary",
         borderRadius: "1.5rem",
         padding: "1.5rem",
         marginTop: "1.5rem",
+        "& .ProseMirror": {
+          minHeight: "200px",
+          padding: "16px",
+          border: "1px solid",
+          borderColor: "divider",
+          borderRadius: "4px",
+          backgroundColor: "background.default",
+          color: "text.primary",
+          "&:focus": {
+            outline: "none",
+            borderColor: "primary.main",
+          },
+        },
+        "& .ProseMirror blockquote": {
+          borderLeft: "3px solid",
+          borderColor: "text.secondary",
+          paddingLeft: "1em",
+          marginLeft: 0,
+          fontStyle: "italic",
+          color: "text.secondary",
+        },
+        "& .ProseMirror a": {
+          color: "primary.main",
+          textDecoration: "underline",
+          cursor: "pointer",
+          "&:hover": {
+            color: "primary.dark",
+          },
+        },
+        "& .ProseMirror h2": {
+          fontSize: "1.5em",
+          fontWeight: "bold",
+          marginBottom: "0.5em",
+          color: "text.primary",
+        },
+        "& .custom-code-block": {
+          backgroundColor: "background.default",
+          border: "1px solid",
+          borderColor: "divider",
+          borderRadius: "4px",
+          fontFamily: "'Fira Code', monospace",
+          padding: "12px",
+          margin: "8px 0",
+          position: "relative",
+          color: "text.primary",
+          minHeight: "24px",
+        },
+        "& .custom-code-block::before": {
+          content: '"Code"',
+          position: "absolute",
+          top: "-10px",
+          left: "8px",
+          backgroundColor: "background.paper", // Use paper to stand out from default
+          padding: "0 4px",
+          fontSize: "12px",
+          color: "text.secondary",
+          border: "1px solid",
+          borderColor: "divider",
+          borderRadius: "2px",
+        },
+        "& .my-custom-bullet-list": {
+          listStyleType: "disc",
+          paddingLeft: "1.5em",
+        },
+        "& .my-custom-ordered-list": {
+          listStyleType: "decimal",
+          paddingLeft: "1.5em",
+        },
+        "& li": {
+          marginBottom: "0.5em",
+        },
       }}
     >
       <Typography variant="h6" sx={{ marginBottom: "1.5rem" }}>

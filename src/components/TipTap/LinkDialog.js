@@ -15,15 +15,15 @@ import { Link as LinkIcon } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 
 const CustomSelect = styled(Select)(({ theme }) => ({
-  color: "white",
+  color: theme.palette.text.primary,
   "& .MuiSelect-icon": {
-    color: "white",
+    color: theme.palette.action.active,
   },
   "& .MuiOutlinedInput-notchedOutline": {
-    borderColor: "rgba(255, 255, 255, 0.23)",
+    borderColor: theme.palette.divider,
   },
   "&:hover .MuiOutlinedInput-notchedOutline": {
-    borderColor: "rgba(255, 255, 255, 0.4)",
+    borderColor: theme.palette.primary.main,
   },
 }));
 
@@ -128,8 +128,8 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
       aria-labelledby="link-dialog-title"
       PaperProps={{
         sx: {
-          backgroundColor: "rgb(21, 18, 43)",
-          color: "white",
+          backgroundColor: "background.paper",
+          color: "text.primary",
         },
       }}
     >
@@ -144,14 +144,14 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
         <DialogContent>
           {selectedText && (
             <Box sx={{ mb: 2 }}>
-              <Typography variant="subtitle2" color="grey" sx={{ mb: 1 }}>
+              <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
                 Selected Text:
               </Typography>
               <Typography
                 variant="body2"
                 sx={{
                   p: 1,
-                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  backgroundColor: "action.hover",
                   borderRadius: 1,
                   wordBreak: "break-all",
                 }}
@@ -179,24 +179,24 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
             }
             sx={{
               "& .MuiOutlinedInput-root": {
-                color: "white",
+                color: "text.primary",
                 "& fieldset": {
-                  borderColor: "rgba(255, 255, 255, 0.23)",
+                  borderColor: "divider",
                 },
                 "&:hover fieldset": {
-                  borderColor: "rgba(255, 255, 255, 0.4)",
+                  borderColor: "primary.main",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "rgba(255, 255, 255, 0.7)",
+                color: "text.secondary",
               },
               "& .MuiFormHelperText-root": {
-                color: "rgba(255, 255, 255, 0.5)",
+                color: "text.secondary",
               },
             }}
           />
           <Box sx={{ mt: 2, display: "flex", alignItems: "center" }}>
-            <Typography sx={{ color: "white" }}>Link Type</Typography>
+            <Typography sx={{ color: "text.primary" }}>Link Type</Typography>
             <CustomSelect
               value={linkType}
               onChange={(e) => setLinkType(e.target.value)}
@@ -209,13 +209,13 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
-          <Button onClick={onClose} sx={{ color: "rgba(255, 255, 255, 0.7)" }}>
+          <Button onClick={onClose} sx={{ color: "text.secondary" }}>
             Cancel
           </Button>
           {editor?.isActive("link") && (
             <Button
               onClick={handleRemoveLink}
-              sx={{ color: "rgba(255, 255, 255, 0.7)" }}
+              sx={{ color: "error.main" }}
               id="remove-link-button"
             >
               Remove Link

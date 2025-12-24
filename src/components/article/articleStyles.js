@@ -1,23 +1,23 @@
 // File: /components/article/articleStyles.js
 
 export const articleContentStyles = {
-  color: "rgba(255,255,255,0.8)",
+  color: "text.secondary",
   textAlign: "left",
   width: "100%",
   "& a": {
-    color: "#3498db",
+    color: "primary.main",
     textDecoration: "underline",
     fontWeight: "bold",
     "&:hover": {
-      color: "#2980b9",
+      color: "primary.dark",
     },
     margin: 0,
   },
   "& a[target='_blank']": {
-    color: "white",
+    color: "text.primary",
     textDecoration: "underline",
     "&:hover": {
-      color: "#2980b9",
+      color: "primary.dark",
     },
     "&::after": {
       content: `"[↗]"`,
@@ -27,21 +27,21 @@ export const articleContentStyles = {
   },
   "& p": {
     fontFamily: "georgia",
-    color: "white",
+    color: "text.primary",
     marginBottom: "1rem",
   },
   "& h4": {
-    color: "white",
+    color: "text.primary",
     fontSize: "1.2rem",
     textAlign: "left",
   },
   "& h3": {
-    color: "white",
+    color: "text.primary",
     fontSize: "1.5rem",
     textAlign: "left",
   },
   "& h2": {
-    color: "white",
+    color: "text.primary",
     fontSize: "1.5rem",
     textAlign: "left",
   },
@@ -63,7 +63,7 @@ export const articleContentStyles = {
     listStyleType: "decimal",
     marginLeft: "5px",
     paddingLeft: "10px",
-    color: "white",
+    color: "text.primary",
   },
   "& li": {
     marginBottom: "1rem !important",
@@ -76,14 +76,15 @@ export const articleContentStyles = {
   },
   "& ol li p strong": {
     fontFamily: "Arial",
-    color: "white",
+    color: "text.primary",
   },
   "& blockquote": {
-    borderLeft: "4px solid #3498db",
+    borderLeft: "4px solid",
+    borderColor: "primary.main",
     paddingLeft: "16px",
     fontStyle: "italic",
     margin: "16px 0",
-    color: "rgba(255, 255, 255, 0.8)",
+    color: "text.secondary",
   },
 };
 

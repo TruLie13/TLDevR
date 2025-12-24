@@ -3,7 +3,7 @@ import Image from "next/image.js";
 import { useState, useEffect } from "react";
 import { getValidImageUrl } from "@/utils/imageUtils.js";
 import { fallback_image } from "@/utils/imageUtils";
-import { background } from "@/lib/themeTokens";
+
 
 export default function ArticleCard({
   article,
@@ -49,7 +49,7 @@ export default function ArticleCard({
         position: "relative",
         overflow: "hidden",
         border: "none",
-        backgroundColor: background.default,
+        backgroundColor: "background.default",
       }}
       onClick={() => onArticleClick(articleCategory, articleSlug)}
     >
@@ -93,7 +93,7 @@ export default function ArticleCard({
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundColor: background.paper,
+            backgroundColor: "background.paper",
           }}
         />
       )}
@@ -104,10 +104,10 @@ export default function ArticleCard({
           bottom: 0,
           left: 0,
           width: "100%",
-          color: "white",
+          color: "text.primary",
           padding: "0.5rem",
           textAlign: "center",
-          backgroundColor: background.overlay,
+          backgroundColor: "background.overlay",
           zIndex: 1,
         }}
       >

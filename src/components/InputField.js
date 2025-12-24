@@ -10,7 +10,6 @@ import {
   Chip,
   Box,
 } from "@mui/material";
-import { background } from "@/lib/themeTokens";
 
 const InputField = ({
   label,
@@ -60,7 +59,7 @@ const InputField = ({
       return (
         <Typography
           variant="caption"
-          sx={{ color: isMax ? "red" : "white", marginRight: "4px" }}
+          sx={{ color: isMax ? "error.main" : "text.secondary", marginRight: "4px" }}
         >
           {tagsCount}/{maxTags}
         </Typography>
@@ -71,7 +70,7 @@ const InputField = ({
       return (
         <Typography
           variant="caption"
-          sx={{ color: lengthIsMax ? "red" : "white" }}
+          sx={{ color: lengthIsMax ? "error.main" : "text.secondary" }}
         >
           {value.length}/{maxCount}
         </Typography>
@@ -90,10 +89,10 @@ const InputField = ({
         onChange={handleChange}
         sx={{
           mb: 1,
-          input: { color: "white" },
-          label: { color: "white" },
-          fieldset: { borderColor: "#1976d2" },
-          "&:hover fieldset": { borderColor: "#1976d2 !important" },
+          input: { color: "text.primary" },
+          label: { color: "text.secondary" },
+          fieldset: { borderColor: "divider" },
+          "&:hover fieldset": { borderColor: "primary.main" },
           marginBottom: "1rem",
         }}
         InputProps={{
@@ -115,20 +114,20 @@ const InputField = ({
           mb: "1rem",
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
-              borderColor: "#1976d2",
+              borderColor: "divider",
             },
             "&:hover fieldset": {
-              borderColor: "#1976d2",
+              borderColor: "primary.main",
             },
             "&.Mui-focused fieldset": {
-              borderColor: "#1976d2",
+              borderColor: "primary.main",
             },
           },
         }}
       >
         <InputLabel
           shrink={isFocused || value.length > 0}
-          sx={{ color: "white", marginBottom: "1rem" }}
+          sx={{ color: "text.secondary", marginBottom: "1rem" }}
         >
           {label}
         </InputLabel>
@@ -137,11 +136,12 @@ const InputField = ({
             display: "flex",
             flexWrap: "wrap",
             alignItems: "center",
-            border: "1px solid #1976d2",
+            border: "1px solid",
+            borderColor: isFocused ? "primary.main" : "divider",
             borderRadius: "4px",
             padding: "8px",
             minHeight: "56px",
-            "&:hover": { borderColor: "#1976d2" },
+            "&:hover": { borderColor: "primary.main" },
             backgroundColor: "transparent",
           }}
           onFocus={() => setIsFocused(true)}
@@ -152,7 +152,7 @@ const InputField = ({
               key={index}
               label={tag}
               onDelete={() => handleDelete(tag)}
-              sx={{ margin: "2px", backgroundColor: "#1976d2", color: "white" }}
+              sx={{ margin: "2px", backgroundColor: "primary.main", color: "primary.contrastText" }}
             />
           ))}
           <input
@@ -166,7 +166,7 @@ const InputField = ({
               flexGrow: 1,
               minWidth: "50px",
               background: "transparent",
-              color: "white",
+              color: "inherit",
             }}
             disabled={value.length >= maxTags}
           />
@@ -179,30 +179,30 @@ const InputField = ({
   if (type === "dropdown") {
     return (
       <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel sx={{ color: "white" }}>{label}</InputLabel>
+        <InputLabel sx={{ color: "text.secondary" }}>{label}</InputLabel>
         <Select
           value={value}
           onChange={(e) => onChange(e.target.value)}
           label={label}
           sx={{
-            color: "white",
-            ".MuiSelect-select": { color: "white" },
+            color: "text.primary",
+            ".MuiSelect-select": { color: "text.primary" },
             "&.MuiOutlinedInput-root": {
-              fieldset: { borderColor: "#1976d2" },
+              fieldset: { borderColor: "divider" },
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#1976d2",
+              borderColor: "primary.main",
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#1976d2",
+              borderColor: "primary.main",
             },
-            ".MuiSelect-icon": { color: "grey" },
+            ".MuiSelect-icon": { color: "action.active" },
           }}
           MenuProps={{
             PaperProps: {
               sx: {
-                backgroundColor: background.paper,
-                color: "white",
+                backgroundColor: "background.paper",
+                color: "text.primary",
               },
             },
           }}
@@ -213,8 +213,8 @@ const InputField = ({
               key={index}
               value={option.value}
               sx={{
-                color: "white",
-                "&:hover": { backgroundColor: background.default },
+                color: "text.primary",
+                "&:hover": { backgroundColor: "background.default" },
               }}
             >
               {option.label}

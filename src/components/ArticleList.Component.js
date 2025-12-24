@@ -52,7 +52,7 @@ export default function ArticleList({ listName, articles, categorySlug }) {
               fontWeight: "bold",
               textDecoration: "none",
               whiteSpace: "nowrap",
-              color: "white",
+              color: "text.primary",
             }}
           >
             View All
@@ -68,7 +68,7 @@ export default function ArticleList({ listName, articles, categorySlug }) {
             gap: 2,
             overflowX: "auto",
             paddingBottom: 2,
-            borderColor: "rgb(8, 4, 31)",
+            borderColor: "background.default",
             "&::-webkit-scrollbar": { display: "none" },
           }}
         >

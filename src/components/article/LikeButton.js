@@ -2,11 +2,10 @@
 import React from "react";
 import { IconButton, Typography } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
-import { background } from "@/lib/themeTokens";
 
 const favoriteButtonStyle = {
-  backgroundColor: background.buttonOverlay,
-  color: "white",
+  backgroundColor: "background.buttonOverlay",
+  color: "text.primary",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -16,8 +15,8 @@ const favoriteButtonStyle = {
   height: "40px",
   // Ensure disabled state looks identical (otherwise flashes)
   "&.Mui-disabled": {
-    backgroundColor: background.buttonOverlay,
-    color: "white",
+    backgroundColor: "background.buttonOverlay",
+    color: "text.primary",
     opacity: 1,
   },
 };

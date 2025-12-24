@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Typography, Box } from "@mui/material";
 import Link from "next/link";
@@ -8,7 +10,7 @@ export default function Footer() {
       sx={{
         width: "100%",
         height: "5rem", // h-20
-        backgroundColor: "black",
+        backgroundColor: "background.default",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -24,8 +26,8 @@ export default function Footer() {
           left: 0,
           width: "100%",
           height: "100%",
-          background: "linear-gradient(to right, rgb(17, 24, 39), black, rgb(17, 24, 39))", // from-gray-900 via-black to-gray-900
-          opacity: 0.7,
+          background: (theme) => `linear-gradient(to right, ${theme.palette.background.paper}, ${theme.palette.background.default}, ${theme.palette.background.paper})`,
+          opacity: 0.8,
           zIndex: 10,
         }}
       />
@@ -35,7 +37,7 @@ export default function Footer() {
         sx={{
           textAlign: "center",
           zIndex: 20,
-          color: "white",
+          color: "text.primary",
           fontWeight: 300, // font-light
           display: "flex",
           justifyContent: "center",
@@ -55,9 +57,9 @@ export default function Footer() {
             <Box
               component="span"
               sx={{
-                color: "white",
+                color: "text.primary",
                 transition: "color 300ms",
-                "&:hover": { color: "rgb(239, 68, 68)" }, // text-red-500
+                "&:hover": { color: "primary.main" }, // text-red-500
               }}
             >
               pi.que llc
@@ -88,8 +90,8 @@ export default function Footer() {
             width: "5rem", // w-20
             height: "5rem", // h-20
             borderRadius: "50%",
-            backgroundColor: "white",
-            opacity: 0.3,
+            backgroundColor: "text.primary",
+            opacity: 0.1,
             left: "25%",
             bottom: 0,
           }}
@@ -101,8 +103,8 @@ export default function Footer() {
             width: "4rem", // w-16
             height: "4rem", // h-16
             borderRadius: "50%",
-            backgroundColor: "white",
-            opacity: 0.2,
+            backgroundColor: "text.primary",
+            opacity: 0.1,
             left: "75%",
             bottom: 0,
           }}

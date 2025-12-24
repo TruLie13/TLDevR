@@ -46,7 +46,7 @@ export default async function Category({ params }) {
         paddingRight: { xs: "1rem", sm: "2rem", md: "10rem", lg: "18rem" },
       }}
     >
-      <Typography variant="h5" sx={{ color: "white", marginBottom: "1rem" }}>
+      <Typography variant="h5" sx={{ color: "text.primary", marginBottom: "1rem" }}>
         {category.name} Articles
       </Typography>
       <ArticleGrid
@@ -118,12 +118,12 @@ function ArticleList({ articles, categorySlug }) {
                 sx={{
                   width: "100%",
                   marginBottom: ".75rem",
-                  backgroundColor: "rgba(41, 37, 66, 0.58)",
+                  backgroundColor: "background.listItem",
                   padding: ".5rem",
                   borderRadius: "8px",
                 }}
               >
-                <Typography variant="h6" sx={{ color: "white" }}>
+                <Typography variant="h6" sx={{ color: "text.primary" }}>
                   {article.title}
                 </Typography>
               </Box>
@@ -133,7 +133,7 @@ function ArticleList({ articles, categorySlug }) {
             <Link
               href={`/blog/${categorySlug}/${article.slug}`}
               style={{
-                color: "white",
+                color: "text.primary",
                 textDecoration: "none",
                 display: "block", // Make it a block to ensure it takes up space
                 marginBottom: "1rem",

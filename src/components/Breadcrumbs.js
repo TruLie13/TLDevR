@@ -31,7 +31,7 @@ const Breadcrumbs = ({ categoryName, categorySlug }) => {
         elevation={0}
         sx={{
           width: "100%",
-          backgroundColor: "rgba(71, 49, 184, 0)",
+          backgroundColor: "background.transparent",
           paddingBottom: "0",
           display: "flex",
           alignItems: "center",
@@ -40,7 +40,7 @@ const Breadcrumbs = ({ categoryName, categorySlug }) => {
       >
         <IconButton
           sx={{
-            color: "white",
+            color: "text.primary",
             padding: "0",
           }}
           onClick={handleHomeClick}
@@ -49,9 +49,9 @@ const Breadcrumbs = ({ categoryName, categorySlug }) => {
           <HomeIcon sx={{ fontSize: 22 }} />
         </IconButton>
 
-        <ChevronRightIcon sx={{ color: "white", mx: ".25rem" }} />
+        <ChevronRightIcon sx={{ color: "text.secondary", mx: ".25rem" }} />
 
-        <Typography variant="body1" sx={{ color: "white" }}>
+        <Typography variant="body1" sx={{ color: "text.primary" }}>
           <span style={{ cursor: "pointer" }} onClick={handleCategoryClick}>
             {categoryName?.toUpperCase()}
           </span>
