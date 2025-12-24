@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:css": "tailwindcss-cli build -i ./src/styles.css -o ./dist/output.css",
+    "build:css": "npx tailwindcss -i ./src/styles.css -o ./dist/output.css --minify",
     "postbuild": "next-sitemap"
   },
   "dependencies": {
@@ -28,19 +28,16 @@
     "next": "^13.x.x",
     "next-sitemap": "^4.2.3",
     "postcss": "^8.5.1",
+    "prismjs": "^1.30.0",
     "react": "^18.x.x",
-    "react-dom": "^18.x.x",
-    "react-spring": "^9.7.5",
-    "react-syntax-highlighter": "^15.6.1",
-    "uuid": "^11.1.0"
+    "react-dom": "^18.x.x"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "eslint": "^8.0.0",
     "eslint-config-next": "^13.x.x",
     "postcss": "^8.5.1",
-    "tailwindcss": "^4.0.4",
-    "tailwindcss-cli": "^0.1.2"
+    "tailwindcss": "^4.0.4"
   },
   "browserslist": [
     "last 2 Chrome versions",
