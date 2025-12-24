@@ -19,6 +19,12 @@ const favoriteButtonStyle = {
     color: "text.primary",
     opacity: 1,
   },
+  "&:hover": {
+    backgroundColor: "background.buttonOverlay",
+    "& svg": {
+      color: "error.main",
+    },
+  },
 };
 
 export default function LikeButton({
@@ -39,7 +45,7 @@ export default function LikeButton({
         <Favorite
           sx={{
             animation: "heartPulse 0.8s forwards",
-            color: "red",
+            color: "error.main",
             "@keyframes heartPulse": {
               "0%": { transform: "scale(1)" },
               "50%": { transform: "scale(1.3)" },
