@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer.js";
 import Navbar from "@/components/Navbar.js";
 import { Inter } from "next/font/google";
+import "../../dist/output.css";
 import "./globals.css";
 import QueryProvider from "./QueryProvider";
 import GoogleAnalytics from "@/components/GoogleAnalytics.js";
