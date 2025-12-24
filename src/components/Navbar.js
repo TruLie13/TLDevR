@@ -40,6 +40,11 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
+  const handleCreateClick = () => {
+    handleMenuClose();
+    router.push("/create");
+  };
+
   const handleLogout = () => {
     removeAuthToken();
     setIsLoggedIn(false);
@@ -86,8 +91,8 @@ export default function Navbar() {
                   },
                 }}
               >
-                <MenuItem
-                  onClick={handleLogout}
+              <MenuItem
+                  onClick={handleCreateClick}
                   sx={{ "&:hover": { backgroundColor: "rgb(34, 31, 52)" } }}
                 >
                   Create

@@ -1,3 +1,5 @@
+export const revalidate = 3600; // Revalidate every 1 hour
+
 import CategoryArticleCard from "@/components/CategoryArticleCard";
 import { fetchAllCategories, fetchArticlesByCategory } from "@/lib/api.js";
 import { Box, Typography } from "@mui/material";
