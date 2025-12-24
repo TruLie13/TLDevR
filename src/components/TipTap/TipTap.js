@@ -77,6 +77,11 @@ const Tiptap = ({ onChange, initialContent = "" }) => {
       const html = editor.getHTML();
       onChange?.(html);
     },
+    editorProps: {
+      attributes: {
+        "aria-labelledby": "article-content-label",
+      },
+    },
     immediatelyRender: false,
   });
 
@@ -179,7 +184,7 @@ const Tiptap = ({ onChange, initialContent = "" }) => {
         },
       }}
     >
-      <Typography variant="h6" sx={{ marginBottom: "1.5rem" }}>
+      <Typography variant="h6" sx={{ marginBottom: "1.5rem" }} id="article-content-label">
         Article Content
       </Typography>
 

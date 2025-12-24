@@ -198,11 +198,12 @@ const LinkDialog = ({ open, onClose, onSubmit, editor, initialUrl = "" }) => {
             }}
           />
           <Box sx={{ mt: 2, display: "flex", alignItems: "center" }}>
-            <Typography sx={{ color: "text.primary" }}>Link Type</Typography>
+            <Typography id="link-type-label" sx={{ color: "text.primary" }}>Link Type</Typography>
             <CustomSelect
               value={linkType}
               onChange={(e) => setLinkType(e.target.value)}
               sx={{ ml: 2 }}
+              inputProps={{ "aria-labelledby": "link-type-label" }}
             >
               <MenuItem value="internal">Internal</MenuItem>
               <MenuItem value="external">External</MenuItem>

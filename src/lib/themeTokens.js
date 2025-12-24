@@ -26,7 +26,7 @@ export const colors = {
 
   // Border colors
   border: {
-    default: "rgb(34, 31, 52)",
+    default: "rgba(255, 255, 255, 0.23)",
     light: "rgba(255,255,255,0.3)",
     focus: "rgba(255, 255, 255, 0.4)",
     subtle: "rgba(255, 255, 255, 0.23)",

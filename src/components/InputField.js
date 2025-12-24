@@ -126,6 +126,7 @@ const InputField = ({
         }}
       >
         <InputLabel
+          htmlFor={rest.id}
           shrink={isFocused || value.length > 0}
           sx={{ color: "text.secondary", marginBottom: "1rem" }}
         >
@@ -157,9 +158,12 @@ const InputField = ({
           ))}
           <input
             type="text"
+            id={rest.id}
+            name={rest.name}
             value={inputValue}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
+            aria-label={`${label} input`}
             style={{
               border: "none",
               outline: "none",
@@ -179,8 +183,10 @@ const InputField = ({
   if (type === "dropdown") {
     return (
       <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel sx={{ color: "text.secondary" }}>{label}</InputLabel>
+        <InputLabel id={`${rest.id}-label`} sx={{ color: "text.secondary" }}>{label}</InputLabel>
         <Select
+          labelId={`${rest.id}-label`}
+          id={rest.id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           label={label}
@@ -207,6 +213,10 @@ const InputField = ({
                 },
               },
             },
+          }}
+          inputProps={{
+            "aria-label": label,
+            name: rest.name,
           }}
           {...rest}
         >
