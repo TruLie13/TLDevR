@@ -1,10 +1,10 @@
 import Footer from "@/components/Footer.js";
 import Navbar from "@/components/Navbar.js";
 import { Inter } from "next/font/google";
-import "../../dist/output.css";
 import "./globals.css";
 import QueryProvider from "./QueryProvider";
 import GoogleAnalytics from "@/components/GoogleAnalytics.js";
+import { Box } from "@mui/material";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -23,13 +23,13 @@ export default function RootLayout({ children }) {
         {/* Google Analytics */}
         <GoogleAnalytics />
       </head>
-      <body className="min-h-screen flex flex-col">
+      <Box component="body" sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
         <Navbar />
-        <main className="flex-grow pt-16">
+        <Box component="main" sx={{ flexGrow: 1, paddingTop: "4rem" }}>
           <QueryProvider>{children}</QueryProvider>
-        </main>
+        </Box>
         <Footer />
-      </body>
+      </Box>
     </html>
   );
 }

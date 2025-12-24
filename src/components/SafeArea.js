@@ -1,3 +1,5 @@
+import { Box } from "@mui/material";
+
 export default function SafeArea({ children }) {
-  return <div className="safe-area">{children}</div>;
+  return <Box sx={{}}>{children}</Box>;
 }

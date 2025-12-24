@@ -3,6 +3,7 @@ export const revalidate = 3600; // 1 hour
 import ArticleList from "@/components/ArticleList.Component.js";
 import HomePageCover from "@/components/HomePageCover.js";
 import SafeArea from "@/components/SafeArea.js";
+import { Box } from "@mui/material";
 import {
   fetchFeaturedArticles,
   fetchNewestArticles,
@@ -20,7 +21,7 @@ async function HomePage() {
   return (
     <SafeArea>
       <HomePageCover />
-      <div className="pt-10 pl-5 pr-5">
+      <Box sx={{ paddingTop: "2.5rem", paddingLeft: "1.25rem", paddingRight: "1.25rem" }}>
         <ArticleList
           listName="Newest"
           articles={Array.isArray(newestArticles) ? newestArticles : []}
@@ -37,19 +38,19 @@ async function HomePage() {
             // Only render if there are articles
             if (categoryData.articles && categoryData.articles.length > 0) {
               return (
-                <div key={categoryData.category.id}>
+                <Box key={categoryData.category.id}>
                   <ArticleList
                     listName={categoryData.category.name}
                     articles={categoryData.articles}
                     categorySlug={categoryData.category.slug}
                   />
                   <br />
-                </div>
+                </Box>
               );
             }
             return null; // Skip rendering if no articles
           })}
-      </div>
+      </Box>
     </SafeArea>
   );
 }

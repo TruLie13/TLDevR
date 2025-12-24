@@ -1,12 +1,12 @@
 import React from "react";
-import { Card, Typography, Box } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 
 export default function HomePageCover() {
   return (
-    <div className="w-full h-52 bg-black flex items-center justify-center relative">
-      <Box className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-gray-900 via-black to-gray-900 opacity-70 z-10"></Box>
+    <Box sx={{ width: "100%", height: "13rem", bgcolor: "black", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+      <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", background: "linear-gradient(to right, rgb(17, 24, 39), rgb(0, 0, 0), rgb(17, 24, 39))", opacity: 0.7, zIndex: 10 }}></Box>
 
-      <div className="text-center z-20">
+      <Box sx={{ textAlign: "center", zIndex: 20 }}>
         {/* Main Title */}
         <Typography
           variant="h3"
@@ -23,13 +23,13 @@ export default function HomePageCover() {
         >
           Quick Dev Articles
         </Typography>
-      </div>
+      </Box>
 
       {/* Subtle Geometric Background (optional) */}
-      <Box className="absolute top-0 left-0 w-full h-full z-0">
-        <div className="absolute w-48 h-48 rounded-full bg-opacity-30 bg-white left-2/6 -top-15"></div>
-        <div className="absolute w-40 h-40 rounded-full bg-opacity-20 bg-white left-3/4 -bottom-10"></div>
+      <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 0 }}>
+        <Box sx={{ position: "absolute", width: "12rem", height: "12rem", borderRadius: "50%", bgcolor: "rgba(255,255,255,0.3)", left: "33%", top: "-3.75rem" }}></Box>
+        <Box sx={{ position: "absolute", width: "10rem", height: "10rem", borderRadius: "50%", bgcolor: "rgba(255,255,255,0.2)", left: "75%", bottom: "-2.5rem" }}></Box>
       </Box>
-    </div>
+    </Box>
   );
 }

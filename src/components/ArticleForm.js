@@ -5,7 +5,7 @@ import SnackbarComponent from "@/components/Snackbar.js";
 import Tiptap from "@/components/TipTap/TipTap.js";
 import { fetchAllCategories } from "@/lib/api.js";
 import { background } from "@/lib/themeTokens";
-import { Card, FormControlLabel, Switch, Typography } from "@mui/material";
+import { Card, FormControlLabel, Switch, Typography, Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export default function ArticleForm({
@@ -66,11 +66,84 @@ export default function ArticleForm({
     experienceLevel,
   });
 
-  // Get only changed fields (for edit mode)
+  // Helper to normalize values for comparison
+  const normalize = (val) => (val === null || val === undefined ? "" : val);
+
+  // Helper to normalize HTML for comparison (ignores newlines and attribute order differences roughly)
+  const normalizeHtml = (html) => {
+    if (!html) return "";
+    return html
+      .replace(/\n/g, "") // Remove newlines
+      .replace(/\s+/g, " ") // Collapse whitespace
+      .replace(/ class="my-custom-ordered-list"/g, "") // Ignore specific Tiptap class
+      .replace(/<ol>/g, "") // Ignore ol tag structure diffs for now (simplified)
+      .replace(/<\/ol>/g, "")
+      .replace(/ target="_blank"/g, "") // Ignore target attr order
+      .replace(/ rel="noopener noreferrer"/g, "") // Ignore rel attr order
+      .replace(/ href="/g, 'href="') // Normalize spacing
+      .trim();
+  };
+
+  // Check if there are any changes (for edit mode)
+  const checkHasChanges = () => {
+    const current = getCurrentData();
+    
+    // Check simple fields
+    const simpleFields = [
+      "title", "author", "metaDescription", 
+      "image", "status", "experienceLevel"
+    ];
+
+    for (const key of simpleFields) {
+      let initialValue = initialData[key];
+      if (key === "experienceLevel") initialValue = initialData.experienceLevel?.toString() || "0";
+      
+      if (normalize(current[key]) !== normalize(initialValue)) {
+        return true;
+      }
+    }
+
+    // Check content with implicit normalization
+    // Note: We use a stricter check, but if it fails, we assume it might be just formatting
+    // If the user saves once, this syncs up. 
+    // For now, let's just check if the text content is roughly the same length? No/
+    
+    // Using the normalizeHtml helper
+    if (normalizeHtml(current.content) !== normalizeHtml(initialData.content)) {
+       // Only log if truly different after normalization
+       console.log("Content diff detected:", {
+         current: normalizeHtml(current.content).substring(0, 50) + "...",
+         initial: normalizeHtml(initialData.content).substring(0, 50) + "..."
+       });
+       return true;
+    }
+
+    // Check category (special object handling)
+    const initialCatId = initialData.category?._id || initialData.category || "";
+    if (normalize(current.category) !== normalize(initialCatId)) return true;
+
+    // Check featured (boolean)
+    const initialFeatured = initialData.featured || false;
+    if (current.featured !== initialFeatured) return true;
+
+    // Check tags (array deep comparison)
+    const initialTags = initialData.tags || [];
+    if (JSON.stringify(current.tags) !== JSON.stringify(initialTags)) return true;
+
+    return false;
+  };
+
+
+  const hasChanges = isEditMode ? checkHasChanges() : true;
+
+  // Determine if submit should be enabled
+  const isSubmitDisabled = !title || !author || !category || !image || !content || (isEditMode && !hasChanges);
+
+  // Get only changed fields (for API submission)
   const getChangedFields = () => {
     const current = getCurrentData();
     const changed = {};
-    
+
     Object.keys(current).forEach((key) => {
       const initialValue = key === "category" 
         ? (initialData.category?._id || initialData.category || "")
@@ -85,19 +158,14 @@ export default function ArticleForm({
         if (JSON.stringify(currentValue) !== JSON.stringify(initialValue)) {
           changed[key] = currentValue;
         }
-      } else if (currentValue !== initialValue) {
+      } else if (normalize(currentValue) !== normalize(initialValue)) {
         changed[key] = currentValue;
       }
     });
-    
+
     return changed;
   };
 
-  // Check if there are any changes (for edit mode)
-  const hasChanges = isEditMode ? Object.keys(getChangedFields()).length > 0 : true;
-
-  // Determine if submit should be enabled
-  const isSubmitDisabled = !title || !author || !category || !image || !content || (isEditMode && !hasChanges);
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -206,12 +274,12 @@ export default function ArticleForm({
   ];
 
   return (
-    <div className="p-2 ml-5 mr-5">
+    <Box sx={{ padding: "0.5rem", marginLeft: "1.25rem", marginRight: "1.25rem" }}>
       {/* Form for article metadata */}
       <form onSubmit={handleSubmit} aria-labelledby="create-article-heading">
         <Card
-          className="p-5"
           sx={{
+            padding: "1.25rem",
             backgroundColor: background.paper,
             width: "100%",
             color: "white",
@@ -287,20 +355,33 @@ export default function ArticleForm({
       />
 
       {/* Submit Button */}
-      <button
+      <Button
         type="submit"
         id="submit-article-button"
-        className={`mt-5 px-4 py-2 rounded ${
-          isSubmitDisabled || loading
-            ? "bg-gray-500 cursor-not-allowed"
-            : "bg-blue-500 hover:bg-blue-600"
-        } text-white`}
+        variant="contained"
+        sx={{
+          marginTop: "1.25rem",
+          paddingX: "1rem",
+          paddingY: "0.5rem",
+          backgroundColor: "primary.main",
+          color: "white",
+          "&:hover": {
+            backgroundColor: "primary.dark",
+          },
+          // Explicitly define disabled state styles to override invisible default theme
+          "&.Mui-disabled": {
+            backgroundColor: "grey.600",
+            color: "rgba(255, 255, 255, 0.7)",
+            opacity: 0.7,
+            cursor: "not-allowed",
+          },
+        }}
         aria-label="Submit article"
         disabled={isSubmitDisabled || loading}
-        onClick={handleSubmit} // Manually handle form submission
+        onClick={handleSubmit}
       >
         {submitLabel}
-      </button>
+      </Button>
 
       {/* Snackbar Notifications */}
       <SnackbarComponent
@@ -309,6 +390,6 @@ export default function ArticleForm({
         severity={snackbar.severity}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
       />
-    </div>
+    </Box>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, Typography, Button, Alert } from "@mui/material";
+import { Card, Typography, Button, Alert, Box } from "@mui/material";
 import InputField from "@/components/InputField.js";
 import { postLogin } from "@/lib/api.js";
 import SnackbarComponent from "@/components/Snackbar.js";
@@ -35,10 +35,10 @@ export default function Login() {
   };
 
   return (
-    <div className="p-2 ml-5 mr-5 flex justify-center items-center min-h-screen">
+    <Box sx={{ padding: "0.5rem", marginLeft: "1.25rem", marginRight: "1.25rem", display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
       <Card
-        className="p-5"
         sx={{
+          padding: "1.25rem",
           backgroundColor: background.paper,
           width: "100%",
           maxWidth: "400px",
@@ -67,7 +67,17 @@ export default function Login() {
           onClick={handleSubmit}
           variant="contained"
           color="primary"
-          sx={{ marginTop: "1.25rem", width: "100%" }}
+          disabled={!username || !password}
+          sx={{
+            marginTop: "1.25rem",
+            width: "100%",
+            // Ensure visible style when disabled
+            "&.Mui-disabled": {
+              backgroundColor: "grey.600",
+              color: "rgba(255, 255, 255, 0.7)",
+              cursor: "not-allowed",
+            },
+          }}
         >
           Login
         </Button>
@@ -80,6 +90,6 @@ export default function Login() {
         message={error}
         severity={"error"}
       />
-    </div>
+    </Box>
   );
 }

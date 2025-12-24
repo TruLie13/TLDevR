@@ -4,12 +4,12 @@ import { getAuthToken, removeAuthToken } from "@/lib/auth";
 import { AccountCircle } from "@mui/icons-material";
 import {
   AppBar,
-  Container,
   IconButton,
   Menu,
   MenuItem,
   Toolbar,
   Typography,
+  Box,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -58,57 +58,55 @@ export default function Navbar() {
       position="fixed"
       sx={{ backgroundColor: background.paper, zIndex: 1300 }}
     >
-      <Container maxWidth="lg">
-        <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, cursor: "pointer" }}
-            onClick={handleHomeClick}
-          >
-            TLDevR
-          </Typography>
+      <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ cursor: "pointer" }}
+          onClick={handleHomeClick}
+        >
+          TLDevR
+        </Typography>
 
-          {isLoggedIn && (
-            <>
-              <IconButton
-                onClick={handleMenuOpen}
-                sx={{ color: "white" }}
-                aria-label="User menu"
-              >
-                <AccountCircle sx={{ fontSize: 32 }} />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                transformOrigin={{ vertical: "top", horizontal: "right" }}
-                PaperProps={{
-                  sx: {
-                    backgroundColor: background.paper,
-                    border: `1px solid ${background.hover}`,
-                    color: "white",
-                  },
-                }}
-              >
+        {isLoggedIn && (
+          <Box>
+            <IconButton
+              onClick={handleMenuOpen}
+              sx={{ color: "white" }}
+              aria-label="User menu"
+            >
+              <AccountCircle sx={{ fontSize: 32 }} />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
+              PaperProps={{
+                sx: {
+                  backgroundColor: background.paper,
+                  border: `1px solid ${background.hover}`,
+                  color: "white",
+                },
+              }}
+            >
               <MenuItem
-                  onClick={handleCreateClick}
-                  sx={{ "&:hover": { backgroundColor: background.hover } }}
-                >
-                  Create
-                </MenuItem>
-                <MenuItem
-                  onClick={handleLogout}
-                  sx={{color: "grey", "&:hover": { backgroundColor: background.hover } }}
-                >
-                  Logout
-                </MenuItem>
-              </Menu>
-            </>
-          )}
-        </Toolbar>
-      </Container>
+                onClick={handleCreateClick}
+                sx={{ "&:hover": { backgroundColor: background.hover } }}
+              >
+                Create
+              </MenuItem>
+              <MenuItem
+                onClick={handleLogout}
+                sx={{ color: "grey", "&:hover": { backgroundColor: background.hover } }}
+              >
+                Logout
+              </MenuItem>
+            </Menu>
+          </Box>
+        )}
+      </Toolbar>
     </AppBar>
   );
 }
