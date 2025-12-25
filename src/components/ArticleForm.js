@@ -1,12 +1,12 @@
 "use client";
 
 import InputField from "@/components/InputField.js";
-import SnackbarComponent from "@/components/Snackbar.js";
 import Tiptap from "@/components/TipTap/TipTap.js";
 import { fetchAllCategories, deleteArticle } from "@/lib/api.js";
 import { useRouter } from "next/navigation";
 import { Card, FormControlLabel, Switch, Typography, Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useSnackbar } from "@/context/SnackbarContext";
 
 export default function ArticleForm({
   initialData = {},
@@ -31,12 +31,8 @@ export default function ArticleForm({
   );
   const [content, setContent] = useState(initialData.content || "");
   const [loading, setLoading] = useState(false);
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    message: "",
-    severity: "success",
-  });
   const router = useRouter();
+  const { showSnackbar } = useSnackbar();
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -175,7 +171,7 @@ export default function ArticleForm({
     // Validation Check
     if (isSubmitDisabled) {
       if (isEditMode && !hasChanges) {
-        setSnackbar({ open: true, message: "No changes detected to save.", severity: "info" });
+        showSnackbar("No changes detected to save.", "info");
         return;
       }
       
@@ -187,11 +183,7 @@ export default function ArticleForm({
       if (!content) missing.push("Content");
 
       if (missing.length > 0) {
-        setSnackbar({ 
-          open: true, 
-          message: `Please fill in required fields: ${missing.join(", ")}`, 
-          severity: "warning" 
-        });
+        showSnackbar(`Please fill in required fields: ${missing.join(", ")}`, "warning");
         return;
       }
     }
@@ -215,11 +207,7 @@ export default function ArticleForm({
 
     try {
       const result = await onSubmit(articleData);
-      setSnackbar({
-        open: true,
-        message: "Article saved successfully!",
-        severity: "success",
-      });
+      showSnackbar("Article saved successfully!", "success");
       
       // Redirect to the new/updated article
       // Use slug from response (create) or state (edit)
@@ -227,22 +215,13 @@ export default function ArticleForm({
       
       const selectedCategory = categoryList.find(c => c._id === category);
       if (selectedCategory && selectedCategory.slug && finalSlug) {
-        // Use a timeout to allow the snackbar to be seen briefly
-        setTimeout(() => {
-          router.push(`/blog/${selectedCategory.slug}/${finalSlug}`);
-        }, 1500);
+        router.push(`/blog/${selectedCategory.slug}/${finalSlug}`);
       } else {
         // Fallback to home if category slug not found
-        setTimeout(() => {
-          router.push("/");
-        }, 1500);
+        router.push("/");
       }
     } catch (error) {
-      setSnackbar({
-        open: true,
-        message: error.message || "Failed to save article. Please try again.",
-        severity: "error",
-      });
+      showSnackbar(error.message || "Failed to save article. Please try again.", "error");
     } finally {
       setLoading(false);
     }
@@ -256,23 +235,12 @@ export default function ArticleForm({
     setLoading(true);
     try {
       await deleteArticle(slug);
-      setSnackbar({
-        open: true,
-        message: "Article deleted successfully",
-        severity: "success",
-      });
-      // Redirect to home after successful deletion
-      setTimeout(() => {
-        router.push("/");
-      }, 1000);
+      showSnackbar("Article deleted successfully", "success");
+      router.push("/");
     } catch (error) {
        console.error("Delete failed:", error);
-       setSnackbar({
-        open: true,
-        message: error.message || "Failed to delete article",
-        severity: "error",
-      });
-      setLoading(false);
+       showSnackbar(error.message || "Failed to delete article", "error");
+       setLoading(false);
     }
   };
 
@@ -474,14 +442,6 @@ export default function ArticleForm({
           </Button>
         )}
       </Box>
-
-      {/* Snackbar Notifications */}
-      <SnackbarComponent
-        open={snackbar.open}
-        message={snackbar.message}
-        severity={snackbar.severity}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-      />
     </Box>
   );
 }

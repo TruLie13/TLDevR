@@ -1,19 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, Typography, Button, Alert, Box } from "@mui/material";
+import { Card, Typography, Button, Box } from "@mui/material";
 import InputField from "@/components/InputField.js";
 import { postLogin } from "@/lib/api.js";
-import SnackbarComponent from "@/components/Snackbar.js";
+import { useSnackbar } from "@/context/SnackbarContext";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
   const router = useRouter();
+  const { showSnackbar } = useSnackbar();
 
   const [username, setUsername] = useState("Zayan");
   const [password, setPassword] = useState("2Forme13!#");
-  const [error, setError] = useState(null);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,15 +21,9 @@ export default function Login() {
       const response = await postLogin({ username, password });
       console.log("Login success:", response);
       router.push("/create");
-      // Handle success (redirect, store token, etc.)
     } catch (error) {
-      setError(error.message); // Set error message from backend
-      setOpenSnackbar(true); // Show snackbar
+      showSnackbar(error.message, "error");
     }
-  };
-
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false); // Close the Snackbar
   };
 
   return (
@@ -82,14 +75,6 @@ export default function Login() {
           Login
         </Button>
       </Card>
-
-      {/* Snackbar for error messages */}
-      <SnackbarComponent
-        open={openSnackbar}
-        onClose={handleCloseSnackbar}
-        message={error}
-        severity={"error"}
-      />
     </Box>
   );
 }

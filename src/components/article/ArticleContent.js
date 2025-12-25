@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Box } from "@mui/material";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import SnackbarComponent from "@/components/Snackbar.js";
+import { useSnackbar } from "@/context/SnackbarContext";
 import ArticleHeader from "./ArticleHeader";
 import ArticleImageCard from "./ArticleImageCard";
 import ArticleBody from "./ArticleBody";
@@ -15,7 +15,7 @@ import AuthorCard from "./AuthorCard.js";
 
 export default function ArticleContent({ article }) {
   const router = useRouter();
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const { showSnackbar } = useSnackbar();
 
   const articleCategoryName = article?.category?.name || "general";
   const articleCategorySlug = article?.category?.slug || "general";
@@ -23,17 +23,13 @@ export default function ArticleContent({ article }) {
 
   const handleShareClick = useCallback(() => {
     navigator.clipboard.writeText(window.location.href).then(() => {
-      setOpenSnackbar(true);
+      showSnackbar("Share link copied to your clipboard.", "success");
     });
-  }, []);
+  }, [showSnackbar]);
 
   const handleEditClick = useCallback(() => {
     router.push(`/edit/${article?.slug}`);
   }, [router, article?.slug]);
-
-  const handleCloseSnackbar = useCallback(() => {
-    setOpenSnackbar(false);
-  }, []);
 
   const highlightedContent = highlightCode(articleContent);
 
@@ -71,13 +67,6 @@ export default function ArticleContent({ article }) {
         </article>
 
         <AuthorCard />
-
-        <SnackbarComponent
-          open={openSnackbar}
-          onClose={handleCloseSnackbar}
-          message={"Share link copied to your clipboard."}
-          severity={"success"}
-        />
       </Box>
     </div>
   );
