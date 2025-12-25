@@ -3,7 +3,8 @@
 import InputField from "@/components/InputField.js";
 import SnackbarComponent from "@/components/Snackbar.js";
 import Tiptap from "@/components/TipTap/TipTap.js";
-import { fetchAllCategories } from "@/lib/api.js";
+import { fetchAllCategories, deleteArticle } from "@/lib/api.js";
+import { useRouter } from "next/navigation";
 import { Card, FormControlLabel, Switch, Typography, Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -35,6 +36,7 @@ export default function ArticleForm({
     message: "",
     severity: "success",
   });
+  const router = useRouter();
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -169,6 +171,31 @@ export default function ArticleForm({
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validation Check
+    if (isSubmitDisabled) {
+      if (isEditMode && !hasChanges) {
+        setSnackbar({ open: true, message: "No changes detected to save.", severity: "info" });
+        return;
+      }
+      
+      const missing = [];
+      if (!title) missing.push("Title");
+      if (!author) missing.push("Author");
+      if (!category) missing.push("Category");
+      if (!image) missing.push("Image URL");
+      if (!content) missing.push("Content");
+
+      if (missing.length > 0) {
+        setSnackbar({ 
+          open: true, 
+          message: `Please fill in required fields: ${missing.join(", ")}`, 
+          severity: "warning" 
+        });
+        return;
+      }
+    }
+
     setLoading(true);
 
     // For edit mode, only send changed fields; for create, send everything
@@ -200,6 +227,34 @@ export default function ArticleForm({
         severity: "error",
       });
     } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this article? This action cannot be undone.")) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await deleteArticle(slug);
+      setSnackbar({
+        open: true,
+        message: "Article deleted successfully",
+        severity: "success",
+      });
+      // Redirect to home after successful deletion
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    } catch (error) {
+       console.error("Delete failed:", error);
+       setSnackbar({
+        open: true,
+        message: error.message || "Failed to delete article",
+        severity: "error",
+      });
       setLoading(false);
     }
   };
@@ -354,33 +409,54 @@ export default function ArticleForm({
       />
 
       {/* Submit Button */}
-      <Button
-        type="submit"
-        id="submit-article-button"
-        variant="contained"
-        sx={{
-          marginTop: "1.25rem",
-          paddingX: "1rem",
-          paddingY: "0.5rem",
-          backgroundColor: "primary.main",
-          color: "primary.contrastText",
-          "&:hover": {
-            backgroundColor: "primary.dark",
-          },
-          // Explicitly define disabled state styles to override invisible default theme
-          "&.Mui-disabled": {
-            backgroundColor: "action.disabledBackground",
-            color: "text.disabled",
-            opacity: 0.7,
-            cursor: "not-allowed",
-          },
-        }}
-        aria-label="Submit article"
-        disabled={isSubmitDisabled || loading}
-        onClick={handleSubmit}
-      >
-        {submitLabel}
-      </Button>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "1.25rem" }}>
+        <Button
+          type="submit"
+          id="submit-article-button"
+          variant="contained"
+          sx={{
+            paddingX: "1rem",
+            paddingY: "0.5rem",
+            backgroundColor: isSubmitDisabled ? "action.disabledBackground" : "primary.main",
+            color: isSubmitDisabled ? "text.disabled" : "primary.contrastText",
+            // opacity: isSubmitDisabled ? 0.7 : 1, // Optional: add opacity if desired
+            "&:hover": {
+              backgroundColor: isSubmitDisabled ? "action.disabledBackground" : "primary.dark",
+            },
+            // Explicitly define disabled state styles to override invisible default theme
+            "&.Mui-disabled": {
+              backgroundColor: "action.disabledBackground",
+              color: "text.disabled",
+              opacity: 0.7,
+              cursor: "not-allowed",
+            },
+          }}
+          aria-label="Submit article"
+          disabled={loading} // Only disable significantly when loading
+          onClick={handleSubmit}
+        >
+          {submitLabel}
+        </Button>
+
+        {isEditMode && (
+          <Button
+            variant="text"
+            size="small"
+            onClick={handleDelete}
+            disabled={loading}
+            sx={{
+              color: "error.main",
+              opacity: 0.7,
+              "&:hover": {
+                opacity: 1,
+                backgroundColor: "rgba(239, 10, 10, 0.05)",
+              },
+            }}
+          >
+            Delete Article
+          </Button>
+        )}
+      </Box>
 
       {/* Snackbar Notifications */}
       <SnackbarComponent

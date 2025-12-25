@@ -227,6 +227,31 @@ export async function updateArticle(slug, articleData) {
 }
 // End Articles Update******
 
+// Start Articles Delete******
+export async function deleteArticle(slug) {
+  try {
+    const res = await fetch(`${apiUrl}/articles/${slug}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        ...getAuthHeader(),
+      },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to delete article");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error deleting article:", error);
+    throw error;
+  }
+}
+// End Articles Delete******
+
 // End Articles ******
 
 // Start Categories ******
