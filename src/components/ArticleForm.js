@@ -214,12 +214,29 @@ export default function ArticleForm({
     };
 
     try {
-      await onSubmit(articleData);
+      const result = await onSubmit(articleData);
       setSnackbar({
         open: true,
         message: "Article saved successfully!",
         severity: "success",
       });
+      
+      // Redirect to the new/updated article
+      // Use slug from response (create) or state (edit)
+      const finalSlug = result?.slug || result?.article?.slug || slug;
+      
+      const selectedCategory = categoryList.find(c => c._id === category);
+      if (selectedCategory && selectedCategory.slug && finalSlug) {
+        // Use a timeout to allow the snackbar to be seen briefly
+        setTimeout(() => {
+          router.push(`/blog/${selectedCategory.slug}/${finalSlug}`);
+        }, 1500);
+      } else {
+        // Fallback to home if category slug not found
+        setTimeout(() => {
+          router.push("/");
+        }, 1500);
+      }
     } catch (error) {
       setSnackbar({
         open: true,

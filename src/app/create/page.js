@@ -5,7 +5,7 @@ import { postArticle } from "@/lib/api.js";
 
 export default function CreateArticle() {
   const handleCreate = async (articleData) => {
-    await postArticle(articleData);
+    return await postArticle(articleData);
   };
 
   return (

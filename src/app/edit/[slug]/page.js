@@ -31,7 +31,7 @@ export default function EditArticle({ params }) {
   }, [params.slug, router]);
 
   const handleUpdate = async (articleData) => {
-    await updateArticle(params.slug, articleData);
+    return await updateArticle(params.slug, articleData);
   };
 
   if (loading) {
