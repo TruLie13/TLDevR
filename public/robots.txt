@@ -2,6 +2,11 @@
 User-agent: *
 Allow: /
 
+# Admin pages (hide from search bots)
+Disallow: /login
+Disallow: /create
+Disallow: /edit/
+
 # Host
 Host: https://tldevr.com
 

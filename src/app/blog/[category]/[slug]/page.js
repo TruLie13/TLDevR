@@ -18,14 +18,19 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  const canonicalUrl = `${baseUrl}/blog/${params.category}/${params.slug}`;
+
   return {
     metadataBase: new URL(baseUrl),
     title: article.title,
     description: article.metaDescription || "Read this article on our blog.",
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: article.title,
       description: article.metaDescription || "Read this article on our blog.",
-      url: `${baseUrl}/blog/${params.category}/${params.slug}`,
+      url: canonicalUrl,
       type: "article",
       images: article.image ? [{ url: article.image, alt: article.title }] : [],
     },

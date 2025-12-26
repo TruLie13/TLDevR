@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>http://localhost:8000/sitemap.xml</loc><lastmod>2025-12-24T00:40:23.818Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:8000</loc><lastmod>2025-12-24T00:40:23.818Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:8000/login</loc><lastmod>2025-12-24T00:40:23.818Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:8000/blog/react</loc><lastmod>2025-12-24T00:40:23.818Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:8000/blog/dev-101</loc><lastmod>2025-12-24T00:40:23.818Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:8000/blog/general</loc><lastmod>2025-12-24T00:40:23.818Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:8000/blog/javascript</loc><lastmod>2025-12-24T00:40:23.818Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:8000/blog/ai-ml</loc><lastmod>2025-12-24T00:40:23.818Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://tldevr.com/sitemap.xml</loc><lastmod>2025-12-26T21:10:41.412Z</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+<url><loc>https://tldevr.com</loc><lastmod>2025-12-26T21:10:41.412Z</lastmod><changefreq>daily</changefreq><priority>1</priority></url>
+<url><loc>https://tldevr.com/icon.svg</loc><lastmod>2025-12-26T21:10:41.412Z</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+<url><loc>https://tldevr.com/blog/ai-ml</loc><lastmod>2025-12-26T21:10:41.412Z</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>
+<url><loc>https://tldevr.com/blog/dev-101</loc><lastmod>2025-12-26T21:10:41.412Z</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>
+<url><loc>https://tldevr.com/blog/general</loc><lastmod>2025-12-26T21:10:41.412Z</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>
+<url><loc>https://tldevr.com/blog/javascript</loc><lastmod>2025-12-26T21:10:41.412Z</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>
+<url><loc>https://tldevr.com/blog/react</loc><lastmod>2025-12-26T21:10:41.412Z</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>
+<url><loc>https://tldevr.com/blog/react/is-vanilla-react-dead-three-alternatives-you-should-try</loc><lastmod>2025-12-26T21:10:41.703Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>undefined</image:loc></image:image></url>
+<url><loc>https://tldevr.com/blog/react/7-reasons-to-use-vanilla-react-over-nextjs-or-vite</loc><lastmod>2025-12-26T21:10:41.703Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>undefined</image:loc></image:image></url>
+<url><loc>https://tldevr.com/blog/dev-101/python-vs-javascript-vs-java-pick-your-first-language</loc><lastmod>2025-12-26T21:10:41.703Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>undefined</image:loc></image:image></url>
+<url><loc>https://tldevr.com/blog/dev-101/top-resources-for-new-developers-learn-practice-grow</loc><lastmod>2025-12-26T21:10:41.703Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>undefined</image:loc></image:image></url>
+<url><loc>https://tldevr.com/blog/dev-101/coding-challenges-vs-projects-which-is-better-for-new-devs</loc><lastmod>2025-12-26T21:10:41.703Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>undefined</image:loc></image:image></url>
+<url><loc>https://tldevr.com/blog/dev-101/how-to-choose-your-next-personal-project-for-developers</loc><lastmod>2025-12-26T21:10:41.703Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>undefined</image:loc></image:image></url>
+<url><loc>https://tldevr.com/blog/dev-101/how-to-improve-your-coding-challenge-skills</loc><lastmod>2025-12-26T21:10:41.703Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>undefined</image:loc></image:image></url>
+<url><loc>https://tldevr.com/blog/general/battery-performance-dashboard-data-to-deployment</loc><lastmod>2025-12-26T21:10:41.703Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>undefined</image:loc></image:image></url>
+<url><loc>https://tldevr.com/blog/ai-ml/hunter-x-hunter-knuckles-lesson-on-regularization-in-ml</loc><lastmod>2025-12-26T21:10:41.703Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><image:image><image:loc>undefined</image:loc></image:image></url>
 </urlset>
