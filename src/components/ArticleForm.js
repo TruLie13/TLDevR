@@ -2,6 +2,7 @@
 
 import InputField from "@/components/InputField.js";
 import Tiptap from "@/components/TipTap/TipTap.js";
+import ConfirmationModal from "@/components/ConfirmationModal.js";
 import { fetchAllCategories, deleteArticle } from "@/lib/api.js";
 import { useRouter } from "next/navigation";
 import { Card, FormControlLabel, Switch, Typography, Box, Button } from "@mui/material";
@@ -31,6 +32,7 @@ export default function ArticleForm({
   );
   const [content, setContent] = useState(initialData.content || "");
   const [loading, setLoading] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const router = useRouter();
   const { showSnackbar } = useSnackbar();
 
@@ -227,11 +229,12 @@ export default function ArticleForm({
     }
   };
 
-  const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this article? This action cannot be undone.")) {
-      return;
-    }
+  const handleDeleteClick = () => {
+    setDeleteModalOpen(true);
+  };
 
+  const handleDeleteConfirm = async () => {
+    setDeleteModalOpen(false);
     setLoading(true);
     try {
       await deleteArticle(slug);
@@ -427,7 +430,7 @@ export default function ArticleForm({
           <Button
             variant="text"
             size="small"
-            onClick={handleDelete}
+            onClick={handleDeleteClick}
             disabled={loading}
             sx={{
               color: "error.main",
@@ -442,6 +445,18 @@ export default function ArticleForm({
           </Button>
         )}
       </Box>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmationModal
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        title="Delete Article"
+        message="Are you sure you want to delete this article? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        confirmColor="error"
+      />
     </Box>
   );
 }
